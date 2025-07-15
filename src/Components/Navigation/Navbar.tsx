@@ -72,6 +72,7 @@ export default function Navbar() {
     const [activeStep, setActiveStep] = React.useState(0);
     const [isScrolling, setIsScrolling] = React.useState(false);
     const [scrollTimeout, setScrollTimeout] = React.useState<NodeJS.Timeout | null>(null);
+    const [isHover, setIsHover] = React.useState(false)
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -85,6 +86,7 @@ export default function Navbar() {
 
             // Set new timeout to hide navbar after scrolling stops
             const timeout = setTimeout(() => {
+                if (isHover) return;
                 setIsScrolling(false);
             }, 1000); // Hide after 2 seconds of no scrolling
 
@@ -109,6 +111,11 @@ export default function Navbar() {
         <AnimatePresence>
             {isScrolling && (
                 <motion.div
+                    onMouseEnter={() => setIsHover(true)}
+                    onMouseLeave={() => {
+                        setIsHover(false)
+                        setIsScrolling(false)
+                    }}
                     initial={{
                         opacity: 0,
                         x: -50,
