@@ -15,6 +15,8 @@ const HeroSection = () => {
 
     const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const maskSize = isHovered ? 300 : 40;
+
     const { x, y } = useMousePosition();
 
     const wordPairs = useMemo<WordPair[]>(() => [
@@ -23,8 +25,6 @@ const HeroSection = () => {
         { left: 'Product', right: 'Designer' },
         { left: 'Motion', right: 'Expert' },
     ], []);
-
-    const maskSize = isHovered ? 300 : 40;
 
     // Animation controls
     const h1LeftControls = useAnimation();
@@ -123,7 +123,6 @@ const HeroSection = () => {
         };
     }, [wordPairs, h1LeftControls, h1RightControls, h2LeftControls, h2RightControls]);
 
-    // Memoize motion animation props
     const motionProps = useMemo(() => ({
         maskPosition: `${x - (maskSize / 2)}px ${y - (maskSize / 2)}px`,
         maskSize: `${maskSize}px`,
@@ -136,7 +135,7 @@ const HeroSection = () => {
     };
 
     return (
-        <div className="relative">
+        <div className="h-screen sticky top-0">
             {/* Base layer */}
             <section
                 ref={containerRef}
@@ -145,14 +144,14 @@ const HeroSection = () => {
                 <div className="w-full px-5 lg:px-10 relative space-y-4">
                     <motion.h1
                         animate={h1LeftControls}
-                        className="text-6xl md:text-8xl lg:text-[12rem] leading-none font-bold text-left block w-full"
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[15rem] leading-none font-bold text-left block w-full"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].left}
                     </motion.h1>
                     <motion.h1
                         animate={h1RightControls}
-                        className="text-6xl md:text-8xl lg:text-[12rem] leading-none font-bold text-right block w-full"
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[15rem] leading-none font-bold text-right block w-full"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].right}
@@ -180,7 +179,7 @@ const HeroSection = () => {
                         animate={h2LeftControls}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
-                        className="text-6xl md:text-8xl lg:text-[12rem] leading-none font-bold text-left block w-full"
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[15rem] leading-none font-bold text-left block w-full"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].left}
@@ -189,7 +188,7 @@ const HeroSection = () => {
                         animate={h2RightControls}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
-                        className="text-6xl md:text-8xl lg:text-[12rem] leading-none font-bold text-right block w-full"
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[15rem] leading-none font-bold text-right block w-full"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].right}
