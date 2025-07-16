@@ -1,12 +1,8 @@
 "use client";
 
-import { useRef, useCallback, useState, useMemo, RefObject } from "react";
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { motion } from 'motion/react';
+import { useRef, useState, useMemo, useEffect } from "react";
+import { motion, useAnimation } from 'motion/react';
 import useMousePosition from '@/utils/useMousePosition';
-
-gsap.registerPlugin(useGSAP);
 
 interface WordPair {
     left: string;
@@ -17,13 +13,8 @@ const HeroSection = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const maskContainerRef = useRef<HTMLDivElement>(null);
 
-    const h1LeftRef = useRef<HTMLHeadingElement>(null);
-    const h1RightRef = useRef<HTMLHeadingElement>(null);
-
-    const h2LeftRef = useRef<HTMLHeadingElement>(null);
-    const h2RightRef = useRef<HTMLHeadingElement>(null);
-
     const [isHovered, setIsHovered] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const { x, y } = useMousePosition();
 
     const wordPairs = useMemo<WordPair[]>(() => [
@@ -35,118 +26,114 @@ const HeroSection = () => {
 
     const maskSize = isHovered ? 300 : 40;
 
-    const createTextAnimation = useCallback((
-        leftRef: RefObject<HTMLHeadingElement>,
-        rightRef: RefObject<HTMLHeadingElement>,
-        wordPairs: WordPair[],
-        currentIndex: { value: number }
-    ) => {
-        const tl = gsap.timeline();
+    // Animation controls
+    const h1LeftControls = useAnimation();
+    const h1RightControls = useAnimation();
+    const h2LeftControls = useAnimation();
+    const h2RightControls = useAnimation();
 
+    const animationSequence = async (
+        leftControls: ReturnType<typeof useAnimation>,
+        rightControls: ReturnType<typeof useAnimation>
+    ) => {
         // Set initial state
-        tl.set([leftRef.current, rightRef.current], {
-            opacity: 0,
-            scale: 0.8,
-        })
-            .set(leftRef.current, { x: -window.innerWidth })
-            .set(rightRef.current, { x: window.innerWidth });
+        await Promise.all([
+            leftControls.set({
+                opacity: 0,
+                scale: 0.8,
+                x: -window.innerWidth,
+            }),
+            rightControls.set({
+                opacity: 0,
+                scale: 0.8,
+                x: window.innerWidth,
+            })
+        ]);
 
         // Animate in
-        tl.to([leftRef.current, rightRef.current], {
-            opacity: 1,
-            scale: 1,
-            duration: 0.8,
-            ease: "power2.out",
-        })
-            .to(leftRef.current, {
+        await Promise.all([
+            leftControls.start({
+                opacity: 1,
+                scale: 1,
                 x: 0,
-                duration: 0.8,
-                ease: "power2.out",
-            }, "<")
-            .to(rightRef.current, {
+                transition: {
+                    duration: 0.8,
+                    ease: [0.25, 0.46, 0.45, 0.94], // power2.out equivalent
+                }
+            }),
+            rightControls.start({
+                opacity: 1,
+                scale: 1,
                 x: 0,
-                duration: 0.8,
-                ease: "power2.out",
-            }, "<")
+                transition: {
+                    duration: 0.8,
+                    ease: [0.25, 0.46, 0.45, 0.94], // power2.out equivalent
+                }
+            })
+        ]);
 
-            // Pause at center
-            .to({}, { duration: 2 })
+        // Pause at center
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
-            // Animate out
-            .to(leftRef.current, {
+        // Animate out
+        await Promise.all([
+            leftControls.start({
                 x: -window.innerWidth,
                 opacity: 0,
                 scale: 0.8,
-                duration: 0.8,
-                ease: "power2.in",
-            })
-            .to(rightRef.current, {
+                transition: {
+                    duration: 0.8,
+                    ease: [0.55, 0.055, 0.675, 0.19], // power2.in equivalent
+                }
+            }),
+            rightControls.start({
                 x: window.innerWidth,
                 opacity: 0,
                 scale: 0.8,
-                duration: 0.8,
-                ease: "power2.in",
-            }, "<")
+                transition: {
+                    duration: 0.8,
+                    ease: [0.55, 0.055, 0.675, 0.19], // power2.in equivalent
+                }
+            })
+        ]);
+    };
 
-            .call(() => {
-                currentIndex.value = (currentIndex.value + 1) % wordPairs.length;
-                const { left, right } = wordPairs[currentIndex.value];
-                if (leftRef.current) leftRef.current.textContent = left;
-                if (rightRef.current) rightRef.current.textContent = right;
-            });
+    useEffect(() => {
+        let isMounted = true;
 
-        return tl;
-    }, []);
+        const runAnimations = async () => {
+            while (isMounted) {
+                for (let i = 0; i < wordPairs.length; i++) {
+                    if (!isMounted) break;
 
-    useGSAP(() => {
-        const currentIndex = { value: 0 };
+                    setCurrentIndex(i);
 
-        if (h1LeftRef.current && h1RightRef.current) {
-            h1LeftRef.current.textContent = wordPairs[0].left;
-            h1RightRef.current.textContent = wordPairs[0].right;
-        }
+                    await Promise.all([
+                        animationSequence(h1LeftControls, h1RightControls),
+                        animationSequence(h2LeftControls, h2RightControls)
+                    ]);
+                }
+            }
+        };
 
-        const masterTimeline = gsap.timeline({ repeat: -1 });
-
-        wordPairs.forEach(() => {
-            masterTimeline.add(createTextAnimation(h1LeftRef, h1RightRef, wordPairs, currentIndex));
-        });
+        runAnimations();
 
         return () => {
-            masterTimeline.kill();
+            isMounted = false;
         };
-    }, {
-        scope: containerRef,
-        dependencies: [createTextAnimation, wordPairs]
-    });
-
-    useGSAP(() => {
-        const currentIndex = { value: 0 };
-
-        if (h2LeftRef.current && h2RightRef.current) {
-            h2LeftRef.current.textContent = wordPairs[0].left;
-            h2RightRef.current.textContent = wordPairs[0].right;
-        }
-
-        const masterTimeline = gsap.timeline({ repeat: -1 });
-
-        wordPairs.forEach(() => {
-            masterTimeline.add(createTextAnimation(h2LeftRef, h2RightRef, wordPairs, currentIndex));
-        });
-
-        return () => {
-            masterTimeline.kill();
-        };
-    }, {
-        scope: maskContainerRef,
-        dependencies: [createTextAnimation, wordPairs]
-    });
+    }, [wordPairs, h1LeftControls, h1RightControls, h2LeftControls, h2RightControls]);
 
     // Memoize motion animation props
     const motionProps = useMemo(() => ({
         maskPosition: `${x - (maskSize / 2)}px ${y - (maskSize / 2)}px`,
         maskSize: `${maskSize}px`,
     }), [x, y, maskSize]);
+
+    const textStyle = {
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        letterSpacing: '-0.02em',
+        willChange: 'transform, opacity'
+    };
 
     return (
         <div className="relative">
@@ -156,28 +143,20 @@ const HeroSection = () => {
                 className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative z-10"
             >
                 <div className="w-full px-5 lg:px-10 relative space-y-4">
-                    <h1
-                        ref={h1LeftRef}
+                    <motion.h1
+                        animate={h1LeftControls}
                         className="text-6xl md:text-8xl lg:text-[12rem] leading-none font-bold text-left block w-full"
-                        style={{
-                            fontFamily: 'system-ui, -apple-system, sans-serif',
-                            letterSpacing: '-0.02em',
-                            willChange: 'transform, opacity'
-                        }}
+                        style={textStyle}
                     >
-                        Creative
-                    </h1>
-                    <h1
-                        ref={h1RightRef}
+                        {wordPairs[currentIndex].left}
+                    </motion.h1>
+                    <motion.h1
+                        animate={h1RightControls}
                         className="text-6xl md:text-8xl lg:text-[12rem] leading-none font-bold text-right block w-full"
-                        style={{
-                            fontFamily: 'system-ui, -apple-system, sans-serif',
-                            letterSpacing: '-0.02em',
-                            willChange: 'transform, opacity'
-                        }}
+                        style={textStyle}
                     >
-                        Designer
-                    </h1>
+                        {wordPairs[currentIndex].right}
+                    </motion.h1>
                 </div>
             </section>
 
@@ -197,32 +176,24 @@ const HeroSection = () => {
                 }}
             >
                 <div className="w-full px-5 lg:px-10 relative space-y-4">
-                    <h1
-                        ref={h2LeftRef}
+                    <motion.h1
+                        animate={h2LeftControls}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                         className="text-6xl md:text-8xl lg:text-[12rem] leading-none font-bold text-left block w-full"
-                        style={{
-                            fontFamily: 'system-ui, -apple-system, sans-serif',
-                            letterSpacing: '-0.02em',
-                            willChange: 'transform, opacity'
-                        }}
+                        style={textStyle}
                     >
-                        Creative
-                    </h1>
-                    <h1
-                        ref={h2RightRef}
+                        {wordPairs[currentIndex].left}
+                    </motion.h1>
+                    <motion.h1
+                        animate={h2RightControls}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                         className="text-6xl md:text-8xl lg:text-[12rem] leading-none font-bold text-right block w-full"
-                        style={{
-                            fontFamily: 'system-ui, -apple-system, sans-serif',
-                            letterSpacing: '-0.02em',
-                            willChange: 'transform, opacity'
-                        }}
+                        style={textStyle}
                     >
-                        Designer
-                    </h1>
+                        {wordPairs[currentIndex].right}
+                    </motion.h1>
                 </div>
             </motion.section>
         </div>
