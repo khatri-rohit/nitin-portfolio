@@ -144,14 +144,14 @@ const HeroSection = () => {
                 <div className="w-full px-5 lg:px-10 relative space-y-4">
                     <motion.h1
                         animate={h1LeftControls}
-                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[15rem] leading-none font-bold text-left block w-full"
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-left block w-full"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].left}
                     </motion.h1>
                     <motion.h1
                         animate={h1RightControls}
-                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[15rem] leading-none font-bold text-right block w-full"
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-right block w-full"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].right}
@@ -179,7 +179,7 @@ const HeroSection = () => {
                         animate={h2LeftControls}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
-                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[15rem] leading-none font-bold text-left block w-full"
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-left block w-full"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].left}
@@ -188,7 +188,7 @@ const HeroSection = () => {
                         animate={h2RightControls}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
-                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[15rem] leading-none font-bold text-right block w-full"
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-right block w-full"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].right}
