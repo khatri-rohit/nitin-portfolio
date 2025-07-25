@@ -59,7 +59,7 @@ export default function PreLoader() {
         <motion.div variants={slideUp} initial="initial" exit="exit" className={styles.introduction}>
             {dimension.width > 0 &&
                 <>
-                    <motion.p variants={opacity} initial="initial" animate="enter" className='text-[3.5rem]! font-semibold!'>
+                    <motion.p variants={opacity} initial="initial" animate="enter" className='text-[3.5rem]! font-sans'>
                         <span></span>{words[index]}
                     </motion.p>
                     <svg className={styles.svg}>

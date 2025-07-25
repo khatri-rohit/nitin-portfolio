@@ -135,11 +135,11 @@ const HeroSection = () => {
     };
 
     return (
-        <div className="h-screen sticky top-0">
+        <div className="h-screen relative">
             {/* Base layer */}
             <section
                 ref={containerRef}
-                className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative z-10"
+                className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative"
             >
                 <div className="w-full px-5 lg:px-10 relative space-y-4">
                     <motion.h1
@@ -162,7 +162,7 @@ const HeroSection = () => {
             {/* Mask Layer */}
             <motion.section
                 ref={maskContainerRef}
-                className="mask flex flex-col items-center justify-center h-screen w-full overflow-hidden text-black absolute top-0 left-0 z-20"
+                className="mask flex flex-col items-center justify-center h-screen w-full overflow-hidden text-black absolute top-0 left-0"
                 animate={motionProps}
                 transition={{
                     type: "tween",
