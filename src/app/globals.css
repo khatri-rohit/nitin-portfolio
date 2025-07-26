@@ -7,6 +7,13 @@
   src: url('../../public/fonts/AVGARDD_2.woff') format('woff');
 }
 
+@font-face {
+  font-family: 'Heming';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../../public/fonts/Heming.woff') format('woff');
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -33,32 +40,195 @@ body {
   cursor: wait;
 }
 
-.mask {
-  mask-image: url('../../public/mask.svg');
-  mask-repeat: no-repeat;
-  mask-size: 40px;
-  background: #ec4e39;
-  color: black;
-  /* Performance optimizations */
+.font-heming {
+  font-family: 'Heming', sans-serif;
+  font-weight: bold;
+}
+
+/* ✨ Enhanced Magnifying Glass - Globally Active with Smooth Transitions */
+.magnifying-glass {
+  /* Base glass styling */
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.25),
+    0 12px 24px rgba(0, 0, 0, 0.18),
+    inset 0 2px 12px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0px rgba(0, 0, 0, 0.15);
+
+  /* Refined glass material effect */
+  background: rgba(15, 14, 14, 0.75);
+  backdrop-filter: blur(8px) saturate(1.1);
+  -webkit-backdrop-filter: blur(8px) saturate(1.1);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+
+  /* Subtle gradient overlay for depth */
+  background-image:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
+    linear-gradient(135deg,
+      rgba(79, 195, 247, 0.04) 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(129, 212, 250, 0.04) 100%);
+
+  /* Hardware acceleration optimizations */
   transform: translateZ(0);
   backface-visibility: hidden;
-  will-change: mask-position, mask-size;
+  transform-style: preserve-3d;
+  perspective: 1200px;
 
-  mask-mode: alpha;
-  -webkit-mask-image: url('../../public/mask.svg');
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: 40px;
-  -webkit-mask-mode: alpha;
+  /* ✨ SMOOTH TRANSITIONS - Key Performance Enhancement */
+  transition:
+    /* Size transitions with optimized easing */
+    width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    /* Visual property transitions */
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Prevent layout shifts during transitions */
+  will-change: width, height, opacity, background, backdrop-filter, transform;
 }
 
-* {
-  box-sizing: border-box;
+/* ✨ Enhanced Enlarged State - Smooth Growth Animation */
+.magnifying-glass.enlarged {
+  /* Size changes handled by CSS transitions above */
+  width: 320px !important;
+  height: 320px !important;
+
+  /* Enhanced visual effects when enlarged */
+  background: rgba(15, 14, 14, 0.92) !important;
+  backdrop-filter: blur(15px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(15px) saturate(1.4) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+
+  /* Enhanced shadow depth when enlarged */
+  box-shadow:
+    0 35px 70px rgba(0, 0, 0, 0.35),
+    0 20px 40px rgba(0, 0, 0, 0.25),
+    inset 0 4px 20px rgba(255, 255, 255, 0.12),
+    inset 0 -4px 12px rgba(0, 0, 0, 0.18),
+    inset 0 2px 0px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 0px rgba(0, 0, 0, 0.2);
+
+  /* Enhanced gradient overlay for enlarged state */
+  background-image:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.12) 0%, transparent 70%),
+    linear-gradient(135deg,
+      rgba(79, 195, 247, 0.06) 0%,
+      rgba(255, 255, 255, 0.04) 50%,
+      rgba(129, 212, 250, 0.06) 100%);
 }
 
-html {
-  scroll-behavior: smooth;
+/* ✨ Refined Magnified Text - Clean Chromatic Dispersion */
+.magnify-fx-text {
+  /* Hardware acceleration for smooth filter transitions */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+
+  /* Interaction and selection prevention */
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+
+  /* Base state - clean white text */
+  filter: none;
+
+  /* ✨ SMOOTH FILTER TRANSITIONS - Prevents jarring effect changes */
+  transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: filter;
+
+  /* Enhanced text rendering */
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+
+  /* Base luminosity for clean white text visibility */
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
+/* ✨ Hover State Enhancement - Applied via JavaScript */
+.magnify-fx-text.chromatic-active {
+  /* This class can be toggled for additional state management if needed */
+  transition: filter 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ✨ Performance Optimizations for Mobile */
+@media (max-width: 768px) {
+  .magnifying-glass {
+    /* Reduced complexity for mobile performance */
+    backdrop-filter: blur(6px) saturate(1.05);
+    -webkit-backdrop-filter: blur(6px) saturate(1.05);
+
+    /* Faster transitions on mobile */
+    transition:
+      width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      height 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .magnifying-glass.enlarged {
+    width: 240px !important;
+    height: 240px !important;
+    backdrop-filter: blur(10px) saturate(1.2) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(1.2) !important;
+  }
+
+  .magnify-fx-text {
+    /* Simplified effects for mobile performance */
+    transition: filter 0.15s ease-out;
+  }
+}
+
+/* ✨ Enhanced Dark Mode - Refined Chromatic Effects */
+@media (prefers-color-scheme: dark) {
+  .magnifying-glass {
+    background: rgba(15, 14, 14, 0.85);
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  .magnifying-glass.enlarged {
+    background: rgba(15, 14, 14, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.28) !important;
+  }
+
+  .magnify-fx-text {
+    /* Enhanced base luminosity for dark mode */
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* ✨ Light Mode Optimizations */
+@media (prefers-color-scheme: light) {
+  .magnifying-glass {
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(0, 0, 0, 0.12);
+
+    /* Adjusted shadows for light backgrounds */
+    box-shadow:
+      0 25px 50px rgba(0, 0, 0, 0.15),
+      0 15px 30px rgba(0, 0, 0, 0.10),
+      inset 0 3px 15px rgba(0, 0, 0, 0.03),
+      inset 0 -3px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .magnifying-glass.enlarged {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(0, 0, 0, 0.18) !important;
+  }
+
+  .magnify-fx-text {
+    /* Clean white text with subtle shadow for light mode */
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+  }
+}
+
+/* ✨ Accessibility - Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
 
   *,
@@ -67,5 +237,63 @@ html {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .magnifying-glass {
+    transition: opacity 0.01ms !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .magnify-fx-text {
+    filter: none !important;
+    transition: none !important;
+    /* Simple fallback shadow */
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* ✨ High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .magnifying-glass {
+    border: 3px solid #ffffff;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .magnify-fx-text {
+    filter: none;
+    text-shadow: 2px 2px 0px #000000, -2px -2px 0px #ffffff;
+  }
+}
+
+/* ✨ Global Performance Enhancements */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Force hardware acceleration for key elements */
+.magnifying-glass,
+.magnify-fx-text {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Optimize rendering for smooth animations */
+@supports (will-change: auto) {
+  .magnifying-glass {
+    will-change: width, height, opacity, background, backdrop-filter, transform;
+  }
+
+  .magnify-fx-text {
+    will-change: filter, transform;
   }
 }

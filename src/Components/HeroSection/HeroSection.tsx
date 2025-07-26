@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState, useMemo, useEffect } from "react";
+import { useRef, useState, useMemo, useEffect, useCallback } from "react";
 import { motion, useAnimation } from 'motion/react';
 import useMousePosition from '@/utils/useMousePosition';
+import useMagnifyingGlass from '@/utils/useMagnifyingGlass';
 
 interface WordPair {
     left: string;
@@ -11,11 +12,12 @@ interface WordPair {
 
 const HeroSection = () => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const maskContainerRef = useRef<HTMLDivElement>(null);
+    const magnifyingGlassRef = useRef<HTMLDivElement>(null);
+    const magnifyFxLeftRef = useRef<HTMLDivElement>(null);
+    const magnifyFxRightRef = useRef<HTMLDivElement>(null);
 
     const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const maskSize = isHovered ? 300 : 40;
 
     const { x, y } = useMousePosition();
 
@@ -26,39 +28,82 @@ const HeroSection = () => {
         { left: 'Motion', right: 'Expert' },
     ], []);
 
-    // Animation controls
+    // Animation controls for base layer
     const h1LeftControls = useAnimation();
     const h1RightControls = useAnimation();
-    const h2LeftControls = useAnimation();
-    const h2RightControls = useAnimation();
 
+    // Animation controls for magnified layer (synchronized)
+    const magnifyLeftControls = useAnimation();
+    const magnifyRightControls = useAnimation();
+
+    // Initialize magnifying glass effect with optimized performance
+    useMagnifyingGlass({
+        glassRef: magnifyingGlassRef,
+        magnifyFxLeftRef: magnifyFxLeftRef,
+        magnifyFxRightRef: magnifyFxRightRef,
+        containerRef: containerRef,
+        isHovered,
+        mouseX: x,
+        mouseY: y
+    });
+
+    // Optimized hover handlers with useCallback to prevent re-renders
+    const handleMouseEnter = useCallback(() => {
+        setIsHovered(true);
+    }, []);
+
+    const handleMouseLeave = useCallback(() => {
+        setIsHovered(false);
+    }, []);
+
+    // Enhanced animation sequence with performance optimizations
     const animationSequence = async (
         leftControls: ReturnType<typeof useAnimation>,
-        rightControls: ReturnType<typeof useAnimation>
+        rightControls: ReturnType<typeof useAnimation>,
+        magnifyLeftControls: ReturnType<typeof useAnimation>,
+        magnifyRightControls: ReturnType<typeof useAnimation>
     ) => {
-        // Set initial state
+        // Optimized initial state setup - batch DOM updates
         await Promise.all([
+            // Base layer initial positioning
             leftControls.set({
                 opacity: 0,
                 scale: 0.8,
                 x: -window.innerWidth,
+                willChange: 'transform, opacity'
             }),
             rightControls.set({
                 opacity: 0,
                 scale: 0.8,
                 x: window.innerWidth,
+                willChange: 'transform, opacity'
+            }),
+            // Magnified layer synchronized positioning
+            magnifyLeftControls.set({
+                opacity: 0,
+                scale: 0.8,
+                x: -window.innerWidth,
+                willChange: 'transform, opacity'
+            }),
+            magnifyRightControls.set({
+                opacity: 0,
+                scale: 0.8,
+                x: window.innerWidth,
+                willChange: 'transform, opacity'
             })
         ]);
 
-        // Animate in
+        // Enhanced entrance animation with optimized easing
         await Promise.all([
+            // Base layer smooth entrance
             leftControls.start({
                 opacity: 1,
                 scale: 1,
                 x: 0,
                 transition: {
                     duration: 0.8,
-                    ease: [0.25, 0.46, 0.45, 0.94], // power2.out equivalent
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                    type: "tween"
                 }
             }),
             rightControls.start({
@@ -67,52 +112,123 @@ const HeroSection = () => {
                 x: 0,
                 transition: {
                     duration: 0.8,
-                    ease: [0.25, 0.46, 0.45, 0.94], // power2.out equivalent
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                    type: "tween"
+                }
+            }),
+            // Magnified layer perfectly synchronized
+            magnifyLeftControls.start({
+                opacity: 1,
+                scale: 1,
+                x: 0,
+                transition: {
+                    duration: 0.8,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                    type: "tween"
+                }
+            }),
+            magnifyRightControls.start({
+                opacity: 1,
+                scale: 1,
+                x: 0,
+                transition: {
+                    duration: 0.8,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                    type: "tween"
                 }
             })
         ]);
 
-        // Pause at center
+        // Optimized pause duration
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        // Animate out
+        // Smooth exit animation with performance-optimized easing
         await Promise.all([
+            // Base layer exit
             leftControls.start({
                 x: -window.innerWidth,
                 opacity: 0,
                 scale: 0.8,
+                willChange: 'transform, opacity',
                 transition: {
                     duration: 0.8,
-                    ease: [0.55, 0.055, 0.675, 0.19], // power2.in equivalent
+                    ease: [0.55, 0.055, 0.675, 0.19],
+                    type: "tween"
                 }
             }),
             rightControls.start({
                 x: window.innerWidth,
                 opacity: 0,
                 scale: 0.8,
+                willChange: 'transform, opacity',
                 transition: {
                     duration: 0.8,
-                    ease: [0.55, 0.055, 0.675, 0.19], // power2.in equivalent
+                    ease: [0.55, 0.055, 0.675, 0.19],
+                    type: "tween"
+                }
+            }),
+            // Magnified layer synchronized exit
+            magnifyLeftControls.start({
+                x: -window.innerWidth,
+                opacity: 0,
+                scale: 0.8,
+                willChange: 'transform, opacity',
+                transition: {
+                    duration: 0.8,
+                    ease: [0.55, 0.055, 0.675, 0.19],
+                    type: "tween"
+                }
+            }),
+            magnifyRightControls.start({
+                x: window.innerWidth,
+                opacity: 0,
+                scale: 0.8,
+                willChange: 'transform, opacity',
+                transition: {
+                    duration: 0.8,
+                    ease: [0.55, 0.055, 0.675, 0.19],
+                    type: "tween"
                 }
             })
         ]);
+
+        // Clean up will-change properties after animation
+        [leftControls, rightControls, magnifyLeftControls, magnifyRightControls].forEach(control => {
+            control.set({ willChange: 'auto' });
+        });
     };
 
+    // Optimized animation loop with cleanup and error handling
     useEffect(() => {
         let isMounted = true;
+        let animationTimeoutId: NodeJS.Timeout;
 
         const runAnimations = async () => {
-            while (isMounted) {
-                for (let i = 0; i < wordPairs.length; i++) {
-                    if (!isMounted) break;
+            try {
+                while (isMounted) {
+                    for (let i = 0; i < wordPairs.length; i++) {
+                        if (!isMounted) break;
 
-                    setCurrentIndex(i);
+                        setCurrentIndex(i);
 
-                    await Promise.all([
-                        animationSequence(h1LeftControls, h1RightControls),
-                        animationSequence(h2LeftControls, h2RightControls)
-                    ]);
+                        // Run synchronized animations
+                        await animationSequence(
+                            h1LeftControls,
+                            h1RightControls,
+                            magnifyLeftControls,
+                            magnifyRightControls
+                        );
+
+                        // Small pause between cycles for better UX
+                        if (isMounted) {
+                            await new Promise(resolve => {
+                                animationTimeoutId = setTimeout(resolve, 200);
+                            });
+                        }
+                    }
                 }
+            } catch (error) {
+                console.warn('Animation sequence interrupted:', error);
             }
         };
 
@@ -120,81 +236,119 @@ const HeroSection = () => {
 
         return () => {
             isMounted = false;
+            if (animationTimeoutId) {
+                clearTimeout(animationTimeoutId);
+            }
         };
-    }, [wordPairs, h1LeftControls, h1RightControls, h2LeftControls, h2RightControls]);
+    }, [wordPairs, h1LeftControls, h1RightControls, magnifyLeftControls, magnifyRightControls]);
 
-    const motionProps = useMemo(() => ({
-        maskPosition: `${x - (maskSize / 2)}px ${y - (maskSize / 2)}px`,
-        maskSize: `${maskSize}px`,
-    }), [x, y, maskSize]);
-
-    const textStyle = {
-        fontFamily: 'system-ui, -apple-system, sans-serif',
+    // Optimized text styling with performance considerations
+    const textStyle = useMemo(() => ({
+        fontFamily: "'Avant Garde Book BT', system-ui, -apple-system, sans-serif",
         letterSpacing: '-0.02em',
-        willChange: 'transform, opacity'
-    };
+        willChange: 'transform, opacity',
+        backfaceVisibility: 'hidden' as const,
+        transform: 'translateZ(0)' // Force hardware acceleration
+    }), []);
+
+    // Enhanced magnified text styling for chromatic effects
+    const magnifiedTextStyle = useMemo(() => ({
+        ...textStyle,
+        color: '#ffffff',
+        willChange: 'transform, filter, opacity',
+        transformStyle: 'preserve-3d' as const
+    }), [textStyle]);
 
     return (
         <div className="h-screen relative">
-            {/* Base layer */}
+            {/* Base layer - optimized for performance */}
             <section
                 ref={containerRef}
-                className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative"
+                className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative z-10"
             >
                 <div className="w-full px-5 lg:px-10 relative space-y-4">
                     <motion.h1
                         animate={h1LeftControls}
-                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-left block w-full"
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-left block w-full select-none"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].left}
                     </motion.h1>
                     <motion.h1
                         animate={h1RightControls}
-                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-right block w-full"
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-right block w-full select-none"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].right}
                     </motion.h1>
+                </div>
+
+                {/* Enhanced Magnifying Glass - Globally Active with Smooth Transitions */}
+                <div
+                    ref={magnifyingGlassRef}
+                    className="magnifying-glass"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '80px',
+                        height: '80px',
+                        borderRadius: '50%',
+                        border: '2px solid rgba(255, 255, 255, 0.15)',
+                        background: 'rgba(15, 14, 14, 0.75)',
+                        backdropFilter: 'blur(8px) saturate(1.1)',
+                        overflow: 'hidden',
+                        opacity: isHovered ? 1 : 0.6, // Dynamic opacity based on hover
+                        pointerEvents: 'none',
+                        zIndex: 1000,
+                        transformStyle: 'preserve-3d',
+                        backfaceVisibility: 'hidden',
+                        // Enhanced shadow effects
+                        boxShadow: `
+                            0 20px 40px rgba(0, 0, 0, 0.25),
+                            0 12px 24px rgba(0, 0, 0, 0.18),
+                            inset 0 2px 12px rgba(255, 255, 255, 0.08),
+                            inset 0 -2px 6px rgba(0, 0, 0, 0.12)
+                        `
+                    }}
+                >
+                    {/* Synchronized magnified content container */}
+                    <div
+                        className="w-screen h-screen relative"
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            transform: 'translate(0, 0)', // Updated by useMagnifyingGlass hook
+                            willChange: 'transform',
+                            backfaceVisibility: 'hidden'
+                        }}
+                    >
+                        <div className="flex flex-col items-center justify-center h-screen w-full px-5 lg:px-10 space-y-4">
+                            <motion.h1
+                                ref={magnifyFxLeftRef}
+                                animate={magnifyLeftControls}
+                                className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-left block w-full magnify-fx-text select-none"
+                                style={magnifiedTextStyle}
+                            >
+                                {wordPairs[currentIndex].left}
+                            </motion.h1>
+                            <motion.h1
+                                ref={magnifyFxRightRef}
+                                animate={magnifyRightControls}
+                                className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-right block w-full magnify-fx-text select-none"
+                                style={magnifiedTextStyle}
+                            >
+                                {wordPairs[currentIndex].right}
+                            </motion.h1>
+                        </div>
+                    </div>
                 </div>
             </section>
-
-            {/* Mask Layer */}
-            <motion.section
-                ref={maskContainerRef}
-                className="mask flex flex-col items-center justify-center h-screen w-full overflow-hidden text-black absolute top-0 left-0"
-                animate={motionProps}
-                transition={{
-                    type: "tween",
-                    ease: "backOut",
-                    duration: 0.5
-                }}
-                style={{
-                    willChange: 'mask-position, mask-size',
-                    pointerEvents: 'auto'
-                }}
-            >
-                <div className="w-full px-5 lg:px-10 relative space-y-4">
-                    <motion.h1
-                        animate={h2LeftControls}
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}
-                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-left block w-full"
-                        style={textStyle}
-                    >
-                        {wordPairs[currentIndex].left}
-                    </motion.h1>
-                    <motion.h1
-                        animate={h2RightControls}
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}
-                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-right block w-full"
-                        style={textStyle}
-                    >
-                        {wordPairs[currentIndex].right}
-                    </motion.h1>
-                </div>
-            </motion.section>
         </div>
     );
 };

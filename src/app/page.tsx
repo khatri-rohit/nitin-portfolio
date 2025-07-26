@@ -7,6 +7,7 @@ import HeroSection from "@/Components/HeroSection/HeroSection";
 import About from "@/Components/About/About";
 import PreLoader from "@/Components/PreLoader/PreLoader";
 import Work from "@/Components/Work/Work";
+import CreativeFields from "@/Components/About/CreativeFields";
 
 export default function Home() {
 
@@ -34,9 +35,9 @@ export default function Home() {
       }
 
       // Force scroll to top
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      window.scrollTo(0, 0);
+      // document.documentElement.scrollTop = 0;
+      // document.body.scrollTop = 0;
+      // window.scrollTo(0, 0);
 
       // Use multiple requestAnimationFrame to ensure scroll completes
       requestAnimationFrame(() => {
@@ -64,13 +65,14 @@ export default function Home() {
 
   return (
     <main className="w-full h-full">
-      <AnimatePresence mode="wait">
+      {/* <AnimatePresence mode="wait">
         {loading && <PreLoader />}
-      </AnimatePresence>
+      </AnimatePresence> */}
       <section ref={container} >
         <HeroSection />
         <About container={container} lenisRef={lenisRef} />
       </section>
+      <CreativeFields />
       <Work />
     </main>
   );

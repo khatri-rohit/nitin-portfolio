@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import styles from './style.module.css';
 
-const words = ["Hello", "Bonjour", "Ciao", "Olà", "やあ", "Hallå", "Guten tag", "Hallo"]
+const words = ["Hello", "Bonjour", "Ciao", "Olà", "やあ", "Hallå", "Guten tag"]
 
 export default function PreLoader() {
     const [index, setIndex] = useState(0);
@@ -59,7 +59,7 @@ export default function PreLoader() {
         <motion.div variants={slideUp} initial="initial" exit="exit" className={styles.introduction}>
             {dimension.width > 0 &&
                 <>
-                    <motion.p variants={opacity} initial="initial" animate="enter" className='text-[3.5rem]! font-sans'>
+                    <motion.p variants={opacity} initial="initial" animate="enter" className='text-[3.5rem]! font-heming'>
                         <span></span>{words[index]}
                     </motion.p>
                     <svg className={styles.svg}>
