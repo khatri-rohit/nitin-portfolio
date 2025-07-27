@@ -16,7 +16,7 @@ interface Props {
     delay?: number;
 }
 
-const TextReveal = ({ children, animationOnScroll = true, delay = 0.5 }: Props) => {
+const TextReveal = ({ children, animationOnScroll = true, delay = 0 }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const elementRef = useRef<HTMLElement[]>([]);
     const splitRef = useRef<SplitText[]>([]);

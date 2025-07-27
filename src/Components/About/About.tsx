@@ -97,10 +97,10 @@ const About = ({ container, lenisRef }: Props) => {
         <section className="font-heming">
             <motion.div style={{ scale }} className="sticky h-screen bg-[#181818] text-white">
                 <div className="flex justify-around p-10 gap-1 h-full">
-                    <div className="flex-1 flex flex-col p-8 sm:p-16 lg:p-28">
-                        <div className="leading-none">
+                    <div className="flex-1 flex flex-col border">
+                        <div className="leading-none w-full p-8 sm:p-16 lg:p-20">
                             <TextReveal>
-                                <p className="text-4xl sm:text-6xl lg:text-9xl leading-none mb-4 sm:mb-6 lg:mb-8">
+                                <p className="text-4xl sm:text-6xl lg:text-9xl leading-none">
                                     Hi I'm a
                                 </p>
                             </TextReveal>
@@ -129,9 +129,16 @@ const About = ({ container, lenisRef }: Props) => {
                                     }
                                 </div>
                             </div>
+                            <div className="w-full ">
+                                <TextReveal>
+                                    <p className="w-full text-5xl tracking-[0.6rem]">
+                                        with 10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite—turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.
+                                    </p>
+                                </TextReveal>
+                            </div>
                         </div>
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 border">
                         {/* Right side content can go here */}
                     </div>
                 </div>
