@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "motion/react";
-import Lenis from 'lenis'
+import Lenis from 'lenis';
 import HeroSection from "@/Components/HeroSection/HeroSection";
 import About from "@/Components/About/About";
 import PreLoader from "@/Components/PreLoader/PreLoader";
@@ -68,7 +68,7 @@ export default function Home() {
       {/* <AnimatePresence mode="wait">
         {loading && <PreLoader />}
       </AnimatePresence> */}
-      <section ref={container} >
+      <section ref={container} className='relative' >
         <HeroSection />
         <About container={container} lenisRef={lenisRef} />
       </section>

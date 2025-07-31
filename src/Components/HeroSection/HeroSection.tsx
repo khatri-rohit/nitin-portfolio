@@ -244,7 +244,7 @@ const HeroSection = () => {
 
     // Optimized text styling with performance considerations
     const textStyle = useMemo(() => ({
-        fontFamily: "'Avant Garde Book BT', system-ui, -apple-system, sans-serif",
+        fontFamily: "dahlia-bold",
         letterSpacing: '-0.02em',
         willChange: 'transform, opacity',
         backfaceVisibility: 'hidden' as const,
@@ -271,7 +271,7 @@ const HeroSection = () => {
                         animate={h1LeftControls}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
-                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-left block w-full select-none"
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none text-left block w-full select-none"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].left}
@@ -280,7 +280,7 @@ const HeroSection = () => {
                         animate={h1RightControls}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
-                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-right block w-full select-none"
+                        className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none text-right block w-full select-none"
                         style={textStyle}
                     >
                         {wordPairs[currentIndex].right}
@@ -332,7 +332,7 @@ const HeroSection = () => {
                             <motion.h1
                                 ref={magnifyFxLeftRef}
                                 animate={magnifyLeftControls}
-                                className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-left block w-full magnify-fx-text select-none"
+                                className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none text-left block w-full magnify-fx-text select-none"
                                 style={magnifiedTextStyle}
                             >
                                 {wordPairs[currentIndex].left}
@@ -340,7 +340,7 @@ const HeroSection = () => {
                             <motion.h1
                                 ref={magnifyFxRightRef}
                                 animate={magnifyRightControls}
-                                className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none font-bold text-right block w-full magnify-fx-text select-none"
+                                className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none text-right block w-full magnify-fx-text select-none"
                                 style={magnifiedTextStyle}
                             >
                                 {wordPairs[currentIndex].right}

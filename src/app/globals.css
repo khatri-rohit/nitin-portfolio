@@ -1,17 +1,20 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Avant Garde Book BT';
-  font-style: normal;
-  font-weight: normal;
-  src: url('../../public/fonts/AVGARDD_2.woff') format('woff');
+  font-family: 'dahlia-bold';
+  src: url('../../public/fonts/dahlia-bold.woff') format('woff');
 }
 
 @font-face {
-  font-family: 'Heming';
+  font-family: 'dahlia';
   font-style: normal;
   font-weight: normal;
-  src: url('../../public/fonts/Heming.woff') format('woff');
+  src: url('../../public/fonts/dahlia-regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk';
+  src: url('../../public/fonts/SpaceGrotesk-Medium.woff') format('woff');
 }
 
 :root {
@@ -36,13 +39,12 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Avant Garde Book BT';
+  font-family: 'dahlia';
   cursor: wait;
 }
 
-.font-heming {
-  font-family: 'Heming', sans-serif;
-  font-weight: bold;
+.font-SpaceGrotesk {
+  font-family: 'SpaceGrotesk';
 }
 
 /* ✨ Enhanced Magnifying Glass - Globally Active with Smooth Transitions */

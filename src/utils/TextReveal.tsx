@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import React, { useRef, ReactElement } from 'react'
+import React, { useRef, ReactElement } from 'react';
 
 import gsap from 'gsap';
-import { SplitText } from "gsap/SplitText"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { SplitText } from "gsap/SplitText";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(SplitText);
@@ -25,9 +25,9 @@ const TextReveal = ({ children, animationOnScroll = true, delay = 0 }: Props) =>
     useGSAP(() => {
         if (!containerRef.current) return;
 
-        splitRef.current = []
-        elementRef.current = []
-        lines.current = []
+        splitRef.current = [];
+        elementRef.current = [];
+        lines.current = [];
 
         let elements: HTMLElement[] = [];
 
@@ -59,7 +59,7 @@ const TextReveal = ({ children, animationOnScroll = true, delay = 0 }: Props) =>
             }
 
             lines.current.push(...(split.lines as HTMLElement[]));
-        })
+        });
 
         gsap.set(lines.current, { y: "100%" });
 
@@ -79,7 +79,7 @@ const TextReveal = ({ children, animationOnScroll = true, delay = 0 }: Props) =>
                     start: "top 75%",
                     once: true,
                 }
-            })
+            });
         } else {
             gsap.to(lines.current, animationProps);
         }
@@ -90,12 +90,12 @@ const TextReveal = ({ children, animationOnScroll = true, delay = 0 }: Props) =>
                     split.revert();
                 }
             });
-        }
+        };
 
     }, {
         scope: containerRef,
         dependencies: [animationOnScroll, delay]
-    })
+    });
 
     if (React.Children.count(children) === 1) {
         if (typeof children === 'string') {
@@ -107,7 +107,7 @@ const TextReveal = ({ children, animationOnScroll = true, delay = 0 }: Props) =>
         <div ref={containerRef} data-copy-wrapper="true">
             {children}
         </div>
-    )
-}
+    );
+};
 
-export default TextReveal
+export default TextReveal;

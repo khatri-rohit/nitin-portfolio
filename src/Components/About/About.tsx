@@ -4,22 +4,24 @@ import { RefObject, useEffect, useRef } from "react";
 import { useTransform, motion, useScroll } from "motion/react";
 import { gsap } from "gsap";
 import TextReveal from "@/utils/TextReveal";
+import Image from 'next/image';
 
 interface Props {
-    container: RefObject<HTMLElement | null>
+    container: RefObject<HTMLElement | null>;
     lenisRef: RefObject<any>;
 }
 
 const About = ({ container, lenisRef }: Props) => {
-    const textContainerRef = useRef<HTMLDivElement>(null);
-    const textContainerRef2 = useRef<HTMLDivElement>(null);
-    const parentRef = useRef<HTMLDivElement>(null);
 
     const { scrollYProgress } = useScroll({
         target: container,
         offset: ['start start', 'end end']
-    })
+    });
     const scale = useTransform(scrollYProgress, [0, 0.5, 0.8, 1], [1, 0.8, 0.8, 1]);
+
+    const textContainerRef = useRef<HTMLDivElement>(null);
+    const textContainerRef2 = useRef<HTMLDivElement>(null);
+    const parentRef = useRef<HTMLDivElement>(null);
 
     const word1 = [
         'Creative',
@@ -68,15 +70,15 @@ const About = ({ container, lenisRef }: Props) => {
         });
 
         return tl;
-    }
+    };
 
     useEffect(() => {
         const animation = animateWords();
 
         return () => {
             animation?.kill();
-        }
-    }, [])
+        };
+    }, []);
 
     useEffect(() => {
         const unsubscribe = scrollYProgress.on("change", (latest) => {
@@ -94,11 +96,11 @@ const About = ({ container, lenisRef }: Props) => {
     }, [scrollYProgress, lenisRef]);
 
     return (
-        <section className="font-heming">
+        <section className="font-SpaceGrotesk">
             <motion.div style={{ scale }} className="sticky h-screen bg-[#181818] text-white">
                 <div className="flex justify-around p-10 gap-1 h-full">
-                    <div className="flex-1 flex flex-col border">
-                        <div className="leading-none w-full p-8 sm:p-16 lg:p-20">
+                    <div className="flex-1 flex flex-col">
+                        <div className="w-full p-8 sm:p-16 lg:p-20">
                             <TextReveal>
                                 <p className="text-4xl sm:text-6xl lg:text-9xl leading-none">
                                     Hi I'm a
@@ -129,17 +131,26 @@ const About = ({ container, lenisRef }: Props) => {
                                     }
                                 </div>
                             </div>
-                            <div className="w-full ">
+                            <div className="w-full mt-1">
                                 <TextReveal>
-                                    <p className="w-full text-5xl tracking-[0.6rem]">
-                                        with 10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite—turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.
+                                    <p className="w-full text-5xl tracking-[0rem] text-balance">
+                                        with 10+ years of experience delivering impactful visuals, animations, and videos across fintech, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite turning brand goals into scroll-stopping content.
                                     </p>
                                 </TextReveal>
                             </div>
                         </div>
                     </div>
-                    <div className="flex-1 border">
-                        {/* Right side content can go here */}
+                    <div className="flex-1 p-8 sm:p-16 lg:p-20">
+                        <div className='h-1/2 mt-36'>
+                            <img src="/img/Nitin-preview.png" className='mx-auto h-full' alt="Nitin Khatri" />
+                        </div>
+                        <div className="w-full h-2/5 mt-1 border">
+                            <div className="w-full text-5xl tracking-[0rem] text-pretty">
+                                {/* <TextReveal> */}
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Enthusiastic about crafting ideas, visual elements, motion and 3D Animation into memorable creations.</p>
+                                {/* </TextReveal> */}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </motion.div>
