@@ -3,12 +3,29 @@
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useTransform, motion, useScroll, useMotionValueEvent } from "motion/react";
 import { gsap } from "gsap";
-import TextReveal from "@/utils/TextReveal";
+import { Icon } from "@iconify/react";
+import TextReveal from "../../utils/TextReveal";
+import MagneticEffect from '@/utils/MagneticEffect';
 
 interface Props {
     container: RefObject<HTMLElement | null>;
     lenisRef: RefObject<any>;
 }
+
+const icon = [
+    {
+        icon: "icomoon-free:behance2",
+        link: "https://www.behance.net/nitinkhatri"
+    },
+    {
+        icon: "uiw:linkedin",
+        link: "https://www.linkedin.com/in/nitin-khatri-55b6a01a3/"
+    },
+    {
+        icon: "simple-icons:instagram",
+        link: "https://www.instagram.com/nitin_khatri/"
+    },
+];
 
 const About = ({ container, lenisRef }: Props) => {
     const { scrollYProgress } = useScroll({
@@ -18,7 +35,7 @@ const About = ({ container, lenisRef }: Props) => {
     const scale = useTransform(scrollYProgress, [0, 0.5, 0.8, 1], [1, 0.8, 0.8, 1]);
 
     // State to track when scale equals 1
-    const [isScaleOne, setIsScaleOne] = useState(true);
+    const [isScaleOne, setIsScaleOne] = useState(false);
 
     const textContainerRef = useRef<HTMLDivElement>(null);
 
@@ -31,6 +48,7 @@ const About = ({ container, lenisRef }: Props) => {
 
     // Listen to scale changes and update state
     useMotionValueEvent(scale, "change", (latest) => {
+        if (isScaleOne) return;
         setIsScaleOne(latest === 1);
     });
 
@@ -95,37 +113,283 @@ const About = ({ container, lenisRef }: Props) => {
         };
     }, [isScaleOne]); // Add isScaleOne as dependency to restart animation when visibility changes
 
+    useEffect(() => {
+        const unsubscribe = scrollYProgress.on("change", (latest) => {
+            if (latest >= 1 && lenisRef.current) {
+                lenisRef.current.stop();
+                setTimeout(() => {
+                    lenisRef.current.start();
+                }, 10);
+            } else if (latest < 1 && lenisRef.current) {
+                lenisRef.current.start();
+            }
+        });
+
+        return () => unsubscribe();
+    }, [scrollYProgress, lenisRef]);
+
     // Show content only when scale is 1
     if (!isScaleOne) {
         return (
-            <motion.div style={{ scale }} className="h-screen bg-[#17171c] text-white border">
-
+            <motion.div className="font-SpaceGrotesk h-screen bg-[#17171c] text-white flex justify-center items-center relative"
+                style={{ scale }}
+                transition={{
+                    duration: 1.2,
+                    ease: [0.76, 0, 0.24, 1],
+                    delay: 0.2
+                }}
+                exit={{ scale: 0 }}
+            >
+                <p className="text-9xl text-[#e7436f]">ABOUT ME</p>
             </motion.div>
         );
     }
 
     return (
         <section className="font-SpaceGrotesk">
-            <motion.div style={{ scale }} className="h-screen bg-[#17171c] text-white border">
-                <div className="flex justify-around p-10 gap-1 h-full">
-                    <div className="flex flex-col justify-center p-8 md:p-10 lg:p-20">
-                        <div>
-                            <img src="/img/nitinkhatri-1.png" className='xl:h-[75vh] lg:h-[60vh] md:h-[50vh]' alt="Nitin Khatri" />
+            <motion.div
+                className="bg-[#17171c] text-white overflow-x-hidden relative"
+                style={{ scale }}
+            >
+                {/* Welcome content */}
+                <motion.div
+                    transition={{ duration: 2.5 }}
+                    animate={{ display: "none" }}
+                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 20 }}
+                >
+
+                    <motion.div className="h-screen bg-[#17171c] text-white flex justify-center items-center relative"
+                        transition={{
+                            ease: "easeOut",
+                            duration: 0.5,
+                            delay: 0.2,
+                        }}
+                        initial={{ x: "0%" }}
+                        animate={{ x: "-100%" }}
+                    >
+                        <p className="text-9xl text-[#e7436f]">ABOUT ME</p>
+                    </motion.div>
+
+                    <motion.div className="h-screen absolute inset-0 bg-[#17171c] text-white"
+                        transition={{
+                            duration: 0.5,
+                            delay: 2,
+                            ease: "easeOut",
+                        }}
+                        initial={{ x: "0%" }}
+                        animate={{ x: "100%" }}
+                    >
+                        {/* Animated background grid */}
+                        <div className="absolute inset-0 opacity-10">
+                            <div className="h-full w-full bg-gradient-to-br from-[#e7436f]/20 via-transparent to-[#e7436f]/10"></div>
+                            <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_24%,rgba(255,255,255,0.05)_25%,rgba(255,255,255,0.05)_26%,transparent_27%,transparent_74%,rgba(255,255,255,0.05)_75%,rgba(255,255,255,0.05)_76%,transparent_77%,transparent)] bg-[length:100px_100px]"></div>
                         </div>
-                    </div>
-                    <div className="flex-1 flex flex-col justify-center p-8 sm:p-16 lg:p-20">
+
+                        {/* Welcome content */}
+                        <div className="flex items-center justify-center h-full relative z-10">
+                            <div className="text-center space-y-8 max-w-4xl px-8">
+                                {/* Main welcome text */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8 }}
+                                    className="space-y-4"
+                                >
+                                    <motion.h1
+                                        className="text-8xl xl:text-9xl font-bold tracking-tight text-white"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ duration: 1, delay: 0.2 }}
+                                    >
+                                        WELCOME
+                                    </motion.h1>
+                                    <motion.div
+                                        className="text-2xl xl:text-3xl text-[#e7436f] font-medium"
+                                        initial={{ opacity: 0, x: -50 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.8, delay: 0.4 }}
+                                    >
+                                        TO MY CREATIVE UNIVERSE
+                                    </motion.div>
+                                </motion.div>
+
+                                {/* Subtitle */}
+                                <motion.p
+                                    className="text-xl xl:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed"
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8, delay: 0.5 }}
+                                >
+                                    Where design meets motion, and creativity knows no bounds.
+                                    Scroll to discover my journey through visual storytelling.
+                                </motion.p>
+
+                                {/* Animated scroll indicator */}
+                                <motion.div
+                                    className="flex flex-col items-center space-y-4"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 0.8 }}
+                                >
+                                    <motion.div
+                                        className="text-sm text-gray-400 uppercase tracking-widest"
+                                        animate={{ opacity: [0.5, 1, 0.5] }}
+                                        transition={{ duration: 2, repeat: Infinity }}
+                                    >
+                                        Scroll to explore
+                                    </motion.div>
+                                    <motion.div
+                                        className="w-6 h-10 border-2 border-[#e7436f] rounded-full flex justify-center"
+                                        animate={{
+                                            scale: [1, 1.1, 1],
+                                            borderColor: ["#e7436f", "#ff6b9d", "#e7436f"]
+                                        }}
+                                        transition={{ duration: 2, repeat: Infinity }}
+                                    >
+                                        <motion.div
+                                            className="w-1 h-3 bg-[#e7436f] rounded-full mt-2"
+                                            animate={{
+                                                y: [0, 12, 0],
+                                                opacity: [1, 0.3, 1]
+                                            }}
+                                            transition={{ duration: 1.5, repeat: Infinity }}
+                                        />
+                                    </motion.div>
+                                </motion.div>
+                            </div>
+                        </div>
+
+                        {/* Floating elements */}
+                        <div className="absolute inset-0 pointer-events-none">
+                            {[...Array(6)].map((_, i) => (
+                                <motion.div
+                                    key={i}
+                                    className="absolute w-2 h-2 bg-[#e7436f] rounded-full opacity-60"
+                                    style={{
+                                        left: `${20 + i * 15}%`,
+                                        top: `${30 + (i % 2) * 40}%`,
+                                    }}
+                                    animate={{
+                                        y: [-20, 20, -20],
+                                        opacity: [0.3, 0.8, 0.3],
+                                        scale: [0.8, 1.2, 0.8],
+                                    }}
+                                    transition={{
+                                        duration: 3 + i * 0.5,
+                                        repeat: Infinity,
+                                        delay: i * 0.3,
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    </motion.div>
+
+                </motion.div>
+
+                {/* Main content with staggered entrance */}
+                <motion.div
+                    className="flex justify-around p-10 gap-1 h-screen relative"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 2.5 }}
+                >
+                    <motion.div
+                        className="flex flex-col justify-center p-8 md:p-10 lg:p-20"
+                        initial={{ opacity: 0, x: -100, rotateY: -15 }}
+                        animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 2,
+                            ease: [0.25, 0.46, 0.45, 0.94]
+                        }}
+                    >
+                        <motion.div
+                            whileHover={{
+                                scale: 1.05,
+                                rotateY: 5,
+                                transition: { duration: 0.3 }
+                            }}
+                        >
+                            <motion.img
+                                src="/img/nitinkhatri-1.png"
+                                className='xl:h-[75vh] lg:h-[60vh] md:h-[50vh] filter drop-shadow-2xl'
+                                alt="Nitin Khatri"
+                                initial={{ scale: 0.8, filter: "blur(10px)" }}
+                                animate={{ scale: 1, filter: "blur(0px)" }}
+                                transition={{
+                                    duration: 1,
+                                    delay: 2.2,
+                                    ease: "easeOut"
+                                }}
+                            />
+                        </motion.div>
+                    </motion.div>
+
+                    <motion.div
+                        className="flex-1 flex flex-col justify-center p-8 sm:p-16 lg:p-20"
+                        initial={{ opacity: 0, x: 100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 2.1,
+                            ease: [0.25, 0.46, 0.45, 0.94]
+                        }}
+                    >
                         <div className='flex flex-col justify-center gap-12'>
-                            <TextReveal>
-                                <div className="w-full text-9xl tracking-[0rem] text-slate-200 font-semibold">
-                                    ABOUT ME
-                                </div>
-                            </TextReveal>
-                            <div className="w-full flex flex-row items-center text-5xl tracking-[0rem] text-[#e7436f]">
+                            <motion.div
+                                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                transition={{
+                                    duration: 0.8,
+                                    delay: 2.3,
+                                    ease: "easeOut"
+                                }}
+                            >
+                                <TextReveal>
+                                    <motion.div
+                                        className="w-full text-9xl tracking-[0rem] text-slate-200 font-semibold"
+                                        whileHover={{
+                                            textShadow: "0 0 20px rgba(231, 67, 111, 0.5)",
+                                            transition: { duration: 0.3 }
+                                        }}
+                                    >
+                                        ABOUT ME
+                                    </motion.div>
+                                </TextReveal>
+                            </motion.div>
+
+                            <motion.div
+                                className="w-full flex flex-row items-center text-5xl tracking-[0rem] text-[#e7436f]"
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                    duration: 0.8,
+                                    delay: 2.5,
+                                    ease: "easeOut"
+                                }}
+                            >
                                 <div className='flex items-center gap-4'>
                                     <TextReveal>
-                                        <span>Nitin Khatri -</span>
+                                        <motion.span
+                                            whileHover={{
+                                                scale: 1.05,
+                                                color: "#ff6b9d",
+                                                transition: { duration: 0.2 }
+                                            }}
+                                        >
+                                            Nitin Khatri -
+                                        </motion.span>
                                     </TextReveal>
-                                    <div className="relative overflow-hidden min-w-[400px] h-[1.2em]">
+                                    <motion.div
+                                        className="relative min-w-[400px] h-[1.2em]"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{
+                                            duration: 0.6,
+                                            delay: 2.7,
+                                            ease: "easeOut"
+                                        }}
+                                    >
                                         <div
                                             ref={textContainerRef}
                                             className="flex flex-col"
@@ -139,22 +403,49 @@ const About = ({ container, lenisRef }: Props) => {
                                                 </span>
                                             ))}
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 </div>
-                            </div>
-                            <div className='w-full text-5xl tracking-[0rem] font-SpaceGrotesk-light'>
+                            </motion.div>
+
+                            <motion.div
+                                className='w-full text-5xl tracking-[0rem] font-SpaceGrotesk-light'
+                                initial={{ opacity: 0, y: 40 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                    duration: 0.8,
+                                    delay: 2.9,
+                                    ease: "easeOut"
+                                }}
+                            >
                                 <TextReveal>
-                                    <p>
-                                        10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite—turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.
-                                    </p>
+                                    <motion.p>
+                                        10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.
+                                    </motion.p>
                                 </TextReveal>
-                            </div>
+                            </motion.div>
+
+                            <motion.div className="flex items-center space-x-6 w-full">
+                                {
+                                    icon.map((icon, index) => (
+                                        <MagneticEffect>
+                                            <Icon
+                                                key={index}
+                                                className="text-white cursor-pointer"
+                                                icon={icon.icon}
+                                                width="50"
+                                                height="50"
+                                                to='https://www.linkedin.com/in/nitin-khatri-55b6a01a3/'
+                                            />
+                                        </MagneticEffect>
+                                    ))
+                                }
+                            </motion.div>
                         </div>
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             </motion.div>
         </section>
     );
 };
 
-export default About;;;
+export default About;
