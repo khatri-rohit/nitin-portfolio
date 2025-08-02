@@ -14,7 +14,16 @@
 
 @font-face {
   font-family: 'SpaceGrotesk';
+  font-style: normal;
+  font-weight: normal;
   src: url('../../public/fonts/SpaceGrotesk-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk-light';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../../public/fonts/SpaceGrotesk-Light.ttf') format('woff');
 }
 
 :root {
@@ -45,6 +54,10 @@ body {
 
 .font-SpaceGrotesk {
   font-family: 'SpaceGrotesk';
+}
+
+.font-SpaceGrotesk-light {
+  font-family: 'SpaceGrotesk-light';
 }
 
 /* ✨ Enhanced Magnifying Glass - Globally Active with Smooth Transitions */
