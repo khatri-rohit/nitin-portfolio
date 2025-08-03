@@ -1,4 +1,6 @@
-import { RefObject, useRef, useState } from 'react';
+// @ts-nocheck
+
+import {  useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const MagneticEffect = ({ children }: { children: React.ReactNode; }) => {

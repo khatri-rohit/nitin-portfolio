@@ -38,9 +38,9 @@ export default function Home() {
       }
 
       // Force scroll to top
-      // document.documentElement.scrollTop = 0;
-      // document.body.scrollTop = 0;
-      // window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      window.scrollTo(0, 0);
 
       // Use multiple requestAnimationFrame to ensure scroll completes
       requestAnimationFrame(() => {
@@ -68,9 +68,9 @@ export default function Home() {
 
   return (
     <main className="w-full h-full is-scrolling">
-      {/* <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait">
         {loading && <PreLoader />}
-      </AnimatePresence> */}
+      </AnimatePresence>
       <section ref={container} className='relative' >
         <HeroSection />
         <About container={container} lenisRef={lenisRef} />
