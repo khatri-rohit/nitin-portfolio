@@ -26,6 +26,13 @@
   src: url('../../public/fonts/SpaceGrotesk-Light.ttf') format('woff');
 }
 
+@font-face {
+  font-family: 'SpaceGrotesk-Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../../public/fonts/SpaceGrotesk-Regular.woff') format('woff');
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -49,7 +56,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'dahlia';
-  cursor: wait;
+  cursor: auto;
+  /* Removed 'wait' cursor - now normal cursor for the entire site */
 }
 
 .font-SpaceGrotesk {
@@ -60,7 +68,11 @@ body {
   font-family: 'SpaceGrotesk-light';
 }
 
-/* ✨ Enhanced Magnifying Glass - Globally Active with Smooth Transitions */
+.font-SpaceGrotesk-Regular {
+  font-family: 'SpaceGrotesk-Regular';
+}
+
+/* ✨ Enhanced Magnifying Glass - Localized to HeroSection Component Only */
 .magnifying-glass {
   /* Base glass styling */
   box-shadow:
@@ -105,6 +117,10 @@ body {
 
   /* Prevent layout shifts during transitions */
   will-change: width, height, opacity, background, backdrop-filter, transform;
+
+  /* Initially hidden - shown only when active */
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* ✨ Enhanced Enlarged State - Smooth Growth Animation */
@@ -292,7 +308,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Force hardware acceleration for key elements */
+/* Force hardware acceleration for key elements - Only when active */
 .magnifying-glass,
 .magnify-fx-text {
   -webkit-transform: translateZ(0);
@@ -302,7 +318,7 @@ html {
   transform: translateZ(0);
 }
 
-/* Optimize rendering for smooth animations */
+/* Optimize rendering for smooth animations - Only when active */
 @supports (will-change: auto) {
   .magnifying-glass {
     will-change: width, height, opacity, background, backdrop-filter, transform;

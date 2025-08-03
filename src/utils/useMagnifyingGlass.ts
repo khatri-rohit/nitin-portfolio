@@ -8,6 +8,7 @@ interface MagnifyingGlassConfig {
     isHovered: boolean;
     mouseX: number;
     mouseY: number;
+    isActive: boolean; // New prop to control when the effect is active
 }
 
 interface ReflectionConfig {
@@ -43,12 +44,14 @@ const useMagnifyingGlass = ({
     containerRef,
     isHovered,
     mouseX,
-    mouseY
+    mouseY,
+    isActive
 }: MagnifyingGlassConfig) => {
     const rafId = useRef<number | null>(null);
     const lastX = useRef(0);
     const lastY = useRef(0);
     const lastHoverState = useRef(isHovered);
+    const lastActiveState = useRef(isActive);
     const containerRect = useRef<DOMRect | null>(null);
     const isTransitioning = useRef(false);
 
@@ -183,10 +186,44 @@ const useMagnifyingGlass = ({
     };
 
     /**
+     * Reset filters to clean state
+     */
+    const resetFilters = () => {
+        if (magnifyFxLeftRef.current) {
+            magnifyFxLeftRef.current.style.filter = 'none';
+        }
+        if (magnifyFxRightRef.current) {
+            magnifyFxRightRef.current.style.filter = 'none';
+        }
+    };
+
+    /**
+     * Hide the magnifying glass when not active
+     */
+    const hideMagnifyingGlass = () => {
+        if (glassRef.current) {
+            glassRef.current.style.opacity = '0';
+            glassRef.current.style.pointerEvents = 'none';
+        }
+    };
+
+    /**
+     * Show the magnifying glass when active
+     */
+    const showMagnifyingGlass = () => {
+        if (glassRef.current) {
+            glassRef.current.style.opacity = isHovered ? '1' : '0.6';
+            glassRef.current.style.pointerEvents = 'none';
+        }
+    };
+
+    /**
      * Optimized glass position update with smooth transitions
      */
     const updateGlassPosition = (clientX: number, clientY: number) => {
-        if (!glassRef.current || !containerRef.current) return;
+        if (!glassRef.current || !containerRef.current || !isActive) {
+            return;
+        }
 
         // Update container rect if needed (debounced)
         if (!containerRect.current) {
@@ -251,18 +288,11 @@ const useMagnifyingGlass = ({
             }
         } else if (lastHoverState.current && !isHovered) {
             // Reset filters smoothly when stopping hover
-            if (magnifyFxLeftRef.current) {
-                magnifyFxLeftRef.current.style.filter = 'none';
-            }
-            if (magnifyFxRightRef.current) {
-                magnifyFxRightRef.current.style.filter = 'none';
-            }
+            resetFilters();
         }
 
-        // Ensure glass visibility
-        if (glassRef.current.style.opacity !== '1') {
-            glassRef.current.style.opacity = '1';
-        }
+        // Show glass with appropriate opacity
+        showMagnifyingGlass();
 
         lastHoverState.current = isHovered;
     };
@@ -271,11 +301,21 @@ const useMagnifyingGlass = ({
      * Optimized mouse movement handler with performance throttling
      */
     const handleMouseMove = (clientX: number, clientY: number) => {
+        // Early return if not active
+        if (!isActive) {
+            if (lastActiveState.current !== isActive) {
+                hideMagnifyingGlass();
+                resetFilters();
+            }
+            lastActiveState.current = isActive;
+            return;
+        }
+
         // Enhanced movement threshold for performance
         const deltaX = Math.abs(clientX - lastX.current);
         const deltaY = Math.abs(clientY - lastY.current);
 
-        if (deltaX < 1.5 && deltaY < 1.5 && !isTransitioning.current) return;
+        if (deltaX < 1.5 && deltaY < 1.5 && !isTransitioning.current && lastActiveState.current === isActive) return;
 
         lastX.current = clientX;
         lastY.current = clientY;
@@ -289,6 +329,8 @@ const useMagnifyingGlass = ({
             updateGlassPosition(clientX, clientY);
             isTransitioning.current = false;
         });
+
+        lastActiveState.current = isActive;
     };
 
     // Handle hover state changes with transition flag
@@ -297,7 +339,15 @@ const useMagnifyingGlass = ({
             isTransitioning.current = true;
         }
         handleMouseMove(mouseX, mouseY);
-    }, [mouseX, mouseY, isHovered]);
+    }, [mouseX, mouseY, isHovered, isActive]);
+
+    // Handle active state changes
+    useEffect(() => {
+        if (!isActive) {
+            hideMagnifyingGlass();
+            resetFilters();
+        }
+    }, [isActive]);
 
     // Debounced resize handler for optimal performance
     useEffect(() => {
