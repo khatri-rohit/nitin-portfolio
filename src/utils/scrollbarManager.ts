@@ -1,4 +1,3 @@
-// hooks/useScrollbarToggle.ts
 import { useEffect, useRef } from 'react';
 
 export const useScrollbarToggle = () => {

@@ -1,11 +1,9 @@
-// @ts-nocheck
 "use client";
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
 import StepConnector from '@mui/material/StepConnector';
 import { styled } from '@mui/material/styles';
 import { Home, Work, Person, BusinessCenter } from '@mui/icons-material';
@@ -47,7 +45,6 @@ const CustomConnector = styled(StepConnector)(({ theme }) => ({
 }));
 
 // Custom styled step icon
-// @ts-ignore
 const CustomStepIcon = styled('div')(({ theme, active, completed }: any) => ({
     width: 24,
     height: 24,

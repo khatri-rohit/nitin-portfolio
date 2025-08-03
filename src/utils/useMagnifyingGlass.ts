@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { useEffect, useRef, RefObject } from 'react';
 
 interface MagnifyingGlassConfig {
