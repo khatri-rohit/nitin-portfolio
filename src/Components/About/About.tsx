@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { Icon } from "@iconify/react";
 import TextReveal from "../../utils/TextReveal";
 import MagneticEffect from '@/utils/MagneticEffect';
+import Link from 'next/link';
 
 interface Props {
     container: RefObject<HTMLElement | null>;
@@ -15,15 +16,15 @@ interface Props {
 const icon = [
     {
         icon: "icomoon-free:behance2",
-        link: "https://www.behance.net/nitinkhatri"
+        link: "https://www.behance.net/nitinkhatri/"
     },
     {
         icon: "uiw:linkedin",
-        link: "https://www.linkedin.com/in/nitin-khatri-55b6a01a3/"
+        link: "https://www.linkedin.com/in/nitin-visualdesigner/"
     },
     {
         icon: "simple-icons:instagram",
-        link: "https://www.instagram.com/nitin_khatri/"
+        link: "https://www.instagram.com/iam_niits/"
     },
 ];
 
@@ -151,18 +152,25 @@ const About = ({ container, lenisRef }: Props) => {
                 className="bg-[#17171c] text-white overflow-x-hidden relative"
                 style={{ scale }}
             >
+
+                {/* Animated background grid */}
+                <div className="absolute inset-0 opacity-10">
+                    <div className="h-full w-full bg-gradient-to-br from-[#e7436f]/20 via-transparent to-[#e7436f]/10"></div>
+                    <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_24%,rgba(255,255,255,0.05)_25%,rgba(255,255,255,0.05)_26%,transparent_27%,transparent_74%,rgba(255,255,255,0.05)_75%,rgba(255,255,255,0.05)_76%,transparent_77%,transparent)] bg-[length:100px_100px]"></div>
+                </div>
+
                 {/* Welcome content */}
                 <motion.div
-                    transition={{ duration: 2.5 }}
+                    transition={{ duration: 4.5, delay: 1.2 }}
                     animate={{ display: "none" }}
                     style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 20 }}
                 >
-
+                    {/* About me text - appears first and slides out */}
                     <motion.div className="h-screen bg-[#17171c] text-white flex justify-center items-center relative"
                         transition={{
                             ease: "easeOut",
-                            duration: 0.5,
-                            delay: 0.2,
+                            duration: 0.8,
+                            delay: 0, // Starts immediately
                         }}
                         initial={{ x: "0%" }}
                         animate={{ x: "-100%" }}
@@ -170,14 +178,15 @@ const About = ({ container, lenisRef }: Props) => {
                         <p className="text-9xl text-[#e7436f]">ABOUT ME</p>
                     </motion.div>
 
+                    {/* Welcome section - appears after ABOUT ME slides out */}
                     <motion.div className="h-screen absolute inset-0 bg-[#17171c] text-white"
                         transition={{
-                            duration: 0.5,
-                            delay: 2,
+                            duration: 0.6,
+                            delay: 0.8, // Starts after ABOUT ME finishes sliding
                             ease: "easeOut",
                         }}
-                        initial={{ x: "0%" }}
-                        animate={{ x: "100%" }}
+                        initial={{ x: "100%" }}
+                        animate={{ x: "0%" }}
                     >
                         {/* Animated background grid */}
                         <div className="absolute inset-0 opacity-10">
@@ -185,21 +194,20 @@ const About = ({ container, lenisRef }: Props) => {
                             <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_24%,rgba(255,255,255,0.05)_25%,rgba(255,255,255,0.05)_26%,transparent_27%,transparent_74%,rgba(255,255,255,0.05)_75%,rgba(255,255,255,0.05)_76%,transparent_77%,transparent)] bg-[length:100px_100px]"></div>
                         </div>
 
-                        {/* Welcome content */}
+                        {/* Main welcome text */}
                         <div className="flex items-center justify-center h-full relative z-10">
                             <div className="text-center space-y-8 max-w-4xl px-8">
-                                {/* Main welcome text */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 50 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8 }}
+                                    transition={{ duration: 0.8, delay: 1.2 }} // Delayed to appear after welcome section slides in
                                     className="space-y-4"
                                 >
                                     <motion.h1
                                         className="text-8xl xl:text-9xl font-bold tracking-tight text-white"
                                         initial={{ opacity: 0, scale: 0.8 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ duration: 1, delay: 0.2 }}
+                                        transition={{ duration: 1, delay: 1.4 }}
                                     >
                                         WELCOME
                                     </motion.h1>
@@ -207,7 +215,7 @@ const About = ({ container, lenisRef }: Props) => {
                                         className="text-2xl xl:text-3xl text-[#e7436f] font-medium"
                                         initial={{ opacity: 0, x: -50 }}
                                         animate={{ opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.8, delay: 0.4 }}
+                                        transition={{ duration: 0.8, delay: 1.6 }}
                                     >
                                         TO MY CREATIVE UNIVERSE
                                     </motion.div>
@@ -218,70 +226,49 @@ const About = ({ container, lenisRef }: Props) => {
                                     className="text-xl xl:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed"
                                     initial={{ opacity: 0, y: 30 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.5 }}
+                                    transition={{ duration: 0.8, delay: 1.8 }}
                                 >
                                     Where design meets motion, and creativity knows no bounds.
                                     Scroll to discover my journey through visual storytelling.
                                 </motion.p>
 
-                                {/* Animated scroll indicator */}
-                                <motion.div
-                                    className="flex flex-col items-center space-y-4"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.8 }}
-                                >
-                                    <motion.div
-                                        className="text-sm text-gray-400 uppercase tracking-widest"
-                                        animate={{ opacity: [0.5, 1, 0.5] }}
-                                        transition={{ duration: 2, repeat: Infinity }}
-                                    >
-                                        Scroll to explore
-                                    </motion.div>
-                                    <motion.div
-                                        className="w-6 h-10 border-2 border-[#e7436f] rounded-full flex justify-center"
-                                        animate={{
-                                            scale: [1, 1.1, 1],
-                                            borderColor: ["#e7436f", "#ff6b9d", "#e7436f"]
-                                        }}
-                                        transition={{ duration: 2, repeat: Infinity }}
-                                    >
+                                {/* Floating elements */}
+                                <div className="absolute inset-0 pointer-events-none">
+                                    {[...Array(6)].map((_, i) => (
                                         <motion.div
-                                            className="w-1 h-3 bg-[#e7436f] rounded-full mt-2"
-                                            animate={{
-                                                y: [0, 12, 0],
-                                                opacity: [1, 0.3, 1]
+                                            key={i}
+                                            className="absolute w-2 h-2 bg-[#e7436f] rounded-full opacity-60"
+                                            style={{
+                                                left: `${20 + i * 15}%`,
+                                                top: `${30 + (i % 2) * 40}%`,
                                             }}
-                                            transition={{ duration: 1.5, repeat: Infinity }}
+                                            animate={{
+                                                y: [-20, 20, -20],
+                                                opacity: [0.3, 0.8, 0.3],
+                                                scale: [0.8, 1.2, 0.8],
+                                            }}
+                                            transition={{
+                                                duration: 3 + i * 0.5,
+                                                repeat: Infinity,
+                                                delay: 2 + i * 0.3, // Delayed to start after text appears
+                                            }}
                                         />
-                                    </motion.div>
-                                </motion.div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
-                        {/* Floating elements */}
-                        <div className="absolute inset-0 pointer-events-none">
-                            {[...Array(6)].map((_, i) => (
-                                <motion.div
-                                    key={i}
-                                    className="absolute w-2 h-2 bg-[#e7436f] rounded-full opacity-60"
-                                    style={{
-                                        left: `${20 + i * 15}%`,
-                                        top: `${30 + (i % 2) * 40}%`,
-                                    }}
-                                    animate={{
-                                        y: [-20, 20, -20],
-                                        opacity: [0.3, 0.8, 0.3],
-                                        scale: [0.8, 1.2, 0.8],
-                                    }}
-                                    transition={{
-                                        duration: 3 + i * 0.5,
-                                        repeat: Infinity,
-                                        delay: i * 0.3,
-                                    }}
-                                />
-                            ))}
-                        </div>
+                        {/* Exit animation for welcome section */}
+                        <motion.div
+                            className="absolute inset-0 bg-[#17171c] z-30"
+                            initial={{ x: "100%" }}
+                            animate={{ x: "0%" }}
+                            transition={{
+                                duration: 0.6,
+                                delay: 4, // Extended by 1s - starts sliding out after welcome content is displayed longer
+                                ease: "easeOut"
+                            }}
+                        />
                     </motion.div>
 
                 </motion.div>
@@ -291,15 +278,15 @@ const About = ({ container, lenisRef }: Props) => {
                     className="flex justify-around p-10 gap-1 h-screen relative"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 2.5 }}
+                    transition={{ duration: 0.6, delay: 5 }} // Extended by 1s - delayed to appear after welcome section exits
                 >
                     <motion.div
-                        className="flex flex-col justify-center p-8 md:p-10 lg:p-20"
+                        className="flex flex-col justify-center p-8 md:p-10 lg:p-20 z-10"
                         initial={{ opacity: 0, x: -100, rotateY: -15 }}
                         animate={{ opacity: 1, x: 0, rotateY: 0 }}
                         transition={{
                             duration: 0.8,
-                            delay: 2,
+                            delay: 5.2, // Extended by 1s
                             ease: [0.25, 0.46, 0.45, 0.94]
                         }}
                     >
@@ -318,7 +305,7 @@ const About = ({ container, lenisRef }: Props) => {
                                 animate={{ scale: 1, filter: "blur(0px)" }}
                                 transition={{
                                     duration: 1,
-                                    delay: 2.2,
+                                    delay: 5.4, // Extended by 1s
                                     ease: "easeOut"
                                 }}
                             />
@@ -331,7 +318,7 @@ const About = ({ container, lenisRef }: Props) => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{
                             duration: 0.8,
-                            delay: 2.1,
+                            delay: 5.3, // Extended by 1s
                             ease: [0.25, 0.46, 0.45, 0.94]
                         }}
                     >
@@ -341,11 +328,11 @@ const About = ({ container, lenisRef }: Props) => {
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 2.3,
+                                    delay: 5.5, // Extended by 1s
                                     ease: "easeOut"
                                 }}
                             >
-                                <TextReveal>
+                                <TextReveal delay={5.5}>
                                     <motion.div
                                         className="w-full text-9xl tracking-[0rem] text-slate-200 font-semibold"
                                         whileHover={{
@@ -364,17 +351,20 @@ const About = ({ container, lenisRef }: Props) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 2.5,
+                                    delay: 5.7, // Extended by 1s
                                     ease: "easeOut"
                                 }}
                             >
                                 <div className='flex items-center gap-4'>
-                                    <TextReveal>
+                                    <TextReveal delay={5.7}>
+
                                         <motion.span
                                             whileHover={{
                                                 scale: 1.05,
                                                 color: "#ff6b9d",
-                                                transition: { duration: 0.2 }
+                                                transition: {
+                                                    duration: 0.2,
+                                                }
                                             }}
                                         >
                                             Nitin Khatri -
@@ -385,8 +375,8 @@ const About = ({ container, lenisRef }: Props) => {
                                         initial={{ opacity: 0, scale: 0.8 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{
-                                            duration: 0.6,
-                                            delay: 2.7,
+                                            duration: 0.2,
+                                            delay: 5.9, // Extended by 1s
                                             ease: "easeOut"
                                         }}
                                     >
@@ -413,29 +403,37 @@ const About = ({ container, lenisRef }: Props) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 2.9,
+                                    delay: 6, // Extended by 1s
                                     ease: "easeOut"
                                 }}
                             >
-                                <TextReveal>
+                                <TextReveal delay={6}>
                                     <motion.p>
                                         10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.
                                     </motion.p>
                                 </TextReveal>
                             </motion.div>
 
-                            <motion.div className="flex items-center space-x-6 w-full">
+                            <motion.div className="flex items-center space-x-6 w-full"
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                    duration: 0.8,
+                                    delay: 6.2, // Extended by 1s
+                                    ease: [0.25, 0.46, 0.45, 0.94]
+                                }}
+                            >
                                 {
                                     icon.map((icon, index) => (
-                                        <MagneticEffect>
-                                            <Icon
-                                                key={index}
-                                                className="text-white cursor-pointer"
-                                                icon={icon.icon}
-                                                width="50"
-                                                height="50"
-                                                to='https://www.linkedin.com/in/nitin-khatri-55b6a01a3/'
-                                            />
+                                        <MagneticEffect key={index}>
+                                            <Link href={icon.link} target='_blank'>
+                                                <Icon
+                                                    className="text-white cursor-pointer"
+                                                    icon={icon.icon}
+                                                    width="50"
+                                                    height="50"
+                                                />
+                                            </Link>
                                         </MagneticEffect>
                                     ))
                                 }
@@ -443,6 +441,30 @@ const About = ({ container, lenisRef }: Props) => {
                         </div>
                     </motion.div>
                 </motion.div>
+
+                {/* Floating elements for main content */}
+                <div className="absolute inset-0 pointer-events-none">
+                    {[...Array(6)].map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className="absolute w-2 h-2 bg-[#e7436f] rounded-full opacity-60"
+                            style={{
+                                left: `${20 + i * 15}%`,
+                                top: `${30 + (i % 2) * 40}%`,
+                            }}
+                            animate={{
+                                y: [-20, 20, -20],
+                                opacity: [0.3, 0.8, 0.3],
+                                scale: [0.8, 1.2, 0.8],
+                            }}
+                            transition={{
+                                duration: 3 + i * 0.5,
+                                repeat: Infinity,
+                                delay: 6.5 + i * 0.3, // Extended by 1s
+                            }}
+                        />
+                    ))}
+                </div>
             </motion.div>
         </section>
     );

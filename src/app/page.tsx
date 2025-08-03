@@ -8,12 +8,15 @@ import About from "@/Components/About/About";
 import PreLoader from "@/Components/PreLoader/PreLoader";
 import Work from "@/Components/Work/Work";
 import CreativeFields from "@/Components/About/CreativeFields";
+import { useScrollbarToggle } from '@/utils/scrollbarManager';
 
 export default function Home() {
-
   const container = useRef<HTMLElement | null>(null);
   const [loading, setLoading] = useState(true);
   const lenisRef = useRef<Lenis | null>(null);
+
+  // Initialize scrollbar toggle functionality
+  useScrollbarToggle();
 
   useEffect(() => {
     // Initialize Lenis
@@ -64,10 +67,10 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="w-full h-full">
-      <AnimatePresence mode="wait">
+    <main className="w-full h-full is-scrolling">
+      {/* <AnimatePresence mode="wait">
         {loading && <PreLoader />}
-      </AnimatePresence>
+      </AnimatePresence> */}
       <section ref={container} className='relative' >
         <HeroSection />
         <About container={container} lenisRef={lenisRef} />

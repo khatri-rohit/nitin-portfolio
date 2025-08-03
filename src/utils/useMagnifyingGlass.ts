@@ -25,12 +25,12 @@ interface ReflectionConfig {
 }
 
 interface ReflectionResult {
-    primary: { x: number; y: number };
-    secondary: { x: number; y: number };
-    tertiary: { x: number; y: number };
-    highlight: { x: number; y: number };
-    accent: { x: number; y: number };
-    trail: { x: number; y: number; intensity: number };
+    primary: { x: number; y: number; };
+    secondary: { x: number; y: number; };
+    tertiary: { x: number; y: number; };
+    highlight: { x: number; y: number; };
+    accent: { x: number; y: number; };
+    trail: { x: number; y: number; intensity: number; };
     blur: number;
     intensity: number;
     verticalStretch: number;
@@ -57,11 +57,11 @@ const useMagnifyingGlass = ({
         baseIntensity: 0.6,
         maxOffset: 3.5,
         colors: {
-            primary: '#4fc3f7',     // Bright cyan-blue
-            secondary: '#ffffff',   // Pure white core
-            tertiary: '#e1bee7',    // Soft lavender
-            highlight: '#fff3e0',   // Warm white
-            accent: '#81d4fa'       // Light sky blue
+            primary: '#0096FF',          // Electric blue
+            secondary: '#FF3200',        // Bright orange-red
+            tertiary: '#FF1414',         // Pure red  
+            accent: '#00FF32',           // Neon green
+            highlight: '#8200FF'         // Electric purple
         },
         blur: 0.8,
         enlargedMultiplier: 1.8
@@ -148,20 +148,23 @@ const useMagnifyingGlass = ({
 
         // Build optimized filter stack for clean chromatic dispersion
         const filterComponents = [
-            // Core white luminosity (main text visibility)
-            `drop-shadow(0px 0px ${(blur * 0.6).toFixed(2)}px rgba(255, 255, 255, ${(0.9).toFixed(3)}))`,
+            // Enhanced white core glow (stronger border luminosity)
+            `drop-shadow(0px 0px ${(blur * 0.8).toFixed(2)}px rgba(255, 255, 255, ${(1.0).toFixed(3)}))`,
 
-            // Primary chromatic edge (cyan-blue)
-            `drop-shadow(${primary.x.toFixed(2)}px ${primary.y.toFixed(2)}px ${(blur * 0.7).toFixed(2)}px rgba(${hexToRgb(colors.primary)}, ${(intensity * 0.7).toFixed(3)}))`,
+            // Electric blue (rainbow start - vivid)
+            `drop-shadow(${primary.x.toFixed(2)}px ${primary.y.toFixed(2)}px ${(blur * 1.0).toFixed(2)}px rgba(0, 150, 255, ${(intensity * 0.9).toFixed(3)}))`,
 
-            // Secondary dispersion (lavender)
-            `drop-shadow(${tertiary.x.toFixed(2)}px ${tertiary.y.toFixed(2)}px ${(blur * 0.8).toFixed(2)}px rgba(${hexToRgb(colors.tertiary)}, ${(intensity * 0.5).toFixed(3)}))`,
+            // Bright orange-red (rainbow warm - dominant)
+            `drop-shadow(${tertiary.x.toFixed(2)}px ${tertiary.y.toFixed(2)}px ${(blur * 1.3).toFixed(2)}px rgba(255, 50, 0, ${(intensity * 1.0).toFixed(3)}))`,
 
-            // Accent edge (light blue)
-            `drop-shadow(${accent.x.toFixed(2)}px ${accent.y.toFixed(2)}px ${(blur * 0.9).toFixed(2)}px rgba(${hexToRgb(colors.accent)}, ${(intensity * 0.4).toFixed(3)}))`,
+            // Pure red (vibrant red accent)
+            `drop-shadow(${accent.x.toFixed(2)}px ${accent.y.toFixed(2)}px ${(blur * 1.1).toFixed(2)}px rgba(255, 20, 20, ${(intensity * 0.8).toFixed(3)}))`,
 
-            // Warm highlight
-            `drop-shadow(${highlight.x.toFixed(2)}px ${highlight.y.toFixed(2)}px ${(blur * 0.5).toFixed(2)}px rgba(${hexToRgb(colors.highlight)}, ${(intensity * 0.3).toFixed(3)}))`
+            // Neon green (rainbow cool - electric)
+            `drop-shadow(${highlight.x.toFixed(2)}px ${highlight.y.toFixed(2)}px ${(blur * 1.1).toFixed(2)}px rgba(0, 255, 50, ${(intensity * 0.9).toFixed(3)}))`,
+
+            // Electric purple (completes rainbow spectrum)
+            `drop-shadow(${(primary.x * -0.9).toFixed(2)}px ${(primary.y * -0.9).toFixed(2)}px ${(blur * 1.0).toFixed(2)}px rgba(130, 0, 255, ${(intensity * 0.7).toFixed(3)}))`
         ];
 
         // Add subtle trail effect for enhanced movement
