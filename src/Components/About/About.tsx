@@ -250,7 +250,7 @@ const About = ({ container, lenisRef }: Props) => {
                                             transition={{
                                                 duration: 3 + i * 0.5,
                                                 repeat: Infinity,
-                                                delay: 2 + i * 0.3, // Delayed to start after text appears
+                                                delay: 2 + i * 0.3,
                                             }}
                                         />
                                     ))}
@@ -265,7 +265,7 @@ const About = ({ container, lenisRef }: Props) => {
                             animate={{ x: "0%" }}
                             transition={{
                                 duration: 0.6,
-                                delay: 4, // Extended by 1s - starts sliding out after welcome content is displayed longer
+                                delay: 4,
                                 ease: "easeOut"
                             }}
                         />
@@ -278,7 +278,7 @@ const About = ({ container, lenisRef }: Props) => {
                     className="flex justify-around p-10 gap-1 h-screen relative"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 5 }} // Extended by 1s - delayed to appear after welcome section exits
+                    transition={{ duration: 0.6, delay: 5 }}
                 >
                     <motion.div
                         className="flex flex-col justify-center p-8 md:p-10 lg:p-20 z-10"
@@ -286,17 +286,11 @@ const About = ({ container, lenisRef }: Props) => {
                         animate={{ opacity: 1, x: 0, rotateY: 0 }}
                         transition={{
                             duration: 0.8,
-                            delay: 5.2, // Extended by 1s
+                            delay: 5.2,
                             ease: [0.25, 0.46, 0.45, 0.94]
                         }}
                     >
-                        <motion.div
-                            whileHover={{
-                                scale: 1.05,
-                                rotateY: 5,
-                                transition: { duration: 0.3 }
-                            }}
-                        >
+                        <motion.div className='hover:scale-101 hover:rotate-y-5 transition-all duration-300'>
                             <motion.img
                                 src="/img/nitinkhatri-1.png"
                                 className='xl:h-[75vh] lg:h-[60vh] md:h-[50vh] filter drop-shadow-2xl'
@@ -305,7 +299,7 @@ const About = ({ container, lenisRef }: Props) => {
                                 animate={{ scale: 1, filter: "blur(0px)" }}
                                 transition={{
                                     duration: 1,
-                                    delay: 5.4, // Extended by 1s
+                                    delay: 5.4,
                                     ease: "easeOut"
                                 }}
                             />
@@ -318,7 +312,7 @@ const About = ({ container, lenisRef }: Props) => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{
                             duration: 0.8,
-                            delay: 5.3, // Extended by 1s
+                            delay: 5.3,
                             ease: [0.25, 0.46, 0.45, 0.94]
                         }}
                     >
@@ -328,7 +322,7 @@ const About = ({ container, lenisRef }: Props) => {
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 5.5, // Extended by 1s
+                                    delay: 5.5,
                                     ease: "easeOut"
                                 }}
                             >
@@ -351,7 +345,7 @@ const About = ({ container, lenisRef }: Props) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 5.7, // Extended by 1s
+                                    delay: 5.7,
                                     ease: "easeOut"
                                 }}
                             >
@@ -376,7 +370,7 @@ const About = ({ container, lenisRef }: Props) => {
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{
                                             duration: 0.2,
-                                            delay: 5.9, // Extended by 1s
+                                            delay: 5.9,
                                             ease: "easeOut"
                                         }}
                                     >
@@ -403,12 +397,12 @@ const About = ({ container, lenisRef }: Props) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 6, // Extended by 1s
+                                    delay: 6,
                                     ease: "easeOut"
                                 }}
                             >
                                 <TextReveal delay={6}>
-                                    <motion.p>
+                                    <motion.p className='text-pretty'>
                                         10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.
                                     </motion.p>
                                 </TextReveal>
@@ -419,7 +413,7 @@ const About = ({ container, lenisRef }: Props) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 6.2, // Extended by 1s
+                                    delay: 6.2,
                                     ease: [0.25, 0.46, 0.45, 0.94]
                                 }}
                             >
@@ -460,13 +454,13 @@ const About = ({ container, lenisRef }: Props) => {
                             transition={{
                                 duration: 3 + i * 0.5,
                                 repeat: Infinity,
-                                delay: 6.5 + i * 0.3, // Extended by 1s
+                                delay: 6.5 + i * 0.3,
                             }}
                         />
                     ))}
                 </div>
             </motion.div>
-        </section>
+        </section >
     );
 };
 

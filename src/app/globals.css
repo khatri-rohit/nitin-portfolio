@@ -52,12 +52,29 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-y: overlay;
+}
+
+@supports not (overflow: overlay) {
+  html {
+    overflow-y: auto;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'dahlia';
   cursor: auto;
-  /* Removed 'wait' cursor - now normal cursor for the entire site */
+}
+
+.font-dahlia {
+  font-family: 'dahlia';
+  font-style: normal;
+  font-weight: normal;
 }
 
 .font-SpaceGrotesk {
