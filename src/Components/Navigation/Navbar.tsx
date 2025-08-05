@@ -8,6 +8,7 @@ import StepConnector from '@mui/material/StepConnector';
 import { styled } from '@mui/material/styles';
 import { Home, Work, Person, BusinessCenter } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'motion/react';
+import { StepLabel } from '@mui/material';
 
 const steps = [
     {
