@@ -41,8 +41,8 @@ export const useScrollbarToggle = () => {
       .custom-scrollbar-thumb {
         position: absolute;
         right: 2px;
-        width: 12px;
-        background: rgb(33, 33, 33, 0.5);
+        width: 8px;
+        background: #4e4e4e84;
         border-radius: 6px;
         transition: background 0.3s ease;
         cursor: pointer;
@@ -50,12 +50,12 @@ export const useScrollbarToggle = () => {
       }
 
       .custom-scrollbar-thumb:active {
-        background: rgba(255, 255, 0, 0.7);
+        background: #404040;
       }
 
       
       .custom-scrollbar-thumb:hover {
-        background: rgba(255, 255, 255, 0.5);
+        background: #696969;
       }
       
       .custom-scrollbar.visible {
