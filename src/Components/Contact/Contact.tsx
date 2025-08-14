@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Send, RefreshCw, ChevronDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+import { Send, RefreshCw } from 'lucide-react';
+import { motion } from 'framer-motion';
 import InlineInput from './InlineInput';
 import InlineDropdown from './InlineDropdown';
 import TypingTextAnimation from './TypingTextAnimation';
@@ -58,14 +57,14 @@ const Contact = () => {
         completion: '. Looking forward to hearing from you!'
     };
 
-    // Auto-focus inputs when step changes
-    useEffect(() => {
-        if (currentStep === 'name' && nameInputRef.current) {
-            nameInputRef.current.focus();
-        } else if (currentStep === 'email' && emailInputRef.current) {
-            emailInputRef.current.focus();
-        }
-    }, [currentStep]);
+    // // Auto-focus inputs when step changes
+    // useEffect(() => {
+    //     if (currentStep === 'name' && nameInputRef.current) {
+    //         nameInputRef.current.focus();
+    //     } else if (currentStep === 'email' && emailInputRef.current) {
+    //         emailInputRef.current.focus();
+    //     }
+    // }, [currentStep]);
 
     // Handle outside clicks for dropdowns
     useEffect(() => {
@@ -357,15 +356,14 @@ const Contact = () => {
                             <motion.button
                                 onClick={handleSendMessage}
                                 disabled={currentStep !== 'complete'}
-                                whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className={`flex-1 max-w-112 px-6 py-3 sm:py-4 rounded-full flex items-center justify-center space-x-3 font-medium text-sm sm:text-base shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-600/50 group ${currentStep === 'complete'
-                                    ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 shadow-gray-900/25 dark:shadow-gray-100/25 hover:shadow-xl hover:shadow-gray-900/35 dark:hover:shadow-gray-100/35'
-                                    : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                                className={`flex-1 max-w-112 px-6 py-3 sm:py-4 rounded-full flex items-center justify-center space-x-3 font-medium text-sm sm:text-base shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-600/50 ${currentStep === 'complete'
+                                    ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 shadow-gray-900/25 dark:shadow-gray-100/25 hover:shadow-xl hover:shadow-gray-900/35 dark:hover:shadow-gray-100/35 group hover:scale-105 hover:-translate-y-0.5'
+                                    : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed hover:translate-y-0 hover:scale-100!'
                                     }`}
                             >
                                 <span>Send Message</span>
-                                <Send className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
+                                <Send className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
                             </motion.button>
                         </motion.div>
                         {/* </div> */}
