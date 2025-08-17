@@ -1,56 +1,26 @@
 import TextReveal from '@/utils/TextReveal';
 import { motion } from "motion/react";
-
-const creativeData = [
-    {
-        id: "01",
-        title: "Brand Identity & Design",
-        description: "I build the foundation of your brand, providing strategic direction and creating the core visual identity and marketing materials that make you stand out.",
-        services: [
-            "Creative Direction",
-            "Logo & Branding",
-            "Brand Identity Buildup",
-            "Business Card",
-            "Brochure / Flyer",
-            "Menu & Product Design"
-        ]
-    },
-    {
-        id: "02",
-        title: "Motion Graphics & Animation",
-        description: "I bring your brand to life with dynamic 2D visuals and engaging animations, perfect for grabbing attention on digital platforms.",
-        services: [
-            "Logo Animation",
-            "Motion Graphics",
-            "Social Media Content"
-        ]
-    },
-    {
-        id: "03",
-        title: "3D & Visual Effects (VFX)",
-        description: "I specialize in creating and integrating stunning 3D models, animations, and computer-generated imagery to elevate your advertisements and visual projects.",
-        services: [
-            "3D Modeling",
-            "3D Animation",
-            "Visual Effects",
-            "CGI Advertising"
-        ]
-    },
-    {
-        id: "04",
-        title: "Video Post-Production",
-        description: "I handle the final, critical stages of video creation, meticulously editing and enhancing your footage to deliver a polished and compelling final product.",
-        services: [
-            "Video Editing",
-            "Color Grading"
-        ]
-    }
-];
+import { creativeData } from './creativeFieldData';
 
 const ServiceList = ["Brand Identity & Design", "Motion Graphics & Animation", "3D & Visual Effects (VFX)", "Video Post-Production"];
 
-const CreativeFields = () => {
+type Step = 'name' | 'statement1' | 'through' | 'statement3' | 'service' | 'statement2' | 'email' | 'completion' | 'complete';
 
+interface Props {
+    currentStep: Step;
+    nameInputRef: React.RefObject<HTMLInputElement | null>;
+    emailInputRef: React.RefObject<HTMLInputElement | null>;
+}
+
+const CreativeFields = ({ currentStep, nameInputRef, emailInputRef }: Props) => {
+
+    const goToContact = () => {
+        if (currentStep === 'name' && nameInputRef.current) {
+            nameInputRef.current.focus();
+        } else if (currentStep === 'email' && emailInputRef.current) {
+            emailInputRef.current.focus();
+        }
+    };
 
     return (
         <motion.section>
@@ -88,9 +58,9 @@ const CreativeFields = () => {
                                         whileInView={{ opacity: 1, y: 0 }}
                                         transition={{
                                             duration: 0.5,
-                                            delay: 0.6 + (serviceIndex * 0.1)
+                                            delay: 0.4 + (serviceIndex * 0.1)
                                         }}
-                                        className={`${service === item.title ? "text-white" : "text-zinc-400"} transition-all duration-200 ease-in-out cursor-pointer leading-7`}
+                                        className={`${service === item.title ? "text-white" : "text-zinc-400"} transition-all duration-200 ease-in-out cursor-pointer leading-4.5`}
                                     >
                                         <TextReveal>
                                             <p>{service}</p>
@@ -128,12 +98,23 @@ const CreativeFields = () => {
                                     </TextReveal>
                                 </motion.div>
                                 <motion.div
-                                    className='border h-full'
+                                    className='relative w-full h-full overflow-hidden'
                                     initial={{ scaleY: 0 }}
                                     whileInView={{ scaleY: 1 }}
-                                    transition={{ duration: 1, delay: 0.8 }}
+                                    transition={{ duration: 0.8, delay: 0.1 }}
                                     style={{ transformOrigin: "top" }}
                                 >
+                                    {item.isImageLoaded ? (
+                                        <motion.img src={item.src} alt={item.title} className='w-full h-full object-cover' initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1 }} />
+                                    ) : (
+                                        <motion.video
+                                            src={item.src}
+                                            className="absolute top-[80%]! left-[80%]! min-w-full min-h-full object-cover -translate-x-[80%]! -translate-y-[80%]! scale-[1.5]"
+                                            autoPlay
+                                            loop
+                                            muted
+                                        />
+                                    )}
                                 </motion.div>
                             </div>
                         </motion.div>
@@ -155,7 +136,7 @@ const CreativeFields = () => {
                                     {item.services.map((service, serviceIndex) => (
                                         <motion.div
                                             key={service}
-                                            className="border-t-white border-t hover:text-white transition-all duration-200 ease-in-out cursor-pointer"
+                                            className="border-t-white border-t hover:text-white transition-all duration-200 ease-in-out"
                                             initial={{ opacity: 0, x: 20 }}
                                             whileInView={{ opacity: 1, x: 0 }}
                                             transition={{
@@ -179,11 +160,21 @@ const CreativeFields = () => {
                                     transition={{ duration: 0.6, delay: 1 }}
                                 >
                                     <motion.button
-                                        className='bg-white text-black w-full py-2 rounded-md font-SpaceGrotesk transition-all duration-200 ease-in-out hover:bg-black hover:text-white cursor-pointer'
-                                        whileHover={{ scale: 1.05 }}
+                                        className="relative bg-white text-black font-SpaceGrotesk w-full py-2 rounded-md font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"
                                         whileTap={{ scale: 0.95 }}
+                                        onClick={goToContact}
                                     >
-                                        Let's Build Together
+                                        <motion.span
+                                            className="block transition-transform duration-300 ease-out group-hover:-translate-y-[150%]"
+                                        >
+                                            Let's Build Together
+                                        </motion.span>
+
+                                        <motion.span
+                                            className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out translate-y-[150%] group-hover:translate-y-[0%]"
+                                        >
+                                            Let's Build Together
+                                        </motion.span>
                                     </motion.button>
                                 </motion.div>
                             </div>

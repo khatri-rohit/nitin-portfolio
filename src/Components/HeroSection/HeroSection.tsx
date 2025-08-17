@@ -4,6 +4,7 @@ import { useRef, useState, useMemo, useEffect, useCallback } from "react";
 import { motion, useAnimation } from 'motion/react';
 import useMousePosition from '@/utils/useMousePosition';
 import useMagnifyingGlass from '@/utils/useMagnifyingGlass';
+import FixedContact from '../Contact/FixedContact';
 
 interface WordPair {
     left: string;
@@ -271,12 +272,27 @@ const HeroSection = () => {
         transformStyle: 'preserve-3d' as const
     }), [textStyle]);
 
+    const [bg, setBg] = useState("/img/brand0.png");
+    const index = useRef(0);
+    useEffect(() => {
+
+        setInterval(() => {
+            setBg("/img/brand" + index.current + ".png");
+            index.current = index.current + 1;
+            if (index.current > 9) {
+                index.current = 0;
+            }
+        }, 2000);
+    }, []);
+
     return (
         <div className="h-screen relative">
+            <FixedContact />
             {/* Base layer - localized to hero section only */}
+            <img src={bg} alt="Background" className="absolute inset-0 w-full h-full object-cover" />
             <section
                 ref={containerRef}
-                className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative z-10"
+                className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative z-10 bg-transparent"
                 onMouseEnter={handleHeroMouseEnter}
                 onMouseLeave={handleHeroMouseLeave}
             >
@@ -314,7 +330,7 @@ const HeroSection = () => {
                             height: '80px',
                             borderRadius: '50%',
                             border: '2px solid rgba(255, 255, 255, 0.15)',
-                            background: 'rgba(15, 14, 14, 0.75)',
+                            // background: 'rgba(15, 14, 14, 0.75)',
                             backdropFilter: 'blur(8px) saturate(1.1)',
                             overflow: 'hidden',
                             opacity: isHovered ? 1 : 0.6,

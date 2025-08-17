@@ -9,9 +9,15 @@ import TypingTextAnimation from './TypingTextAnimation';
 
 type Step = 'name' | 'statement1' | 'through' | 'statement3' | 'service' | 'statement2' | 'email' | 'completion' | 'complete';
 
-const Contact = () => {
+interface Props {
+    currentStep: Step;
+    setCurrentStep: React.Dispatch<React.SetStateAction<Step>>;
+    nameInputRef: React.RefObject<HTMLInputElement | null>;
+    emailInputRef: React.RefObject<HTMLInputElement | null>;
+}
+
+const Contact = ({ currentStep, setCurrentStep, emailInputRef, nameInputRef }: Props) => {
     const [isRefreshing, setIsRefreshing] = useState(false);
-    const [currentStep, setCurrentStep] = useState<Step>('name');
 
     // Form state
     const [name, setName] = useState('');
@@ -42,8 +48,7 @@ const Contact = () => {
     // Reset key for animations
     const [resetKey, setResetKey] = useState('initial');
 
-    const nameInputRef = useRef<HTMLInputElement | null>(null);
-    const emailInputRef = useRef<HTMLInputElement | null>(null);
+
     const throughRef = useRef<HTMLDivElement | null>(null);
     const serviceRef = useRef<HTMLDivElement | null>(null);
 

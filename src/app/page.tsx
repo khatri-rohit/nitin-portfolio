@@ -6,18 +6,25 @@ import Lenis from 'lenis';
 import HeroSection from "@/Components/HeroSection/HeroSection";
 import About from "@/Components/About/About";
 import PreLoader from "@/Components/PreLoader/PreLoader";
-import Work from "@/Components/Work/Work";
+import Exprience from "@/Components/Exprience/Exprience";
 import Services from '@/Components/Services/Services';
 import CreativeFields from "@/Components/Services/CreativeFields";
 import { useScrollbarToggle } from '@/utils/scrollbarManager';
 import Contact from '@/Components/Contact/Contact';
+import { timelineData } from '@/Components/Exprience/timelineData';
+
+type Step = 'name' | 'statement1' | 'through' | 'statement3' | 'service' | 'statement2' | 'email' | 'completion' | 'complete';
+
 
 export default function Home() {
   const container = useRef<HTMLElement | null>(null);
   const [loading, setLoading] = useState(true);
   const lenisRef = useRef<Lenis | null>(null);
 
-  // Initialize scrollbar toggle functionality
+  const [currentStep, setCurrentStep] = useState<Step>('name');
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const emailInputRef = useRef<HTMLInputElement | null>(null);
+
   useScrollbarToggle();
 
   useEffect(() => {
@@ -40,9 +47,9 @@ export default function Home() {
       }
 
       // Force scroll to top
-      // document.documentElement.scrollTop = 0;
-      // document.body.scrollTop = 0;
-      // window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      window.scrollTo(0, 0);
 
       // Use multiple requestAnimationFrame to ensure scroll completes
       requestAnimationFrame(() => {
@@ -69,18 +76,18 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="w-full h-full is-scrolling">
-      {/* <AnimatePresence mode="wait">
+    <main className="w-full h-full">
+      <AnimatePresence mode="wait">
         {loading && <PreLoader />}
-      </AnimatePresence> */}
+      </AnimatePresence>
       <section ref={container} className='relative' >
         <HeroSection />
         <About container={container} lenisRef={lenisRef} />
       </section>
       <Services />
-      <CreativeFields />
-      {/* <Work /> */}
-      <Contact />
+      <CreativeFields currentStep={currentStep} nameInputRef={nameInputRef} emailInputRef={emailInputRef} />
+      <Exprience items={timelineData} />
+      <Contact currentStep={currentStep} setCurrentStep={setCurrentStep} nameInputRef={nameInputRef} emailInputRef={emailInputRef} />
     </main>
   );
 };

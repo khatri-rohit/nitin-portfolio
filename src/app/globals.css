@@ -101,7 +101,7 @@ body {
     inset 0 -1px 0px rgba(0, 0, 0, 0.15);
 
   /* Refined glass material effect */
-  background: rgba(15, 14, 14, 0.75);
+  background: transparent;
   backdrop-filter: blur(8px) saturate(1.1);
   -webkit-backdrop-filter: blur(8px) saturate(1.1);
   border: 2px solid rgba(255, 255, 255, 0.15);
@@ -147,7 +147,7 @@ body {
   height: 320px !important;
 
   /* Enhanced visual effects when enlarged */
-  background: rgba(15, 14, 14, 0.92) !important;
+  background: transparent !important;
   backdrop-filter: blur(15px) saturate(1.4) !important;
   -webkit-backdrop-filter: blur(15px) saturate(1.4) !important;
   border-color: rgba(255, 255, 255, 0.25) !important;
@@ -235,12 +235,12 @@ body {
 /* ✨ Enhanced Dark Mode - Refined Chromatic Effects */
 @media (prefers-color-scheme: dark) {
   .magnifying-glass {
-    background: rgba(15, 14, 14, 0.85);
+    background: transparent;
     border-color: rgba(255, 255, 255, 0.18);
   }
 
   .magnifying-glass.enlarged {
-    background: rgba(15, 14, 14, 0.95) !important;
+    background: transparent !important;
     border-color: rgba(255, 255, 255, 0.28) !important;
   }
 
@@ -253,7 +253,7 @@ body {
 /* ✨ Light Mode Optimizations */
 @media (prefers-color-scheme: light) {
   .magnifying-glass {
-    background: rgba(255, 255, 255, 0.88);
+    background: transparent;
     border-color: rgba(0, 0, 0, 0.12);
 
     /* Adjusted shadows for light backgrounds */
@@ -265,7 +265,7 @@ body {
   }
 
   .magnifying-glass.enlarged {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: transparent !important;
     border-color: rgba(0, 0, 0, 0.18) !important;
   }
 
@@ -305,7 +305,7 @@ body {
 @media (prefers-contrast: high) {
   .magnifying-glass {
     border: 3px solid #ffffff;
-    background: rgba(0, 0, 0, 0.95);
+    background: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
