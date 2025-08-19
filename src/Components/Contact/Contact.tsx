@@ -3,9 +3,29 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Send, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
-import InlineInput from './InlineInput';
 import InlineDropdown from './InlineDropdown';
 import TypingTextAnimation from './TypingTextAnimation';
+
+// Responsive InlineInput component
+const InlineInput = React.memo<{
+    value: string;
+    onChange: (value: string) => void;
+    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    placeholder: string;
+    inputRef: React.RefObject<HTMLInputElement> | null;
+    type?: string;
+}>(({ value, onChange, onKeyDown, placeholder, inputRef, type = "text" }) => (
+    <input
+        ref={inputRef}
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onKeyDown={onKeyDown}
+        placeholder={placeholder}
+        className="inline-block bg-transparent outline-none border-b border-dashed border-gray-400 dark:border-gray-500 focus:border-gray-600 dark:focus:border-gray-400 transition-colors duration-200 text-gray-900 dark:text-gray-100 font-medium placeholder-gray-400 dark:placeholder-gray-500 min-w-24 sm:min-w-28 max-w-64 sm:max-w-80"
+        style={{ width: `${Math.max(value.length || placeholder.length, 8) * 0.65 + 1.5}ch` }}
+    />
+));
 
 type Step = 'name' | 'statement1' | 'through' | 'statement3' | 'service' | 'statement2' | 'email' | 'completion' | 'complete';
 
@@ -48,7 +68,6 @@ const Contact = ({ currentStep, setCurrentStep, emailInputRef, nameInputRef }: P
     // Reset key for animations
     const [resetKey, setResetKey] = useState('initial');
 
-
     const throughRef = useRef<HTMLDivElement | null>(null);
     const serviceRef = useRef<HTMLDivElement | null>(null);
 
@@ -61,15 +80,6 @@ const Contact = ({ currentStep, setCurrentStep, emailInputRef, nameInputRef }: P
         statement3: '. I am particularly interested in ',
         completion: '. Looking forward to hearing from you!'
     };
-
-    // // Auto-focus inputs when step changes
-    // useEffect(() => {
-    //     if (currentStep === 'name' && nameInputRef.current) {
-    //         nameInputRef.current.focus();
-    //     } else if (currentStep === 'email' && emailInputRef.current) {
-    //         emailInputRef.current.focus();
-    //     }
-    // }, [currentStep]);
 
     // Handle outside clicks for dropdowns
     useEffect(() => {
@@ -177,213 +187,326 @@ const Contact = ({ currentStep, setCurrentStep, emailInputRef, nameInputRef }: P
     };
 
     return (
-        <section className="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-500 ease-in-out relative overflow-hidden px-4 sm:px-6 lg:px-8">
+        <section className="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-500 ease-in-out relative overflow-hidden">
             {/* Background subtle texture overlay */}
             <div className="absolute inset-0 opacity-30 dark:opacity-20">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.02),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02),transparent_70%)]" />
             </div>
 
-            <div className="relative z-10 w-full mx-auto">
-                {/* Main Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 xl:gap-16 items-center">
-
-                    {/* Left Side - "Let's" */}
-                    <div className="flex justify-center">
-                        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[21rem] font-light tracking-tight leading-none text-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out select-none">
+            <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8">
+                {/* Mobile & Tablet Layout (< 1024px) */}
+                <div className="lg:hidden">
+                    {/* Mobile Typography - Stacked */}
+                    <div className="text-center mb-8 sm:mb-12">
+                        <h1 className="text-6xl xs:text-7xl sm:text-8xl md:text-9xl font-light tracking-tight leading-none text-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out select-none">
                             Let&apos;s
                         </h1>
-                    </div>
-
-                    {/* Center - Chat Card */}
-                    <div className="flex flex-col items-center justify-center w-full h-full space-y-6">
-                        {/* Chat Card */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-200/60 dark:border-gray-700/60 backdrop-blur-sm transition-all duration-500 ease-in-out hover:shadow-xl hover:shadow-gray-200/60 dark:hover:shadow-gray-900/60 hover:-translate-y-1 w-full"
-                        >
-                            <div className="flex items-start space-x-4">
-                                {/* Profile Image */}
-                                <div className="flex-shrink-0">
-                                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden ring-2 ring-gray-100 dark:ring-gray-700 transition-all duration-300 ease-in-out bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                                        <img src="/img/Nitin-preview.png" alt="Nitin" width={56} height={56} className="w-full h-full object-cover" />
-                                    </div>
-                                </div>
-
-                                {/* Message Content */}
-                                <div className="flex-1 font-SpaceGrotesk-Regular">
-                                    <motion.p
-                                        className="text-gray-900 dark:text-gray-100 font-medium text-2xl transition-colors duration-500 ease-in-out"
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ delay: 0.3 }}
-                                    >
-                                        Hi Nitin,
-                                    </motion.p>
-
-                                    <div className="text-gray-600 dark:text-gray-300 mt-1 text-xl transition-colors duration-200 ease-in-out leading-relaxed">
-                                        <span>My name is </span>
-
-                                        {currentStep === 'name' ? (
-                                            <InlineInput
-                                                inputRef={nameInputRef}
-                                                value={name}
-                                                onChange={setName}
-                                                onKeyDown={handleNameSubmit}
-                                                placeholder="your name"
-                                            />
-                                        ) : (
-                                            <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
-                                                {name}
-                                            </span>
-                                        )}
-
-                                        {/* Statement 1 Animation */}
-                                        {animationTriggers.statement1 && (
-                                            <>
-                                                <TypingTextAnimation
-                                                    text={statements.statement1}
-                                                    resetKey={resetKey + '-statement1'}
-                                                    onComplete={handleStatement1Complete}
-                                                />
-
-                                                {animationComplete.statement1 && currentStep === 'through' && !through && (
-                                                    <InlineDropdown
-                                                        dropdownRef={throughRef}
-                                                        isOpen={isThroughOpen}
-                                                        setIsOpen={setIsThroughOpen}
-                                                        value={through}
-                                                        options={throughOptions}
-                                                        onSelect={handleThroughSelect}
-                                                        placeholder="select source"
-                                                    />
-                                                )}
-
-                                                {through && (
-                                                    <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
-                                                        {through}
-                                                    </span>
-                                                )}
-                                            </>
-                                        )}
-
-                                        {/* Statement 3 Animation */}
-                                        {animationTriggers.statement3 && through && (
-                                            <>
-                                                <TypingTextAnimation
-                                                    text={statements.statement3}
-                                                    resetKey={resetKey + '-statement3'}
-                                                    onComplete={handleStatement3Complete}
-                                                />
-
-                                                {animationComplete.statement3 && currentStep === 'service' && !service && (
-                                                    <InlineDropdown
-                                                        dropdownRef={serviceRef}
-                                                        isOpen={isServiceOpen}
-                                                        setIsOpen={setIsServiceOpen}
-                                                        value={service}
-                                                        options={serviceOptions}
-                                                        onSelect={handleServiceSelect}
-                                                        placeholder="select service"
-                                                    />
-                                                )}
-
-                                                {service && (
-                                                    <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
-                                                        {service}
-                                                    </span>
-                                                )}
-                                            </>
-                                        )}
-
-                                        {/* Statement 2 Animation */}
-                                        {animationTriggers.statement2 && service && (
-                                            <>
-                                                <TypingTextAnimation
-                                                    text={statements.statement2}
-                                                    resetKey={resetKey + '-statement2'}
-                                                    onComplete={handleStatement2Complete}
-                                                />
-
-                                                {animationComplete.statement2 && currentStep === 'email' && (
-                                                    <InlineInput
-                                                        inputRef={emailInputRef}
-                                                        type="email"
-                                                        value={email}
-                                                        onChange={setEmail}
-                                                        onKeyDown={handleEmailSubmit}
-                                                        placeholder="your@email.com"
-                                                    />
-                                                )}
-
-                                                {email && currentStep !== 'email' && (
-                                                    <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
-                                                        {email}
-                                                    </span>
-                                                )}
-                                            </>
-                                        )}
-
-                                        {/* Completion Animation */}
-                                        {animationTriggers.completion && email && (
-                                            <TypingTextAnimation
-                                                text={statements.completion}
-                                                resetKey={resetKey + '-completion'}
-                                                showCursor={false}
-                                                onComplete={handleCompletionComplete}
-                                            />
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-
-                        {/* Action Buttons */}
-                        <motion.div
-                            className="flex items-center justify-between w-full space-x-4"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5, duration: 0.6 }}
-                        >
-                            {/* Refresh Button */}
-                            <button
-                                onClick={handleRefresh}
-                                className="w-12 h-12 sm:w-14 sm:h-14 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full flex items-center justify-center shadow-md shadow-gray-200/50 dark:shadow-gray-900/50 transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-200/60 dark:hover:shadow-gray-900/60 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-600/50 group"
-                                aria-label="Refresh conversation"
-                            >
-                                <RefreshCw
-                                    className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-400 transition-all duration-300 ease-in-out group-hover:text-gray-900 dark:group-hover:text-gray-200 ${isRefreshing ? 'animate-spin' : ''}`}
-                                />
-                            </button>
-
-                            {/* Send Message Button */}
-                            <motion.button
-                                onClick={handleSendMessage}
-                                disabled={currentStep !== 'complete'}
-                                whileTap={{ scale: 0.98 }}
-                                className={`flex-1 max-w-112 px-6 py-3 sm:py-4 rounded-full flex items-center justify-center space-x-3 font-medium text-sm sm:text-base shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-600/50 ${currentStep === 'complete'
-                                    ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 shadow-gray-900/25 dark:shadow-gray-100/25 hover:shadow-xl hover:shadow-gray-900/35 dark:hover:shadow-gray-100/35 group hover:scale-105 hover:-translate-y-0.5'
-                                    : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed hover:translate-y-0 hover:scale-100!'
-                                    }`}
-                            >
-                                <span>Send Message</span>
-                                <Send className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
-                            </motion.button>
-                        </motion.div>
-                        {/* </div> */}
-                    </div>
-
-                    {/* Right Side - "Talk" */}
-                    <div className="flex justify-center">
-                        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[21rem] font-light tracking-tight leading-none text-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out select-none">
+                        <h1 className="text-6xl xs:text-7xl sm:text-8xl md:text-9xl font-light tracking-tight leading-none text-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out select-none -mt-4 sm:-mt-6 md:-mt-8">
                             Talk
                         </h1>
                     </div>
+
+                    {/* Mobile Chat Card */}
+                    <div className="max-w-2xl mx-auto">
+                        <ChatCard
+                            currentStep={currentStep}
+                            name={name}
+                            setName={setName}
+                            handleNameSubmit={handleNameSubmit}
+                            nameInputRef={nameInputRef}
+                            animationTriggers={animationTriggers}
+                            statements={statements}
+                            resetKey={resetKey}
+                            handleStatement1Complete={handleStatement1Complete}
+                            animationComplete={animationComplete}
+                            through={through}
+                            throughRef={throughRef}
+                            isThroughOpen={isThroughOpen}
+                            setIsThroughOpen={setIsThroughOpen}
+                            throughOptions={throughOptions}
+                            handleThroughSelect={handleThroughSelect}
+                            handleStatement3Complete={handleStatement3Complete}
+                            service={service}
+                            serviceRef={serviceRef}
+                            isServiceOpen={isServiceOpen}
+                            setIsServiceOpen={setIsServiceOpen}
+                            serviceOptions={serviceOptions}
+                            handleServiceSelect={handleServiceSelect}
+                            handleStatement2Complete={handleStatement2Complete}
+                            email={email}
+                            setEmail={setEmail}
+                            handleEmailSubmit={handleEmailSubmit}
+                            emailInputRef={emailInputRef}
+                            handleCompletionComplete={handleCompletionComplete}
+                        />
+
+                        {/* Mobile Action Buttons */}
+                        <ActionButtons
+                            handleRefresh={handleRefresh}
+                            isRefreshing={isRefreshing}
+                            handleSendMessage={handleSendMessage}
+                            currentStep={currentStep}
+                            isMobile={true}
+                        />
+                    </div>
                 </div>
 
+                {/* Desktop Layout (>= 1024px) */}
+                <div className="hidden lg:block">
+                    <div className="grid grid-cols-3 gap-8 xl:gap-16 items-center max-w-[1800px] mx-auto">
+                        {/* Left Side - "Let's" */}
+                        <div className="flex justify-center">
+                            <h1 className="text-9xl xl:text-[10rem] 2xl:text-[15rem] 3xl:text-[15rem] font-light tracking-tight leading-none text-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out select-none">
+                                Let&apos;s
+                            </h1>
+                        </div>
+
+                        {/* Center - Chat Card */}
+                        <div className="flex flex-col items-center justify-center space-y-6">
+                            <ChatCard
+                                currentStep={currentStep}
+                                name={name}
+                                setName={setName}
+                                handleNameSubmit={handleNameSubmit}
+                                nameInputRef={nameInputRef}
+                                animationTriggers={animationTriggers}
+                                statements={statements}
+                                resetKey={resetKey}
+                                handleStatement1Complete={handleStatement1Complete}
+                                animationComplete={animationComplete}
+                                through={through}
+                                throughRef={throughRef}
+                                isThroughOpen={isThroughOpen}
+                                setIsThroughOpen={setIsThroughOpen}
+                                throughOptions={throughOptions}
+                                handleThroughSelect={handleThroughSelect}
+                                handleStatement3Complete={handleStatement3Complete}
+                                service={service}
+                                serviceRef={serviceRef}
+                                isServiceOpen={isServiceOpen}
+                                setIsServiceOpen={setIsServiceOpen}
+                                serviceOptions={serviceOptions}
+                                handleServiceSelect={handleServiceSelect}
+                                handleStatement2Complete={handleStatement2Complete}
+                                email={email}
+                                setEmail={setEmail}
+                                handleEmailSubmit={handleEmailSubmit}
+                                emailInputRef={emailInputRef}
+                                handleCompletionComplete={handleCompletionComplete}
+                            />
+
+                            <ActionButtons
+                                handleRefresh={handleRefresh}
+                                isRefreshing={isRefreshing}
+                                handleSendMessage={handleSendMessage}
+                                currentStep={currentStep}
+                                isMobile={false}
+                            />
+                        </div>
+
+                        {/* Right Side - "Talk" */}
+                        <div className="flex justify-center">
+                            <h1 className="text-9xl xl:text-[10rem] 2xl:text-[15rem] 3xl:text-[15rem] font-light tracking-tight leading-none text-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out select-none">
+                                Talk
+                            </h1>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     );
 };
+
+// Extracted ChatCard component for reusability
+const ChatCard = ({
+    currentStep, name, setName, handleNameSubmit, nameInputRef,
+    animationTriggers, statements, resetKey, handleStatement1Complete,
+    animationComplete, through, throughRef, isThroughOpen, setIsThroughOpen,
+    throughOptions, handleThroughSelect, handleStatement3Complete,
+    service, serviceRef, isServiceOpen, setIsServiceOpen, serviceOptions,
+    handleServiceSelect, handleStatement2Complete, email, setEmail,
+    handleEmailSubmit, emailInputRef, handleCompletionComplete
+}: any) => (
+    <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 lg:p-5 xl:p-5 shadow-lg shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-200/60 dark:border-gray-700/60 backdrop-blur-sm transition-all duration-500 ease-in-out hover:shadow-xl hover:shadow-gray-200/60 dark:hover:shadow-gray-900/60 hover:-translate-y-1 w-full max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto"
+    >
+        <div className="flex items-start space-x-3 sm:space-x-4 lg:space-x-6">
+            {/* Profile Image */}
+            <div className="flex-shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 xl:w-18 xl:h-18 rounded-xl overflow-hidden ring-2 ring-gray-100 dark:ring-gray-700 transition-all duration-300 ease-in-out bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                    <img
+                        src="/img/Nitin-preview.png"
+                        alt="Nitin"
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+            </div>
+
+            {/* Message Content */}
+            <div className="flex-1 font-SpaceGrotesk-Regular min-w-0">
+                <motion.p
+                    className="text-gray-900 dark:text-gray-100 font-medium text-xl sm:text-2xl lg:text-2xl transition-colors duration-500 ease-in-out"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                >
+                    Hi Nitin,
+                </motion.p>
+
+                <div className="text-gray-600 dark:text-gray-300 mt-1 text-base sm:text-lg lg:text-xl transition-colors duration-200 ease-in-out leading-relaxed">
+                    <span>My name is </span>
+
+                    {currentStep === 'name' ? (
+                        <InlineInput
+                            inputRef={nameInputRef}
+                            value={name}
+                            onChange={setName}
+                            onKeyDown={handleNameSubmit}
+                            placeholder="your name"
+                        />
+                    ) : (
+                        <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
+                            {name}
+                        </span>
+                    )}
+
+                    {/* Statement 1 Animation */}
+                    {animationTriggers.statement1 && (
+                        <>
+                            <TypingTextAnimation
+                                text={statements.statement1}
+                                resetKey={resetKey + '-statement1'}
+                                onComplete={handleStatement1Complete}
+                            />
+
+                            {animationComplete.statement1 && currentStep === 'through' && !through && (
+                                <InlineDropdown
+                                    dropdownRef={throughRef}
+                                    isOpen={isThroughOpen}
+                                    setIsOpen={setIsThroughOpen}
+                                    value={through}
+                                    options={throughOptions}
+                                    onSelect={handleThroughSelect}
+                                    placeholder="select source"
+                                />
+                            )}
+
+                            {through && (
+                                <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
+                                    {through}
+                                </span>
+                            )}
+                        </>
+                    )}
+
+                    {/* Statement 3 Animation */}
+                    {animationTriggers.statement3 && through && (
+                        <>
+                            <TypingTextAnimation
+                                text={statements.statement3}
+                                resetKey={resetKey + '-statement3'}
+                                onComplete={handleStatement3Complete}
+                            />
+
+                            {animationComplete.statement3 && currentStep === 'service' && !service && (
+                                <InlineDropdown
+                                    dropdownRef={serviceRef}
+                                    isOpen={isServiceOpen}
+                                    setIsOpen={setIsServiceOpen}
+                                    value={service}
+                                    options={serviceOptions}
+                                    onSelect={handleServiceSelect}
+                                    placeholder="select service"
+                                />
+                            )}
+
+                            {service && (
+                                <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
+                                    {service}
+                                </span>
+                            )}
+                        </>
+                    )}
+
+                    {/* Statement 2 Animation */}
+                    {animationTriggers.statement2 && service && (
+                        <>
+                            <TypingTextAnimation
+                                text={statements.statement2}
+                                resetKey={resetKey + '-statement2'}
+                                onComplete={handleStatement2Complete}
+                            />
+
+                            {animationComplete.statement2 && currentStep === 'email' && (
+                                <InlineInput
+                                    inputRef={emailInputRef}
+                                    type="email"
+                                    value={email}
+                                    onChange={setEmail}
+                                    onKeyDown={handleEmailSubmit}
+                                    placeholder="your@email.com"
+                                />
+                            )}
+
+                            {email && currentStep !== 'email' && (
+                                <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
+                                    {email}
+                                </span>
+                            )}
+                        </>
+                    )}
+
+                    {/* Completion Animation */}
+                    {animationTriggers.completion && email && (
+                        <TypingTextAnimation
+                            text={statements.completion}
+                            resetKey={resetKey + '-completion'}
+                            showCursor={false}
+                            onComplete={handleCompletionComplete}
+                        />
+                    )}
+                </div>
+            </div>
+        </div>
+    </motion.div>
+);
+
+// Extracted ActionButtons component
+const ActionButtons = ({ handleRefresh, isRefreshing, handleSendMessage, currentStep, isMobile }: any) => (
+    <motion.div
+        className={`flex items-center justify-between w-full space-x-3 sm:space-x-4 ${isMobile ? 'mt-6 sm:mt-8' : ''}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
+    >
+        {/* Refresh Button */}
+        <button
+            onClick={handleRefresh}
+            className="w-12 h-12 sm:w-14 sm:h-14 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full flex items-center justify-center shadow-md shadow-gray-200/50 dark:shadow-gray-900/50 transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-200/60 dark:hover:shadow-gray-900/60 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-600/50 group flex-shrink-0"
+            aria-label="Refresh conversation"
+        >
+            <RefreshCw
+                className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-400 transition-all duration-300 ease-in-out group-hover:text-gray-900 dark:group-hover:text-gray-200 ${isRefreshing ? 'animate-spin' : ''}`}
+            />
+        </button>
+
+        {/* Send Message Button */}
+        <motion.button
+            onClick={handleSendMessage}
+            disabled={currentStep !== 'complete'}
+            whileTap={{ scale: 0.98 }}
+            className={`flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-full flex items-center justify-center space-x-2 sm:space-x-3 font-medium text-sm sm:text-base shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-600/50 min-w-0 ${currentStep === 'complete'
+                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 shadow-gray-900/25 dark:shadow-gray-100/25 hover:shadow-xl hover:shadow-gray-900/35 dark:hover:shadow-gray-100/35 group hover:scale-105 hover:-translate-y-0.5'
+                : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed hover:translate-y-0 hover:scale-100!'
+                }`}
+        >
+            <span className="truncate">Send Message</span>
+            <Send className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
+        </motion.button>
+    </motion.div>
+);
+
 export default Contact;

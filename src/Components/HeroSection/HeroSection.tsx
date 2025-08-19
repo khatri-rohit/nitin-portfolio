@@ -289,7 +289,7 @@ const HeroSection = () => {
         <div className="h-screen relative">
             <FixedContact />
             {/* Base layer - localized to hero section only */}
-            <img src={bg} alt="Background" className="absolute inset-0 w-full h-full object-cover" />
+            {/* <img src={bg} alt="Background" className="absolute inset-0 w-full h-full object-cover" /> */}
             <section
                 ref={containerRef}
                 className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative z-10 bg-transparent"

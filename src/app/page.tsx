@@ -80,7 +80,7 @@ export default function Home() {
       <AnimatePresence mode="wait">
         {loading && <PreLoader />}
       </AnimatePresence>
-      <section ref={container} className='relative' >
+      <section ref={container}>
         <HeroSection />
         <About container={container} lenisRef={lenisRef} />
       </section>

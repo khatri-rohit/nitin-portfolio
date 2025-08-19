@@ -37,6 +37,7 @@ const About = ({ container, lenisRef }: Props) => {
 
     // State to track when scale equals 1
     const [isScaleOne, setIsScaleOne] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     const textContainerRef = useRef<HTMLDivElement>(null);
 
@@ -53,6 +54,19 @@ const About = ({ container, lenisRef }: Props) => {
         setIsScaleOne(latest === 1);
     });
 
+    useEffect(() => {
+        // Check if device is mobile/tablet
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 1024); // lg breakpoint
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Trigger animation when textContainerRef is available
     useEffect(() => {
         if (!textContainerRef.current) return;
 
@@ -112,16 +126,20 @@ const About = ({ container, lenisRef }: Props) => {
                 clearProps: "all"
             });
         };
-    }, [isScaleOne]); // Add isScaleOne as dependency to restart animation when visibility changes
+    }, [isScaleOne]);
 
     useEffect(() => {
+        if (isMobile) return;
         const unsubscribe = scrollYProgress.on("change", (latest) => {
             if (latest >= 1 && lenisRef.current) {
+                if (isMobile) return;
+                console.log(isMobile);
                 lenisRef.current.stop();
                 setTimeout(() => {
                     lenisRef.current.start();
                 }, 10);
             } else if (latest < 1 && lenisRef.current) {
+                if (isMobile) return;
                 lenisRef.current.start();
             }
         });
@@ -130,10 +148,10 @@ const About = ({ container, lenisRef }: Props) => {
     }, [scrollYProgress, lenisRef]);
 
     // Show content only when scale is 1
-    if (!isScaleOne) {
+    if (!isScaleOne && !isMobile) {
         return (
             <motion.div className="font-SpaceGrotesk h-screen bg-[#17171c] text-white flex justify-center items-center relative"
-                style={{ scale }}
+                style={{ scale: isMobile ? 1 : scale }}
                 transition={{
                     duration: 1.2,
                     ease: [0.76, 0, 0.24, 1],
@@ -141,7 +159,7 @@ const About = ({ container, lenisRef }: Props) => {
                 }}
                 exit={{ scale: 0 }}
             >
-                <p className="text-9xl text-[#e7436f]">ABOUT ME</p>
+                <p className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#e7436f] text-center px-4">ABOUT ME</p>
             </motion.div>
         );
     }
@@ -150,7 +168,7 @@ const About = ({ container, lenisRef }: Props) => {
         <section className="font-SpaceGrotesk">
             <motion.div
                 className="bg-[#17171c] text-white overflow-x-hidden relative"
-                style={{ scale }}
+                style={{ scale: isMobile ? 1 : scale }}
             >
 
                 {/* Animated background grid */}
@@ -164,6 +182,7 @@ const About = ({ container, lenisRef }: Props) => {
                     transition={{ duration: 4.5, delay: 1.2 }}
                     animate={{ display: "none" }}
                     style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 20 }}
+                    className='hidden sm:block'
                 >
                     {/* About me text - appears first and slides out */}
                     <motion.div className="h-screen bg-[#17171c] text-white flex justify-center items-center relative"
@@ -175,7 +194,7 @@ const About = ({ container, lenisRef }: Props) => {
                         initial={{ x: "0%" }}
                         animate={{ x: "-100%" }}
                     >
-                        <p className="text-9xl text-[#e7436f]">ABOUT ME</p>
+                        <p className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#e7436f] text-center px-4">ABOUT ME</p>
                     </motion.div>
 
                     {/* Welcome section - appears after ABOUT ME slides out */}
@@ -204,7 +223,7 @@ const About = ({ container, lenisRef }: Props) => {
                                     className="space-y-4"
                                 >
                                     <motion.h1
-                                        className="text-8xl xl:text-9xl font-bold tracking-tight text-white"
+                                        className="text-6xl sm:text-7xl md:text-8xl xl:text-9xl font-bold tracking-tight text-white"
                                         initial={{ opacity: 0, scale: 0.8 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ duration: 1, delay: 1.4 }}
@@ -212,7 +231,7 @@ const About = ({ container, lenisRef }: Props) => {
                                         WELCOME
                                     </motion.h1>
                                     <motion.div
-                                        className="text-2xl xl:text-3xl text-[#e7436f] font-medium"
+                                        className="text-xl sm:text-2xl xl:text-3xl text-[#e7436f] font-medium"
                                         initial={{ opacity: 0, x: -50 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ duration: 0.8, delay: 1.6 }}
@@ -223,7 +242,7 @@ const About = ({ container, lenisRef }: Props) => {
 
                                 {/* Subtitle */}
                                 <motion.p
-                                    className="text-xl xl:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed"
+                                    className="text-lg sm:text-xl xl:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed"
                                     initial={{ opacity: 0, y: 30 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.8, delay: 1.8 }}
@@ -275,60 +294,64 @@ const About = ({ container, lenisRef }: Props) => {
 
                 {/* Main content with staggered entrance */}
                 <motion.div
-                    className="flex justify-around p-10 gap-1 h-screen relative"
+                    className="flex flex-col justify-center items-center lg:flex-row h-screen sm:min-h-screen xl:h-screen w-full relative p-10"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 5 }}
+                    transition={{ duration: 0.6, delay: isMobile ? 0 : 5 }}
                 >
+                    {/* Image section - hidden on mobile/tablet, visible on lg+ */}
                     <motion.div
-                        className="flex flex-col justify-center p-8 md:p-10 lg:p-20 z-10"
+                        className="hidden h-full! lg:flex sm:w-2/5 lg:w-fit xl:w-2/5 2xl:min-w-fit flex-col justify-center items-center p-4 lg:p-6 xl:p-8 z-10"
                         initial={{ opacity: 0, x: -100, rotateY: -15 }}
                         animate={{ opacity: 1, x: 0, rotateY: 0 }}
                         transition={{
                             duration: 0.8,
-                            delay: 5.2,
+                            delay: isMobile ? 0 : 5.2,
                             ease: [0.25, 0.46, 0.45, 0.94]
                         }}
                     >
-                        <motion.div className='hover:scale-101 hover:rotate-y-5 transition-all duration-300'>
+                        <motion.div className="h-full flex justify-center items-center hover:scale-105 hover:rotate-y-5 transition-all duration-300 my-auto">
                             <motion.img
                                 src="/img/nitinkhatri-1.png"
-                                className='xl:h-[75vh] lg:h-[60vh] md:h-[50vh] filter drop-shadow-2xl'
+                                className='xl:h-[75vh] lg:h-[60vh] md:h-[50vh] filter drop-shadow-2xl my-auto'
                                 alt="Nitin Khatri"
                                 initial={{ scale: 0.8, filter: "blur(10px)" }}
                                 animate={{ scale: 1, filter: "blur(0px)" }}
                                 transition={{
                                     duration: 1,
-                                    delay: 5.4,
+                                    delay: isMobile ? 0 : 5.4,
                                     ease: "easeOut"
                                 }}
                             />
                         </motion.div>
                     </motion.div>
 
+                    {/* Content section - full width on mobile/tablet, flex on lg+ */}
                     <motion.div
-                        className="flex-1 flex flex-col justify-center p-8 sm:p-16 lg:p-20"
+                        // className="w-3/5 md:w-full flex flex-col justify-center p-6 sm:p-8 md:p-10 lg:p-8 xl:p-12 2xl:p-16"
+                        className="md:w-full flex flex-col justify-center p-3 sm:p-8 md:p-10 lg:p-8 xl:p-12 2xl:p-16"
                         initial={{ opacity: 0, x: 100 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{
                             duration: 0.8,
-                            delay: 5.3,
+                            delay: isMobile ? 0 : 5.3,
                             ease: [0.25, 0.46, 0.45, 0.94]
                         }}
                     >
-                        <div className='flex flex-col justify-center gap-12'>
+                        <div className='flex flex-col justify-center gap-3 sm:gap-5 md:gap-3 lg:gap-4 xl:gap-8 2xl:gap-10'>
+                            {/* ABOUT ME Title */}
                             <motion.div
                                 initial={{ opacity: 0, y: 50, scale: 0.9 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 5.5,
+                                    delay: isMobile ? 0 : 5.5,
                                     ease: "easeOut"
                                 }}
                             >
-                                <TextReveal delay={5.5}>
+                                <TextReveal delay={isMobile ? 0 : 5.5}>
                                     <motion.div
-                                        className="w-full text-9xl tracking-[0rem] text-slate-200 font-semibold"
+                                        className="w-full text-2xl md:text-3xl lg:text-5xl xl:text-7xl 2xl:text-8xl tracking-[0rem] text-slate-200 font-semibold"
                                         whileHover={{
                                             textShadow: "0 0 20px rgba(231, 67, 111, 0.5)",
                                             transition: { duration: 0.3 }
@@ -339,93 +362,93 @@ const About = ({ container, lenisRef }: Props) => {
                                 </TextReveal>
                             </motion.div>
 
+                            {/* Name and Animated Role */}
                             <motion.div
-                                className="w-full flex flex-row items-center text-5xl tracking-[0rem] text-[#e7436f]"
+                                className="w-full flex flex-col sm:flex-row sm:items-center text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-4xl tracking-[0rem] text-[#e7436f] gap-2 sm:gap-3 lg:gap-2 xl:gap-3"
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 5.7,
+                                    delay: isMobile ? 0 : 5.7,
                                     ease: "easeOut"
                                 }}
                             >
-                                <div className='flex items-center gap-4'>
-                                    <TextReveal delay={5.7}>
-
-                                        <motion.span
-                                            whileHover={{
-                                                scale: 1.05,
-                                                color: "#ff6b9d",
-                                                transition: {
-                                                    duration: 0.2,
-                                                }
-                                            }}
-                                        >
-                                            Nitin Khatri -
-                                        </motion.span>
-                                    </TextReveal>
-                                    <motion.div
-                                        className="relative min-w-[400px] h-[1.2em]"
-                                        initial={{ opacity: 0, scale: 0.8 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{
-                                            duration: 0.2,
-                                            delay: 5.9,
-                                            ease: "easeOut"
+                                <TextReveal delay={isMobile ? 0 : 5.7}>
+                                    <motion.span
+                                        className="w-full"
+                                        whileHover={{
+                                            scale: 1.05,
+                                            color: "#ff6b9d",
+                                            transition: {
+                                                duration: 0.2,
+                                            }
                                         }}
                                     >
-                                        <div
-                                            ref={textContainerRef}
-                                            className="flex flex-col"
-                                        >
-                                            {words.map((word, index) => (
-                                                <span
-                                                    key={index}
-                                                    className="absolute top-0 left-0 whitespace-nowrap h-[1.2em] flex items-center "
-                                                >
-                                                    {word}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-                                </div>
+                                        Nitin Khatri <span className='hidden sm:inline'>-</span>
+                                    </motion.span>
+                                </TextReveal>
+                                <motion.div
+                                    className="relative min-w-[200px] sm:min-w-[250px] md:min-w-[300px] lg:min-w-[250px] xl:min-w-[300px] 2xl:min-w-[350px] h-[1.2em]"
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                        duration: 0.2,
+                                        delay: isMobile ? 0 : 5.9,
+                                        ease: "easeOut"
+                                    }}
+                                >
+                                    <div className="flex flex-col"
+                                        ref={textContainerRef}>
+                                        {words.map((word, index) => (
+                                            <span
+                                                key={index}
+                                                className="absolute top-0 left-0 whitespace-nowrap h-[1.2em] flex items-center"
+                                            >
+                                                {word}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </motion.div>
                             </motion.div>
 
+                            {/* Description Paragraph */}
                             <motion.div
-                                className='w-full text-5xl tracking-[0rem] font-SpaceGrotesk-light'
+                                className='w-full text-[1.2rem] sm:text-lg md:text-xl lg:text-3xl xl:text-4xl 2xl:text-[2.5rem] tracking-[0rem] font-SpaceGrotesk-light xl:leading-[1.2]'
                                 initial={{ opacity: 0, y: 40 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 6,
+                                    delay: isMobile ? 0 : 6,
                                     ease: "easeOut"
                                 }}
                             >
-                                <TextReveal delay={6}>
-                                    <motion.p className='text-pretty'>
+                                <TextReveal delay={isMobile ? 0 : 6}>
+                                    <span>
                                         10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.
-                                    </motion.p>
+                                    </span>
                                 </TextReveal>
                             </motion.div>
 
-                            <motion.div className="flex items-center space-x-6 w-full"
+                            {/* Social Icons */}
+                            <motion.div
+                                className="flex items-center justify-start space-x-4 sm:space-x-5 lg:space-x-4 xl:space-x-5 w-full pt-2"
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{
                                     duration: 0.8,
-                                    delay: 6.2,
+                                    delay: isMobile ? 0 : 6.2,
                                     ease: [0.25, 0.46, 0.45, 0.94]
                                 }}
                             >
                                 {
-                                    icon.map((icon, index) => (
+                                    icon.map((iconItem, index) => (
                                         <MagneticEffect key={index}>
-                                            <Link href={icon.link} target='_blank'>
+                                            <Link href={iconItem.link} target='_blank'>
                                                 <Icon
-                                                    className="text-white cursor-pointer"
-                                                    icon={icon.icon}
-                                                    width="50"
-                                                    height="50"
+                                                    className="text-white cursor-pointer hover:text-[#e7436f] transition-colors duration-300"
+                                                    icon={iconItem.icon}
+                                                    width="36"
+                                                    height="36"
                                                 />
                                             </Link>
                                         </MagneticEffect>

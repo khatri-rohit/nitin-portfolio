@@ -21,7 +21,7 @@ interface TimelineProps {
 const Timeline = ({ items }: TimelineProps) => {
     return (
         <section
-            className="bg-neutral-900 py-20 lg:py-32 font-SpaceGrotesk"
+            className="bg-neutral-900 py-20 lg:py-32 font-SpaceGrotesk overflow-x-hidden"
             role="region"
             aria-label="Experience and Freelance Timeline"
         >
@@ -154,17 +154,17 @@ const TimelineCard = ({ item, index, isLeft }: TimelineCardProps) => {
                     <>
                         {/* Left Card */}
                         <motion.div
-                            variants={cardVariants}
+                            variants={cardVariants as any}
                             className="w-1/2 pr-12 flex justify-end"
                         >
                             <div className="w-full max-w-md">
-                                <TimelineCardContent item={item} />
+                                <TimelineCardContent item={item} isDesktop={true} />
                             </div>
                         </motion.div>
 
                         {/* Center Dot - Absolutely positioned to center line */}
                         <motion.div
-                            variants={dotVariants}
+                            variants={dotVariants as any}
                             className="absolute left-1/2 transform -translate-x-1/2 z-20 w-4 h-4 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/30 ring-4 ring-neutral-900"
                             aria-hidden="true"
                         />
@@ -179,18 +179,18 @@ const TimelineCard = ({ item, index, isLeft }: TimelineCardProps) => {
 
                         {/* Center Dot - Absolutely positioned to center line */}
                         <motion.div
-                            variants={dotVariants}
+                            variants={dotVariants as any}
                             className="absolute left-1/2 transform -translate-x-1/2 z-20 w-4 h-4 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/30 ring-4 ring-neutral-900"
                             aria-hidden="true"
                         />
 
                         {/* Right Card */}
                         <motion.div
-                            variants={cardVariants}
+                            variants={cardVariants as any}
                             className="w-1/2 pl-12 flex justify-start"
                         >
                             <div className="w-full max-w-md">
-                                <TimelineCardContent item={item} />
+                                <TimelineCardContent item={item} isDesktop={true} />
                             </div>
                         </motion.div>
                     </>
@@ -201,17 +201,17 @@ const TimelineCard = ({ item, index, isLeft }: TimelineCardProps) => {
             <div className="md:hidden flex w-full items-center relative">
                 {/* Center Dot - Absolutely positioned */}
                 <motion.div
-                    variants={dotVariants}
+                    variants={dotVariants as any}
                     className="absolute left-6 transform -translate-x-1/2 z-20 w-4 h-4 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/30 ring-4 ring-neutral-900"
                     aria-hidden="true"
                 />
 
                 {/* Card */}
                 <motion.div
-                    variants={mobileCardVariants}
+                    variants={mobileCardVariants as any}
                     className="pl-12 w-full"
                 >
-                    <TimelineCardContent item={item} />
+                    <TimelineCardContent item={item} isDesktop={false} />
                 </motion.div>
 
                 {/* Mobile timeline line */}
@@ -224,7 +224,7 @@ const TimelineCard = ({ item, index, isLeft }: TimelineCardProps) => {
     );
 };
 
-const TimelineCardContent = ({ item }: { item: TimelineItem; }) => {
+const TimelineCardContent = ({ item, isDesktop }: { item: TimelineItem; isDesktop: boolean; }) => {
     return (
         <motion.article
             whileHover={{
@@ -233,16 +233,32 @@ const TimelineCardContent = ({ item }: { item: TimelineItem; }) => {
             }}
             className="bg-neutral-800 border border-neutral-700 rounded-2xl p-6 shadow-lg hover:border-indigo-500 hover:shadow-indigo-500/20 transition-all duration-300 cursor-pointer group relative overflow-hidden"
         >
-            {/* Duration Badge */}
-            {(item.duration || item.period) && (
+            {/* Desktop Duration Badge - Absolute positioned */}
+            {isDesktop && (item.duration || item.period) && (
                 <div className="absolute top-4 right-4 flex flex-col items-end gap-1">
                     {item.duration && (
-                        <span className="text-xs font-medium text-neutral-500 bg-neutral-700 px-2 py-1 rounded-full">
+                        <span className="text-xs font-medium text-neutral-500 bg-neutral-700 px-2 py-1 rounded-full whitespace-nowrap">
                             {item.duration}
                         </span>
                     )}
                     {item.period && (
-                        <span className="text-xs font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-1 rounded-full">
+                        <span className="text-xs font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-1 rounded-full whitespace-nowrap">
+                            {item.period}
+                        </span>
+                    )}
+                </div>
+            )}
+
+            {/* Mobile Duration Badges - Positioned below content */}
+            {!isDesktop && (item.duration || item.period) && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                    {item.duration && (
+                        <span className="text-xs font-medium text-neutral-500 bg-neutral-700 px-2 py-1 rounded-full whitespace-nowrap">
+                            {item.duration}
+                        </span>
+                    )}
+                    {item.period && (
+                        <span className="text-xs font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-1 rounded-full whitespace-nowrap">
                             {item.period}
                         </span>
                     )}
@@ -250,7 +266,7 @@ const TimelineCardContent = ({ item }: { item: TimelineItem; }) => {
             )}
 
             {/* Logo and Content */}
-            <div className="flex items-start gap-4 mb-4">
+            <div className={`flex items-start gap-4 ${isDesktop ? 'mb-4' : 'mb-3'}`}>
                 <div className="relative w-12 h-12 flex-shrink-0 rounded-xl overflow-hidden bg-neutral-700 group-hover:bg-neutral-600 transition-colors duration-300">
                     <Image
                         src={item.logo}
@@ -261,8 +277,8 @@ const TimelineCardContent = ({ item }: { item: TimelineItem; }) => {
                     />
                 </div>
 
-                <div className="flex-1 min-w-0 pr-16">
-                    <h3 className="text-lg md:text-xl font-semibold text-white group-hover:text-indigo-400 transition-colors duration-300 line-clamp-2 mb-1">
+                <div className={`flex-1 min-w-0 ${isDesktop ? 'pr-16' : ''}`}>
+                    <h3 className={`${isDesktop ? 'text-lg md:text-xl' : 'text-lg'} font-semibold text-white group-hover:text-indigo-400 transition-colors duration-300 line-clamp-2 mb-1`}>
                         {item.title}
                     </h3>
                     {item.role && (

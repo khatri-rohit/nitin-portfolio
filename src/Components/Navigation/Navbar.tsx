@@ -138,13 +138,14 @@ export default function Navbar() {
                     style={{
                         position: 'fixed',
                         left: 10,
-                        top: 0,
+                        top: 10,
                         bottom: 0,
                         height: '100vh',
                         display: 'flex',
                         alignItems: 'center',
                         zIndex: 1000,
                     }}
+                    className='hidden! sm:flex!'
                 >
                     <Box
                         sx={{
