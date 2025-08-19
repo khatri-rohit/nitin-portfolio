@@ -28,6 +28,9 @@ const icon = [
     },
 ];
 
+const aboutText = `
+<p>10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.</p>`;
+
 const About = ({ container, lenisRef }: Props) => {
     const { scrollYProgress } = useScroll({
         target: container,
@@ -423,10 +426,10 @@ const About = ({ container, lenisRef }: Props) => {
                                 }}
                             >
                                 <TextReveal delay={isMobile ? 0 : 6}>
-                                    <span>
-                                        10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.
-                                    </span>
+                                    <p className="w-full leading-[1.2] text-gray-300" dangerouslySetInnerHTML={{ __html: aboutText }} />
+                                    {/* Writing in HTML is not recommended, but it's the only way to do it with TextReveal without beraking the text from mid-sentence. */}
                                 </TextReveal>
+
                             </motion.div>
 
                             {/* Social Icons */}
