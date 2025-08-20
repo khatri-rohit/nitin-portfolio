@@ -43,7 +43,7 @@ interface SectionProgress {
 
 const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: Props) => {
     const [activeStep, setActiveStep] = useState(0);
-    const [isScrolling, setIsScrolling] = useState(true);
+    const [isScrolling, setIsScrolling] = useState(false);
     const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
     const [isHover, setIsHover] = useState(false);
     const [sectionProgress, setSectionProgress] = useState<SectionProgress[]>([]);
