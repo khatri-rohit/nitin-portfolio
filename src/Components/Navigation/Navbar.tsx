@@ -1,110 +1,192 @@
 "use client";
 
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepConnector from '@mui/material/StepConnector';
-import { styled } from '@mui/material/styles';
-import { Home, Work, Person, BusinessCenter } from '@mui/icons-material';
+import { memo, RefObject, useEffect, useMemo, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { StepLabel } from '@mui/material';
+import Box from '@mui/material/Box';
+import { Home, Work, Person, BusinessCenter, Phone } from '@mui/icons-material';
 
 const steps = [
     {
-        label: 'Home',
+        label: 'HOME',
         icon: <Home />,
     },
     {
-        label: 'About me',
+        label: 'ABOUT ME',
         icon: <Person />,
     },
     {
-        label: 'Work',
+        label: 'SERVICES',
         icon: <Work />,
     },
     {
-        label: 'Experience',
+        label: 'EXPERIENCE',
         icon: <BusinessCenter />,
     },
+    {
+        label: 'CONTACT',
+        icon: <Phone />,
+    }
 ];
 
-// Custom styled connector
-const CustomConnector = styled(StepConnector)(({ theme }) => ({
-    '&.MuiStepConnector-root': {
-        marginLeft: 12, // align with icon center
-        marginTop: 0,
-        marginBottom: 0,
-    },
-    '& .MuiStepConnector-line': {
-        borderColor: '#888',
-        borderLeftWidth: 2,
-        borderRadius: 1,
-        minHeight: 80, // Adjust this value to control connector height
-        marginTop: -22,
-    },
-}));
+interface Props {
+    homeRef: RefObject<HTMLElement | null>;
+    aboutRef: RefObject<HTMLElement | null>;
+    servicesRef: RefObject<HTMLElement | null>;
+    experienceRef: RefObject<HTMLElement | null>;
+    contactRef: RefObject<HTMLElement | null>;
+}
 
-// Custom styled step icon
-const CustomStepIcon = styled('div')(({ theme, active, completed }: any) => ({
-    width: 24,
-    height: 24,
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: active ? '#fff' : 'transparent',
-    border: `2px solid ${active ? '#fff' : '#888'}`,
-    color: active ? '#000' : '#888',
-    transition: 'all 0.3s ease',
-    cursor: 'pointer',
-    '&:hover': {
-        backgroundColor: active ? '#fff' : 'rgba(255, 255, 255, 0.1)',
-        borderColor: '#fff',
-        color: active ? '#000' : '#fff',
-    },
-    '& .MuiSvgIcon-root': {
-        fontSize: 16,
-    },
-}));
+interface SectionProgress {
+    sectionIndex: number;
+    progress: number; // 0 to 100
+}
 
-export default function Navbar() {
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [isScrolling, setIsScrolling] = React.useState(false);
-    const [scrollTimeout, setScrollTimeout] = React.useState<NodeJS.Timeout | null>(null);
-    const [isHover, setIsHover] = React.useState(false);
+const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: Props) => {
+    const [activeStep, setActiveStep] = useState(0);
+    const [isScrolling, setIsScrolling] = useState(true);
+    const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [isHover, setIsHover] = useState(false);
+    const [sectionProgress, setSectionProgress] = useState<SectionProgress[]>([]);
 
-    React.useEffect(() => {
+    const refs = useMemo(() => [homeRef, aboutRef, servicesRef, experienceRef, contactRef], [
+        homeRef, aboutRef, servicesRef, experienceRef, contactRef
+    ]);
+
+    const calculateSectionProgress = useCallback(() => {
+        const scrollTop = window.scrollY;
+        const windowHeight = window.innerHeight;
+
+        const progressData: SectionProgress[] = [];
+
+        refs.forEach((ref, index) => {
+            if (!ref.current) return;
+
+            const element = ref.current;
+            const elementTop = element.offsetTop;
+            const elementHeight = element.offsetHeight;
+            const elementBottom = elementTop + elementHeight;
+
+            // Calculate progress for each section
+            let progress = 0;
+
+            if (scrollTop + windowHeight > elementTop && scrollTop < elementBottom) {
+                // Section is in view
+                const visibleStart = Math.max(scrollTop, elementTop);
+                const visibleEnd = Math.min(scrollTop + windowHeight, elementBottom);
+                const visibleHeight = visibleEnd - visibleStart;
+                const totalSectionHeight = elementHeight;
+
+                // Calculate how much of the section has been scrolled through
+                if (scrollTop >= elementTop) {
+                    const scrolledThroughSection = Math.min(scrollTop - elementTop, elementHeight);
+                    progress = (scrolledThroughSection / elementHeight) * 100;
+                } else {
+                    progress = 0;
+                }
+
+                progress = Math.min(Math.max(progress, 0), 100);
+            } else if (scrollTop >= elementBottom) {
+                // Section is completely above viewport
+                progress = 100;
+            } else {
+                // Section is completely below viewport
+                progress = 0;
+            }
+
+            progressData.push({
+                sectionIndex: index,
+                progress: progress
+            });
+        });
+
+        setSectionProgress(progressData);
+
+        // Update active step based on current scroll position
+        const currentSection = progressData.findIndex(section =>
+            section.progress > 0 && section.progress < 100
+        );
+
+        if (currentSection !== -1) {
+            setActiveStep(currentSection);
+        } else {
+            // Find the last completed section or if all are complete, set to last
+            const lastCompletedIndex = progressData.reduce((lastIndex, section, index) =>
+                section.progress === 100 ? index : lastIndex, -1
+            );
+
+            // If experience (index 3) is 100%, highlight contact (index 4)
+            if (lastCompletedIndex === 3 || progressData[4]?.progress > 0) {
+                setActiveStep(4);
+            } else if (lastCompletedIndex >= 0) {
+                setActiveStep(lastCompletedIndex);
+            }
+        }
+
+    }, [refs]);
+
+    useEffect(() => {
         const handleScroll = () => {
-            // Show navbar when scrolling
             setIsScrolling(true);
+            calculateSectionProgress();
 
-            // Clear existing timeout
             if (scrollTimeout) {
                 clearTimeout(scrollTimeout);
             }
 
-            // Set new timeout to hide navbar after scrolling stops
             const timeout = setTimeout(() => {
-                if (isHover) return;
-                setIsScrolling(false);
-            }, 1000); // Hide after 2 seconds of no scrolling
+                if (!isHover) {
+                    setIsScrolling(false);
+                }
+            }, 2000);
 
             setScrollTimeout(timeout);
         };
 
+        // Initial calculation
+        calculateSectionProgress();
+
         window.addEventListener("scroll", handleScroll);
+        window.addEventListener("resize", calculateSectionProgress);
 
         return () => {
             window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("resize", calculateSectionProgress);
             if (scrollTimeout) {
                 clearTimeout(scrollTimeout);
             }
         };
-    }, [scrollTimeout]);
+    }, [calculateSectionProgress, scrollTimeout, isHover]);
 
     const handleStepClick = (index: number) => {
         setActiveStep(index);
+
+        // Smooth scroll to the section
+        const targetRef = refs[index];
+        if (targetRef.current) {
+            targetRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    };
+
+    const getProgressForConnector = (index: number): number => {
+        if (index >= sectionProgress.length) return 0;
+
+        const currentSection = sectionProgress[index];
+        const nextSection = sectionProgress[index + 1];
+
+        // If current section is completed, show 100%
+        if (currentSection?.progress === 100) {
+            return 100;
+        }
+
+        // If we're in the current section, show its progress
+        if (currentSection?.progress > 0 && currentSection?.progress < 100) {
+            return currentSection.progress;
+        }
+
+        return 0;
     };
 
     return (
@@ -138,85 +220,107 @@ export default function Navbar() {
                     style={{
                         position: 'fixed',
                         left: 10,
-                        top: 10,
-                        bottom: 0,
-                        height: '100vh',
+                        height: 'auto',
                         display: 'flex',
                         alignItems: 'center',
                         zIndex: 1000,
                     }}
-                    className='hidden! sm:flex!'
+                    className='hidden sm:flex top-1/2 transform-gpu -translate-y-1/2 font-SpaceGrotesk'
                 >
                     <Box
                         sx={{
-                            maxWidth: 400,
+                            // maxWidth: 400,
+                            // width: 200,
                             color: 'white',
-                            height: 400,
+                            // height: 400,
                             display: 'flex',
-                            alignItems: 'center',
+                            flexDirection: 'column',
+                            // backgroundColor: "#007bff",
+                            p: 2,
+                            borderRadius: 2,
+                            backdropFilter: 'blur(10px)',
                         }}
                     >
-                        <Stepper
-                            activeStep={activeStep}
-                            orientation="vertical"
-                            connector={<CustomConnector />}
-                            sx={{
-                                height: '100%',
-                                flexGrow: 1,
-                                '.MuiStep-root': {
-                                    flex: 1,
-                                    '&:not(:last-child)': {
-                                        paddingBottom: 3,
-                                    },
-                                },
-                                '.MuiStepLabel-root': {
-                                    cursor: 'pointer',
-                                    '&:hover .MuiStepLabel-label': {
-                                        color: '#fff !important',
-                                    },
-                                },
-                                '.MuiStepLabel-label': {
-                                    color: '#888',
-                                    fontSize: '0.875rem',
-                                    fontWeight: 500,
-                                    transition: 'color 0.3s ease',
-                                    '&.Mui-active': {
-                                        color: '#fff',
-                                        fontWeight: 600,
-                                    },
-                                    '&.Mui-completed': {
-                                        color: '#888',
-                                    },
-                                },
-                            }}
-                        >
-                            {steps.map((step, index) => (
-                                <Step key={step.label}>
-                                    <StepLabel
+                        {steps.map((step, index) => (
+                            <div key={step.label}>
+                                <Box
+                                    onClick={() => handleStepClick(index)}
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        columnGap: 1,
+                                        transition: 'all 0.3s ease',
+                                        cursor: 'pointer',
+                                        p: 0.5,
+                                        borderRadius: 1,
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                        },
+                                    }}
+                                >
+                                    <Box
                                         sx={{
-                                            marginLeft: 0.2,
+                                            p: 0.5,
+                                            borderRadius: '50%',
+                                            border: `2px solid ${activeStep === index ? '#fff' : '#888'}`,
+                                            backgroundColor: activeStep === index ? '#fff' : 'transparent',
+                                            color: activeStep === index ? '#007bff' : '#fff',
+                                            transition: 'all 0.3s ease',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
                                         }}
-                                        onClick={() => handleStepClick(index)}
-                                        StepIconComponent={({ active, completed }) => (
-                                            <motion.div
-                                                whileHover={{ scale: 1.1 }}
-                                                whileTap={{ scale: 0.95 }}
-                                                transition={{ duration: 0.2 }}
-                                            >
-                                                <CustomStepIcon active={active} completed={completed}>
-                                                    {step.icon}
-                                                </CustomStepIcon>
-                                            </motion.div>
-                                        )}
                                     >
-                                        {step.label}
-                                    </StepLabel>
-                                </Step>
-                            ))}
-                        </Stepper>
+                                        {step.icon}
+                                    </Box>
+                                    <p className='mt-0.5 text-sm font-medium'>{step.label}</p>
+                                </Box>
+
+                                {/* Progress connector */}
+                                {index < steps.length - 1 && (
+                                    <Box
+                                        sx={{
+                                            height: 80,
+                                            width: 2,
+                                            backgroundColor: "rgba(255, 255, 255, 0.3)",
+                                            mx: 2.4,
+                                            my: 1,
+                                            borderRadius: 1,
+                                            position: 'relative',
+                                            overflow: 'hidden',
+                                        }}
+                                    >
+                                        <ProgressBar progress={getProgressForConnector(index)} />
+                                    </Box>
+                                )}
+                            </div>
+                        ))}
                     </Box>
                 </motion.div>
             )}
         </AnimatePresence>
     );
-}
+};
+
+const ProgressBar = memo(({ progress }: { progress: number; }) => {
+    return (
+        <motion.div
+            initial={{ height: "0%" }}
+            animate={{ height: `${progress}%` }}
+            transition={{
+                duration: 0.3,
+                ease: "easeOut"
+            }}
+            style={{
+                width: "100%",
+                backgroundColor: "#fff",
+                borderRadius: 1,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+            }}
+        />
+    );
+});
+
+export default Navbar;

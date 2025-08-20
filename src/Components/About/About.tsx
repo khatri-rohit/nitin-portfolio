@@ -11,6 +11,7 @@ import Link from 'next/link';
 interface Props {
     container: RefObject<HTMLElement | null>;
     lenisRef: RefObject<any>;
+    aboutRef: RefObject<HTMLDivElement | null>;
 }
 
 const icon = [
@@ -31,7 +32,7 @@ const icon = [
 const aboutText = `
 <p>10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.</p>`;
 
-const About = ({ container, lenisRef }: Props) => {
+const About = ({ container, lenisRef, aboutRef }: Props) => {
     const { scrollYProgress } = useScroll({
         target: container,
         offset: ['start start', 'end end']
@@ -153,7 +154,7 @@ const About = ({ container, lenisRef }: Props) => {
     // Show content only when scale is 1
     if (!isScaleOne && !isMobile) {
         return (
-            <motion.div className="font-SpaceGrotesk h-screen bg-[#17171c] text-white flex justify-center items-center relative"
+            <motion.div ref={aboutRef} className="font-SpaceGrotesk h-screen bg-[#17171c] text-white flex justify-center items-center relative"
                 style={{ scale: isMobile ? 1 : scale }}
                 transition={{
                     duration: 1.2,
@@ -168,7 +169,7 @@ const About = ({ container, lenisRef }: Props) => {
     }
 
     return (
-        <section className="font-SpaceGrotesk">
+        <div className="font-SpaceGrotesk" ref={aboutRef}>
             <motion.div
                 className="bg-[#17171c] text-white overflow-x-hidden relative"
                 style={{ scale: isMobile ? 1 : scale }}
@@ -486,7 +487,7 @@ const About = ({ container, lenisRef }: Props) => {
                     ))}
                 </div>
             </motion.div>
-        </section >
+        </div >
     );
 };
 

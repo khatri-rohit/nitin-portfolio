@@ -11,7 +11,11 @@ interface WordPair {
     right: string;
 }
 
-const HeroSection = () => {
+interface Props {
+    homeRef: React.RefObject<HTMLDivElement | null>;
+};
+
+const HeroSection = ({ homeRef }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const magnifyingGlassRef = useRef<HTMLDivElement>(null);
     const magnifyFxLeftRef = useRef<HTMLDivElement>(null);
@@ -70,7 +74,7 @@ const HeroSection = () => {
     }, []);
 
     // Enhanced animation sequence with performance optimizations
-    const animationSequence = async (
+    const animationSequence = useCallback(async (
         leftControls: ReturnType<typeof useAnimation>,
         rightControls: ReturnType<typeof useAnimation>,
         magnifyLeftControls: ReturnType<typeof useAnimation>,
@@ -209,7 +213,7 @@ const HeroSection = () => {
         [leftControls, rightControls, magnifyLeftControls, magnifyRightControls].forEach(control => {
             control.set({ willChange: 'auto' });
         });
-    };
+    }, [h1LeftControls, h1RightControls, magnifyLeftControls, magnifyRightControls]);
 
     // Optimized animation loop with cleanup and error handling
     useEffect(() => {
@@ -274,6 +278,7 @@ const HeroSection = () => {
 
     const [bg, setBg] = useState("/img/brand0.png");
     const index = useRef(0);
+
     useEffect(() => {
 
         setInterval(() => {
@@ -286,7 +291,7 @@ const HeroSection = () => {
     }, []);
 
     return (
-        <div className="h-screen relative">
+        <div className="h-screen relative" ref={homeRef}>
             <FixedContact />
             {/* Base layer - localized to hero section only */}
             {/* <img src={bg} alt="Background" className="absolute inset-0 w-full h-full object-cover" /> */}

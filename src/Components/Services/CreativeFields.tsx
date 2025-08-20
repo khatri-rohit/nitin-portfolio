@@ -1,5 +1,7 @@
-import TextReveal from '@/utils/TextReveal';
+import { useRef } from 'react';
 import { motion } from "motion/react";
+import Service from './Service';
+import TextReveal from '@/utils/TextReveal';
 import { creativeData } from './creativeFieldData';
 
 const ServiceList = ["Brand Identity & Design", "Motion Graphics & Animation", "3D & Visual Effects (VFX)", "Video Post-Production"];
@@ -7,12 +9,14 @@ const ServiceList = ["Brand Identity & Design", "Motion Graphics & Animation", "
 type Step = 'name' | 'statement1' | 'through' | 'statement3' | 'service' | 'statement2' | 'email' | 'completion' | 'complete';
 
 interface Props {
+    servicesRef: React.RefObject<HTMLElement | null>;
     currentStep: Step;
     nameInputRef: React.RefObject<HTMLInputElement | null>;
     emailInputRef: React.RefObject<HTMLInputElement | null>;
 }
 
-const CreativeFields = ({ currentStep, nameInputRef, emailInputRef }: Props) => {
+const CreativeFields = ({ currentStep, nameInputRef, emailInputRef, servicesRef }: Props) => {
+    const videoRef = useRef<HTMLVideoElement>(null);
 
     const goToContact = () => {
         if (currentStep === 'name' && nameInputRef.current) {
@@ -23,253 +27,91 @@ const CreativeFields = ({ currentStep, nameInputRef, emailInputRef }: Props) => 
     };
 
     return (
-        <motion.section>
-            {creativeData.map((item, index) => (
-                <motion.div
-                    key={item.id}
-                    className='sticky top-0 w-full h-screen md:p-5 lg:p-8 xl:p-5 2xl:p-10 bg-[#0e0e0e] text-white'
-                    // className='sticky top-0 w-full h-screen md:p-5 lg:p-8 xl:p-5 2xl:p-10 bg-[#0e0e0e] text-white 2xl:bg-red-700 xl:bg-red-400 lg:bg-pink-200 md:bg-zinc-700'
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                >
-                    <motion.div
-                        className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[90%] h-0.5 bg-gradient-to-b bg-white backdrop-blur-3xl overflow-hidden"
-                    >
-                    </motion.div>
+        <motion.section ref={servicesRef}>
 
-                    <div className='h-full w-full flex md:gap-5 xl:gap-5 2xl:gap-8 md:py-5 lg:py-8 lg:px-2 xl:py-10 font-SpaceGrotesk-light'>
+            {/* Main Section */}
+            <motion.main
+                className='min-h-screen w-full flex flex-col text-white bg-black font-SpaceGrotesk overflow-hidden'
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+            >
+                <div className="w-full h-full">
+                    {/* Header Section */}
+                    <div className="w-full flex flex-col lg:flex-row lg:justify-between lg:items-end p-4 sm:p-6 lg:p-10 pt-8 sm:pt-12 lg:pt-16">
+                        {/* Title */}
+                        <div className='mb-8 lg:mb-0'>
+                            <TextReveal>
+                                <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] 2xl:text-[15rem] tracking-wide text-start leading-none font-bold">
+                                    Services
+                                </h1>
+                            </TextReveal>
+                        </div>
 
-                        {/* Left Section - Number and Services List */}
-                        <motion.div
-                            className='h-full xl:w-[25%] md:w-[35%] hidden md:flex xl:gap-5 lg:gap-2 gap-2 xl:p-5 lg:p-2 md:p-5'
-                            initial={{ x: -50, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 1 }}
-                            transition={{ duration: 0.6, delay: 0.3 }}
-                        >
-                            <div>
-                                <TextReveal>
-                                    <p className='text-xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-5xl'>
-                                        {item.id}
-                                    </p>
-                                </TextReveal>
-                            </div>
-                            <motion.div
-                                className='w-full space-y-2 xl:mt-1 lg:mt-1.5 md:mt-1'
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                transition={{ duration: 0.8, delay: 0.5 }}
-                            >
-                                {ServiceList.map((service, serviceIndex) => (
-                                    <motion.div
-                                        key={service}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        transition={{
-                                            duration: 0.5,
-                                            delay: 0.4 + (serviceIndex * 0.1)
-                                        }}
-                                        className={`w-full ${service === item.title ? "text-white" : "text-zinc-400"} transition-all duration-200 ease-in-out cursor-pointer`}
-                                    >
-                                        <TextReveal>
-                                            <span className='md:text-xl lg:text-[1rem] xl:text-xl 2xl:text-[1.5rem] leading-5 md:leading-4.5 lg:leading-5 xl:leading-6 2xl:leading-6.5 font-bold'>{service}</span>
-                                        </TextReveal>
-                                    </motion.div>
-                                ))}
-                            </motion.div>
-                        </motion.div>
-
-                        {/* Center Section - Title and Description */}
-                        <motion.div
-                            className='h-full xl:w-[50%] md:w-[65%] hidden md:flex xl:gap-5 lg:gap-2 xl:p-5 lg:p-2 md:p-5'
-                            initial={{ y: 50, opacity: 0 }}
-                            whileInView={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 0.7, delay: 0.4 }}
-                        >
-                            <div className='h-full w-full flex flex-col gap-1 md:gap-3 lg:gap-3.5 xl:gap-5'>
-                                <div className='w-fit'>
-                                    <TextReveal delay={0.4}>
-                                        <p className="xl:text-4xl md:text-2xl lg:text-3xl font-SpaceGrotesk">
-                                            {item.title}
-                                        </p>
-                                    </TextReveal>
-                                </div>
-                                <motion.div
-                                    className='md:w-9/12 lg:w-2/3 xl:w-2/3 2xl:w-1/2'
-                                    initial={{ opacity: 0 }}
-                                    whileInView={{ opacity: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.7 }}
-                                >
-                                    <TextReveal>
-                                        <p className="md:text-xl 2xl:text-2xl tracking-tight md:leading-5 xl:leading-5.5 2xl:leading-6.5">
-                                            {item.description}
-                                        </p>
-                                    </TextReveal>
-                                </motion.div>
-
-                                <motion.div
-                                    className='relative w-full h-full overflow-hidden'
-                                    initial={{ scaleY: 0 }}
-                                    whileInView={{ scaleY: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.1 }}
-                                    style={{ transformOrigin: "top" }}
-                                >
-                                    {item.isImageLoaded ? (
-                                        <motion.img src={item.src} alt={item.title} className='w-full h-full object-cover' initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1 }} />
-                                    ) : (
-                                        <motion.video
-                                            src={item.src}
-                                            className="absolute top-[80%]! left-[80%]! min-w-full min-h-full object-cover -translate-x-[80%]! -translate-y-[80%]! scale-[1.5]"
-                                            autoPlay
-                                            loop
-                                            muted
-                                        />
-                                    )}
-                                </motion.div>
-
-                                <motion.button
-                                    className="hidden md:block xl:hidden relative bg-white text-black font-SpaceGrotesk w-full pt-2 pb-3 font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={goToContact}
-                                >
-                                    <motion.span
-                                        className="block transition-transform duration-300 ease-out group-hover:-translate-y-[150%]">
-                                        Let's Build Together
-                                    </motion.span>
-
-                                    <motion.span
-                                        className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out translate-y-[150%] group-hover:translate-y-[0%]">
-                                        Let's Build Together
-                                    </motion.span>
-                                </motion.button>
-                            </div>
-
-                        </motion.div>
-
-                        {/* Right Section - Interactive Services */}
-                        <motion.div
-                            className='h-full w-[25%] hidden xl:flex flex-col gap-5 p-5 justify-center'
-                            initial={{ x: 50, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 1 }}
-                            transition={{ duration: 0.6, delay: 0.5 }}
-                        >
-                            <div className='flex flex-col gap-2'>
-                                <motion.div
-                                    className='space-y-3 text-zinc-400'
-                                    initial={{ opacity: 0 }}
-                                    whileInView={{ opacity: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.6 }}
-                                >
-                                    {item.services.map((service, serviceIndex) => (
-                                        <motion.div
-                                            key={service}
-                                            className="border-t-white border-t hover:text-white transition-all duration-200 ease-in-out"
-                                            initial={{ opacity: 0, x: 20 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            transition={{
-                                                duration: 0.5,
-                                            }}
-                                        >
-                                            <TextReveal>
-                                                <motion.p className="xl:text-xl 2xl:text-2xl" whileHover={{
-                                                    scale: 1.01,
-                                                    color: "#ffffff",
-                                                    rotateX: 10
-                                                }}>{service}</motion.p>
-                                            </TextReveal>
-                                        </motion.div>
-                                    ))}
-                                </motion.div>
-                                <motion.div
-                                    className='w-full'
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: 1 }}
-                                >
-                                    <motion.button
-                                        className="relative bg-white text-black font-SpaceGrotesk w-full py-2 font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"
-                                        whileTap={{ scale: 0.95 }}
-                                        onClick={goToContact}
-                                    >
-                                        <motion.span
-                                            className="block transition-transform duration-300 ease-out group-hover:-translate-y-[150%]"
-                                        >
-                                            Let's Build Together
-                                        </motion.span>
-
-                                        <motion.span
-                                            className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out translate-y-[150%] group-hover:translate-y-[0%]"
-                                        >
-                                            Let's Build Together
-                                        </motion.span>
-                                    </motion.button>
-                                </motion.div>
-                            </div>
-                        </motion.div>
-
-                        {/* Mobile Section - Number and Services List */}
-                        <motion.div className='h-full w-full md:hidden flex flex-col gap-5 p-5 justify-center'>
-                            <motion.div className='w-full font-SpaceGrotesk flex gap-2 items-start text-[1.3rem]' >
-                                <TextReveal>
-                                    <p className="w-full">
-                                        {item.id}
-                                    </p>
-                                </TextReveal>
-                                <TextReveal delay={0.4}>
-                                    <p className="w-full text-nowrap">
-                                        {item.title}
-                                    </p>
-                                </TextReveal>
-                            </motion.div>
-                            <motion.div
-                                className='w-full'
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                transition={{ duration: 0.8, delay: 0.7 }}
-                            >
-                                <TextReveal>
-                                    <p className="text-[1.1rem] w-full leading-5.5">
-                                        {item.description}
-                                    </p>
-                                </TextReveal>
-                            </motion.div>
-                            <motion.div
-                                className='relative w-full h-full overflow-hidden'
-                                initial={{ scaleY: 0 }}
-                                whileInView={{ scaleY: 1 }}
-                                transition={{ duration: 0.8, delay: 0.1 }}
-                                style={{ transformOrigin: "top" }}
-                            >
-                                {item.isImageLoaded ? (
-                                    <motion.img src={item.src} alt={item.title} className='w-full h-full object-cover' initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1 }} />
-                                ) : (
-                                    <motion.video
-                                        src={item.src}
-                                        className="absolute top-[80%]! left-[80%]! min-w-full min-h-full object-cover -translate-x-[80%]! -translate-y-[80%]! scale-[1.5]"
-                                        autoPlay
-                                        loop
-                                        muted
-                                    />
-                                )}
-                            </motion.div>
-                            <motion.button
-                                className="relative bg-white text-black font-SpaceGrotesk w-full pt-2 pb-3 font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"
-                                whileTap={{ scale: 0.95 }}
-                                onClick={goToContact}
-                            >
-                                <motion.span
-                                    className="block transition-transform duration-300 ease-out group-hover:-translate-y-[150%]">
-                                    Let's Build Together
-                                </motion.span>
-
-                                <motion.span
-                                    className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out translate-y-[150%] group-hover:translate-y-[0%]">
-                                    Let's Build Together
-                                </motion.span>
-                            </motion.button>
-                        </motion.div>
+                        {/* Subtitle */}
+                        <div className='text-sm sm:text-base lg:text-lg flex flex-col sm:justify-start md:justify-end gap-y-2 lg:gap-y-4 text-start md:text- lg:py-16 max-w-xs lg:max-w-none lg:-mb-10'>
+                            <TextReveal>
+                                <p>Design that feels right,</p>
+                                <p>works hard and stands out.</p>
+                            </TextReveal>
+                        </div>
                     </div>
-                </motion.div>
+
+                    {/* Video Section */}
+                    <div className="flex-1 relative overflow-hidden h-[50vh] sm:h-[60vh] lg:h-[calc(100vh-400px)] 
+                              mx-4 sm:mx-6 lg:mx-10 mb-4 sm:mb-6 lg:mb-10 rounded-lg lg:rounded-xl"
+                        onClick={() => {
+                            if (!videoRef.current) return;
+                            if (videoRef.current.paused) {
+                                videoRef.current.play();
+                                return;
+                            }
+                            videoRef.current.pause();
+                        }}>
+                        <motion.video
+                            ref={videoRef}
+                            onClick={() => {
+                                if (!videoRef.current) return;
+                                if (videoRef.current.paused) {
+                                    videoRef.current.play();
+                                    return;
+                                }
+                                videoRef.current.pause();
+                            }}
+                            src="/videos/portfolio-video.mp4"
+                            className="absolute inset-0 w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-500 ease-out"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline // Important for mobile devices
+                        />
+
+                        {/* Play/Pause indicator overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                                <div className="w-0 h-0 border-l-[12px] sm:border-l-[16px] border-l-white border-t-[8px] sm:border-t-[10px] border-t-transparent border-b-[8px] sm:border-b-[10px] border-b-transparent ml-1"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mobile-specific call to action */}
+                    <div className="block lg:hidden px-4 sm:px-6 pb-8">
+                        <TextReveal>
+                            <div className="text-center">
+                                <p className="text-sm text-gray-400 mb-4">Tap video to play/pause</p>
+                                <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                            </div>
+                        </TextReveal>
+                    </div>
+                </div>
+            </motion.main>
+
+            {/* Services Section */}
+            {creativeData.map((item, index) => (
+                <Service key={item.id}
+                    item={item}
+                    ServiceList={ServiceList}
+                    goToContact={goToContact} />
             ))}
         </motion.section>
     );

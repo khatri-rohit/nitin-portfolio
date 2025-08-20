@@ -30,13 +30,14 @@ const InlineInput = React.memo<{
 type Step = 'name' | 'statement1' | 'through' | 'statement3' | 'service' | 'statement2' | 'email' | 'completion' | 'complete';
 
 interface Props {
+    contactRef: React.RefObject<HTMLElement | null>;
     currentStep: Step;
     setCurrentStep: React.Dispatch<React.SetStateAction<Step>>;
     nameInputRef: React.RefObject<HTMLInputElement | null>;
     emailInputRef: React.RefObject<HTMLInputElement | null>;
 }
 
-const Contact = ({ currentStep, setCurrentStep, emailInputRef, nameInputRef }: Props) => {
+const Contact = ({ contactRef, currentStep, setCurrentStep, emailInputRef, nameInputRef }: Props) => {
     const [isRefreshing, setIsRefreshing] = useState(false);
 
     // Form state
@@ -187,7 +188,7 @@ const Contact = ({ currentStep, setCurrentStep, emailInputRef, nameInputRef }: P
     };
 
     return (
-        <section className="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-500 ease-in-out relative overflow-hidden">
+        <section ref={contactRef} className="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-500 ease-in-out relative overflow-hidden">
             {/* Background subtle texture overlay */}
             <div className="absolute inset-0 opacity-30 dark:opacity-20">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.02),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02),transparent_70%)]" />

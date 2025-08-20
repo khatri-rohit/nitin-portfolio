@@ -18,9 +18,14 @@ interface TimelineProps {
     items: TimelineItem[];
 }
 
-const Timeline = ({ items }: TimelineProps) => {
+interface Props {
+    experienceRef: React.RefObject<HTMLElement | null>;
+}
+
+const Timeline = ({ items, experienceRef }: TimelineProps & Props) => {
     return (
         <section
+            ref={experienceRef}
             className="bg-neutral-900 py-20 lg:py-32 font-SpaceGrotesk overflow-x-hidden"
             role="region"
             aria-label="Experience and Freelance Timeline"

@@ -1,4 +1,14 @@
-export const creativeData = [
+
+export type CreativeData = {
+    id: string;
+    title: string;
+    description: string;
+    services: string[];
+    src: string;
+    isImageLoaded: boolean;
+}
+
+export const creativeData: CreativeData[] = [
     {
         id: "01",
         title: "Brand Identity & Design",

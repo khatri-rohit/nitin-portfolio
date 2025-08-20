@@ -12,6 +12,7 @@ import CreativeFields from "@/Components/Services/CreativeFields";
 import { useScrollbarToggle } from '@/utils/scrollbarManager';
 import Contact from '@/Components/Contact/Contact';
 import { timelineData } from '@/Components/Exprience/timelineData';
+import Navbar from '@/Components/Navigation/Navbar';
 
 type Step = 'name' | 'statement1' | 'through' | 'statement3' | 'service' | 'statement2' | 'email' | 'completion' | 'complete';
 
@@ -24,6 +25,13 @@ export default function Home() {
   const [currentStep, setCurrentStep] = useState<Step>('name');
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const emailInputRef = useRef<HTMLInputElement | null>(null);
+
+  // track scroll position
+  const homeRef = useRef<HTMLDivElement | null>(null);
+  const aboutRef = useRef<HTMLDivElement | null>(null);
+  const servicesRef = useRef<HTMLElement | null>(null);
+  const experienceRef = useRef<HTMLElement | null>(null);
+  const contactRef = useRef<HTMLElement | null>(null);
 
   useScrollbarToggle();
 
@@ -77,17 +85,17 @@ export default function Home() {
 
   return (
     <main className="w-full h-full">
+      <Navbar homeRef={homeRef} aboutRef={aboutRef} servicesRef={servicesRef} experienceRef={experienceRef} contactRef={contactRef} />
       <AnimatePresence mode="wait">
         {loading && <PreLoader />}
       </AnimatePresence>
       <section ref={container}>
-        <HeroSection />
-        <About container={container} lenisRef={lenisRef} />
+        <HeroSection homeRef={homeRef} />
+        <About container={container} lenisRef={lenisRef} aboutRef={aboutRef} />
       </section>
-      <Services />
-      <CreativeFields currentStep={currentStep} nameInputRef={nameInputRef} emailInputRef={emailInputRef} />
-      <Exprience items={timelineData} />
-      <Contact currentStep={currentStep} setCurrentStep={setCurrentStep} nameInputRef={nameInputRef} emailInputRef={emailInputRef} />
+      <CreativeFields servicesRef={servicesRef} currentStep={currentStep} nameInputRef={nameInputRef} emailInputRef={emailInputRef} />
+      <Exprience experienceRef={experienceRef} items={timelineData} />
+      <Contact contactRef={contactRef} currentStep={currentStep} setCurrentStep={setCurrentStep} nameInputRef={nameInputRef} emailInputRef={emailInputRef} />
     </main>
   );
 };
