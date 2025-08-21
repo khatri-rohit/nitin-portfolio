@@ -24,6 +24,7 @@ const HeroSection = ({ homeRef }: Props) => {
     const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isInHeroSection, setIsInHeroSection] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     const { x, y } = useMousePosition();
 
@@ -42,36 +43,65 @@ const HeroSection = ({ homeRef }: Props) => {
     const magnifyLeftControls = useAnimation();
     const magnifyRightControls = useAnimation();
 
-    // Initialize magnifying glass effect with localized behavior
+    // Detect mobile devices
+    useEffect(() => {
+        const checkIsMobile = () => {
+            const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+            const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            const isSmallScreen = window.innerWidth <= 1024; // Disable on tablets too
+
+            return isMobileUA || isTouchDevice || isSmallScreen;
+        };
+
+        const handleResize = () => {
+            setIsMobile(checkIsMobile());
+        };
+
+        setIsMobile(checkIsMobile());
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Initialize magnifying glass effect with localized behavior (disabled on mobile)
     useMagnifyingGlass({
         glassRef: magnifyingGlassRef,
         magnifyFxLeftRef: magnifyFxLeftRef,
         magnifyFxRightRef: magnifyFxRightRef,
         containerRef: containerRef,
-        isHovered,
+        isHovered: !isMobile && isHovered, // Disable hover effect on mobile
         mouseX: x,
         mouseY: y,
-        isActive: isInHeroSection // Only active when in hero section
+        isActive: !isMobile && isInHeroSection // Only active when not mobile and in hero section
     });
 
-    // Handle mouse enter/leave for the entire hero section
+    // Handle mouse enter/leave for the entire hero section (disabled on mobile)
     const handleHeroMouseEnter = useCallback(() => {
-        setIsInHeroSection(true);
-    }, []);
+        if (!isMobile) {
+            setIsInHeroSection(true);
+        }
+    }, [isMobile]);
 
     const handleHeroMouseLeave = useCallback(() => {
-        setIsInHeroSection(false);
-        setIsHovered(false); // Reset hover state when leaving section
-    }, []);
+        if (!isMobile) {
+            setIsInHeroSection(false);
+            setIsHovered(false); // Reset hover state when leaving section
+        }
+    }, [isMobile]);
 
-    // Handle hover on text elements
+    // Handle hover on text elements (disabled on mobile)
     const handleTextMouseEnter = useCallback(() => {
-        setIsHovered(true);
-    }, []);
+        if (!isMobile) {
+            setIsHovered(true);
+        }
+    }, [isMobile]);
 
     const handleTextMouseLeave = useCallback(() => {
-        setIsHovered(false);
-    }, []);
+        if (!isMobile) {
+            setIsHovered(false);
+        }
+    }, [isMobile]);
 
     // Enhanced animation sequence with performance optimizations
     const animationSequence = useCallback(async (
@@ -95,14 +125,14 @@ const HeroSection = ({ homeRef }: Props) => {
                 x: window.innerWidth,
                 willChange: 'transform, opacity'
             }),
-            // Magnified layer synchronized positioning
-            magnifyLeftControls.set({
+            // Magnified layer synchronized positioning (only if not mobile)
+            !isMobile && magnifyLeftControls.set({
                 opacity: 0,
                 scale: 0.8,
                 x: -window.innerWidth,
                 willChange: 'transform, opacity'
             }),
-            magnifyRightControls.set({
+            !isMobile && magnifyRightControls.set({
                 opacity: 0,
                 scale: 0.8,
                 x: window.innerWidth,
@@ -111,7 +141,7 @@ const HeroSection = ({ homeRef }: Props) => {
         ]);
 
         // Enhanced entrance animation with optimized easing
-        await Promise.all([
+        const baseAnimations = [
             // Base layer smooth entrance
             leftControls.start({
                 opacity: 1,
@@ -132,8 +162,11 @@ const HeroSection = ({ homeRef }: Props) => {
                     ease: [0.25, 0.46, 0.45, 0.94],
                     type: "tween"
                 }
-            }),
-            // Magnified layer perfectly synchronized
+            })
+        ];
+
+        // Only add magnified layer animations if not mobile
+        const magnifiedAnimations = !isMobile ? [
             magnifyLeftControls.start({
                 opacity: 1,
                 scale: 1,
@@ -154,13 +187,15 @@ const HeroSection = ({ homeRef }: Props) => {
                     type: "tween"
                 }
             })
-        ]);
+        ] : [];
+
+        await Promise.all([...baseAnimations, ...magnifiedAnimations]);
 
         // Optimized pause duration
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         // Smooth exit animation with performance-optimized easing
-        await Promise.all([
+        const baseExitAnimations = [
             // Base layer exit
             leftControls.start({
                 x: -window.innerWidth,
@@ -183,8 +218,11 @@ const HeroSection = ({ homeRef }: Props) => {
                     ease: [0.55, 0.055, 0.675, 0.19],
                     type: "tween"
                 }
-            }),
-            // Magnified layer synchronized exit
+            })
+        ];
+
+        // Only add magnified layer exit animations if not mobile
+        const magnifiedExitAnimations = !isMobile ? [
             magnifyLeftControls.start({
                 x: -window.innerWidth,
                 opacity: 0,
@@ -207,13 +245,19 @@ const HeroSection = ({ homeRef }: Props) => {
                     type: "tween"
                 }
             })
-        ]);
+        ] : [];
+
+        await Promise.all([...baseExitAnimations, ...magnifiedExitAnimations]);
 
         // Clean up will-change properties after animation
-        [leftControls, rightControls, magnifyLeftControls, magnifyRightControls].forEach(control => {
+        const allControls = isMobile
+            ? [leftControls, rightControls]
+            : [leftControls, rightControls, magnifyLeftControls, magnifyRightControls];
+
+        allControls.forEach(control => {
             control.set({ willChange: 'auto' });
         });
-    }, [h1LeftControls, h1RightControls, magnifyLeftControls, magnifyRightControls]);
+    }, [h1LeftControls, h1RightControls, magnifyLeftControls, magnifyRightControls, isMobile]);
 
     // Optimized animation loop with cleanup and error handling
     useEffect(() => {
@@ -257,7 +301,7 @@ const HeroSection = ({ homeRef }: Props) => {
                 clearTimeout(animationTimeoutId);
             }
         };
-    }, [wordPairs, h1LeftControls, h1RightControls, magnifyLeftControls, magnifyRightControls]);
+    }, [wordPairs, h1LeftControls, h1RightControls, magnifyLeftControls, magnifyRightControls, animationSequence]);
 
     // Optimized text styling with performance considerations
     const textStyle = useMemo(() => ({
@@ -280,7 +324,6 @@ const HeroSection = ({ homeRef }: Props) => {
     const index = useRef(0);
 
     useEffect(() => {
-
         setInterval(() => {
             setBg("/img/brand" + index.current + ".png");
             index.current = index.current + 1;
@@ -322,8 +365,8 @@ const HeroSection = ({ homeRef }: Props) => {
                     </motion.h1>
                 </div>
 
-                {/* Localized Magnifying Glass - Only visible within hero section */}
-                {isInHeroSection && (
+                {/* Localized Magnifying Glass - Only visible within hero section and NOT on mobile */}
+                {isInHeroSection && !isMobile && (
                     <div
                         ref={magnifyingGlassRef}
                         className="magnifying-glass"

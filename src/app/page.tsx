@@ -33,6 +33,8 @@ export default function Home() {
   const experienceRef = useRef<HTMLElement | null>(null);
   const contactRef = useRef<HTMLElement | null>(null);
 
+  const [isMobile, setIsMobile] = useState(false);
+
   useScrollbarToggle();
 
   useEffect(() => {
@@ -83,9 +85,30 @@ export default function Home() {
     };
   }, []);
 
+  // Detect mobile devices
+  useEffect(() => {
+    const checkIsMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth <= 1024; // Disable on tablets too
+
+      return isMobileUA || isTouchDevice || isSmallScreen;
+    };
+
+    const handleResize = () => {
+      setIsMobile(checkIsMobile());
+    };
+
+    setIsMobile(checkIsMobile());
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <main className="w-full h-full">
-      <Navbar homeRef={homeRef} aboutRef={aboutRef} servicesRef={servicesRef} experienceRef={experienceRef} contactRef={contactRef} />
+      {!isMobile && <Navbar homeRef={homeRef} aboutRef={aboutRef} servicesRef={servicesRef} experienceRef={experienceRef} contactRef={contactRef} />}
       <AnimatePresence mode="wait">
         {loading && <PreLoader />}
       </AnimatePresence>
