@@ -1,40 +1,20 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Send, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import InlineDropdown from './InlineDropdown';
+import InlineInput from './InlineInput';
 import TypingTextAnimation from './TypingTextAnimation';
-
-// Responsive InlineInput component
-const InlineInput = React.memo<{
-    value: string;
-    onChange: (value: string) => void;
-    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-    placeholder: string;
-    inputRef: React.RefObject<HTMLInputElement> | null;
-    type?: string;
-}>(({ value, onChange, onKeyDown, placeholder, inputRef, type = "text" }) => (
-    <input
-        ref={inputRef}
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onKeyDown={onKeyDown}
-        placeholder={placeholder}
-        className="inline-block bg-transparent outline-none border-b border-dashed border-gray-400 dark:border-gray-500 focus:border-gray-600 dark:focus:border-gray-400 transition-colors duration-200 text-gray-900 dark:text-gray-100 font-medium placeholder-gray-400 dark:placeholder-gray-500 min-w-24 sm:min-w-28 max-w-64 sm:max-w-80"
-        style={{ width: `${Math.max(value.length || placeholder.length, 8) * 0.65 + 1.5}ch` }}
-    />
-));
 
 type Step = 'name' | 'statement1' | 'through' | 'statement3' | 'service' | 'statement2' | 'email' | 'completion' | 'complete';
 
 interface Props {
-    contactRef: React.RefObject<HTMLElement | null>;
+    contactRef: RefObject<HTMLElement | null>;
     currentStep: Step;
-    setCurrentStep: React.Dispatch<React.SetStateAction<Step>>;
-    nameInputRef: React.RefObject<HTMLInputElement | null>;
-    emailInputRef: React.RefObject<HTMLInputElement | null>;
+    setCurrentStep: Dispatch<SetStateAction<Step>>;
+    nameInputRef: RefObject<HTMLInputElement | null>;
+    emailInputRef: RefObject<HTMLInputElement | null>;
 }
 
 const Contact = ({ contactRef, currentStep, setCurrentStep, emailInputRef, nameInputRef }: Props) => {
@@ -182,16 +162,16 @@ const Contact = ({ contactRef, currentStep, setCurrentStep, emailInputRef, nameI
     };
 
     // Send message
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
         const message = `Hi Nitin,\n\nMy name is ${name} and I would like to inquire about your services. I found your studio through ${through}. I am particularly interested in ${service}. Here is my email address: ${email}.\n\nLooking forward to hearing from you.`;
         window.location.href = `mailto:nitinkhatri312@gmail.com?subject=Inquiry from ${name}&body=${encodeURIComponent(message)}`;
     };
 
     return (
-        <section ref={contactRef} className="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-500 ease-in-out relative overflow-hidden">
+        <section ref={contactRef} className="min-h-screen w-full flex items-center justify-center bg-gray-900 transition-colors duration-500 ease-in-out relative overflow-hidden">
             {/* Background subtle texture overlay */}
-            <div className="absolute inset-0 opacity-30 dark:opacity-20">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.02),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02),transparent_70%)]" />
+            <div className="absolute inset-0 opacity-20">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02),transparent_70%)]" />
             </div>
 
             <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8">
@@ -199,10 +179,10 @@ const Contact = ({ contactRef, currentStep, setCurrentStep, emailInputRef, nameI
                 <div className="lg:hidden">
                     {/* Mobile Typography - Stacked */}
                     <div className="text-center mb-8 sm:mb-12">
-                        <h1 className="text-6xl xs:text-7xl sm:text-8xl md:text-9xl font-light tracking-tight leading-none text-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out select-none">
+                        <h1 className="text-6xl xs:text-7xl sm:text-8xl md:text-9xl font-light tracking-tight leading-none text-gray-100 transition-colors duration-500 ease-in-out select-none">
                             Let&apos;s
                         </h1>
-                        <h1 className="text-6xl xs:text-7xl sm:text-8xl md:text-9xl font-light tracking-tight leading-none text-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out select-none -mt-4 sm:-mt-6 md:-mt-8">
+                        <h1 className="text-6xl xs:text-7xl sm:text-8xl md:text-9xl font-light tracking-tight leading-none text-gray-100 transition-colors duration-500 ease-in-out select-none -mt-4 sm:-mt-6 md:-mt-8">
                             Talk
                         </h1>
                     </div>
@@ -257,7 +237,7 @@ const Contact = ({ contactRef, currentStep, setCurrentStep, emailInputRef, nameI
                     <div className="grid grid-cols-3 gap-8 xl:gap-16 items-center max-w-[1800px] mx-auto">
                         {/* Left Side - "Let's" */}
                         <div className="flex justify-center">
-                            <h1 className="text-9xl xl:text-[10rem] 2xl:text-[15rem] 3xl:text-[15rem] font-light tracking-tight leading-none text-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out select-none">
+                            <h1 className="text-9xl xl:text-[10rem] 2xl:text-[15rem] 3xl:text-[15rem] font-light tracking-tight leading-none text-gray-100 transition-colors duration-500 ease-in-out select-none">
                                 Let&apos;s
                             </h1>
                         </div>
@@ -307,7 +287,7 @@ const Contact = ({ contactRef, currentStep, setCurrentStep, emailInputRef, nameI
 
                         {/* Right Side - "Talk" */}
                         <div className="flex justify-center">
-                            <h1 className="text-9xl xl:text-[10rem] 2xl:text-[15rem] 3xl:text-[15rem] font-light tracking-tight leading-none text-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out select-none">
+                            <h1 className="text-9xl xl:text-[10rem] 2xl:text-[15rem] 3xl:text-[15rem] font-light tracking-tight leading-none text-gray-100 transition-colors duration-500 ease-in-out select-none">
                                 Talk
                             </h1>
                         </div>
@@ -332,12 +312,12 @@ const ChatCard = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 lg:p-5 xl:p-5 shadow-lg shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-200/60 dark:border-gray-700/60 backdrop-blur-sm transition-all duration-500 ease-in-out hover:shadow-xl hover:shadow-gray-200/60 dark:hover:shadow-gray-900/60 hover:-translate-y-1 w-full max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto"
+        className="bg-gray-800 rounded-2xl p-4 sm:p-6 lg:p-5 xl:p-5 shadow-lg shadow-gray-900/50 border border-gray-700/60 backdrop-blur-sm transition-all duration-500 ease-in-out hover:shadow-xl hover:shadow-gray-900/60 hover:-translate-y-1 w-full max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto"
     >
         <div className="flex items-start space-x-3 sm:space-x-4 lg:space-x-6">
             {/* Profile Image */}
             <div className="flex-shrink-0">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 xl:w-18 xl:h-18 rounded-xl overflow-hidden ring-2 ring-gray-100 dark:ring-gray-700 transition-all duration-300 ease-in-out bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 xl:w-18 xl:h-18 rounded-xl overflow-hidden ring-2 ring-gray-700 transition-all duration-300 ease-in-out bg-gray-700 flex items-center justify-center">
                     <img
                         src="/img/Nitin-preview.png"
                         alt="Nitin"
@@ -349,7 +329,7 @@ const ChatCard = ({
             {/* Message Content */}
             <div className="flex-1 font-SpaceGrotesk-Regular min-w-0">
                 <motion.p
-                    className="text-gray-900 dark:text-gray-100 font-medium text-xl sm:text-2xl lg:text-2xl transition-colors duration-500 ease-in-out"
+                    className="text-gray-100 font-medium text-xl sm:text-2xl lg:text-2xl transition-colors duration-500 ease-in-out"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
@@ -357,7 +337,7 @@ const ChatCard = ({
                     Hi Nitin,
                 </motion.p>
 
-                <div className="text-gray-600 dark:text-gray-300 mt-1 text-base sm:text-lg lg:text-xl transition-colors duration-200 ease-in-out leading-relaxed">
+                <div className="text-gray-300 mt-1 text-base sm:text-lg lg:text-xl transition-colors duration-200 ease-in-out leading-relaxed">
                     <span>My name is </span>
 
                     {currentStep === 'name' ? (
@@ -369,7 +349,7 @@ const ChatCard = ({
                             placeholder="your name"
                         />
                     ) : (
-                        <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
+                        <span className="font-medium text-red-400 border-b border-dashed border-red-400/50">
                             {name}
                         </span>
                     )}
@@ -396,7 +376,7 @@ const ChatCard = ({
                             )}
 
                             {through && (
-                                <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
+                                <span className="font-medium text-red-400 border-b border-dashed border-red-400/50">
                                     {through}
                                 </span>
                             )}
@@ -425,7 +405,7 @@ const ChatCard = ({
                             )}
 
                             {service && (
-                                <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
+                                <span className="font-medium text-red-400 border-b border-dashed border-red-400/50">
                                     {service}
                                 </span>
                             )}
@@ -453,7 +433,7 @@ const ChatCard = ({
                             )}
 
                             {email && currentStep !== 'email' && (
-                                <span className="font-medium text-gray-900 dark:text-red-400 border-b border-dashed border-gray-300 dark:border-red-400/50">
+                                <span className="font-medium text-red-400 border-b border-dashed border-red-400/50">
                                     {email}
                                 </span>
                             )}
@@ -486,11 +466,11 @@ const ActionButtons = ({ handleRefresh, isRefreshing, handleSendMessage, current
         {/* Refresh Button */}
         <button
             onClick={handleRefresh}
-            className="w-12 h-12 sm:w-14 sm:h-14 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full flex items-center justify-center shadow-md shadow-gray-200/50 dark:shadow-gray-900/50 transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-200/60 dark:hover:shadow-gray-900/60 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-600/50 group flex-shrink-0"
+            className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center shadow-md shadow-gray-900/50 transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-900/60 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-gray-600/50 group flex-shrink-0"
             aria-label="Refresh conversation"
         >
             <RefreshCw
-                className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-400 transition-all duration-300 ease-in-out group-hover:text-gray-900 dark:group-hover:text-gray-200 ${isRefreshing ? 'animate-spin' : ''}`}
+                className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-400 transition-all duration-300 ease-in-out group-hover:text-gray-200 ${isRefreshing ? 'animate-spin' : ''}`}
             />
         </button>
 
@@ -499,9 +479,9 @@ const ActionButtons = ({ handleRefresh, isRefreshing, handleSendMessage, current
             onClick={handleSendMessage}
             disabled={currentStep !== 'complete'}
             whileTap={{ scale: 0.98 }}
-            className={`flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-full flex items-center justify-center space-x-2 sm:space-x-3 font-medium text-sm sm:text-base shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-600/50 min-w-0 ${currentStep === 'complete'
-                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 shadow-gray-900/25 dark:shadow-gray-100/25 hover:shadow-xl hover:shadow-gray-900/35 dark:hover:shadow-gray-100/35 group hover:scale-105 hover:-translate-y-0.5'
-                : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed hover:translate-y-0 hover:scale-100!'
+            className={`flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-full flex items-center justify-center space-x-2 sm:space-x-3 font-medium text-sm sm:text-base shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600/50 min-w-0 ${currentStep === 'complete'
+                ? 'bg-gray-100 text-gray-900 shadow-gray-100/25 hover:shadow-xl hover:shadow-gray-100/35 group hover:scale-105 hover:-translate-y-0.5'
+                : 'bg-gray-700 text-gray-400 cursor-not-allowed hover:translate-y-0 hover:scale-100!'
                 }`}
         >
             <span className="truncate">Send Message</span>

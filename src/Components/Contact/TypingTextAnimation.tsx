@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'motion/react';
 
-
 const TypingText = React.memo<{
     text: string;
     delay?: number;
@@ -81,7 +80,7 @@ const TypingText = React.memo<{
             {displayText}
             {showCursor && showTypingCursor && (
                 <motion.span
-                    className="inline-block w-0.5 h-4 bg-gray-600 dark:bg-gray-300 ml-0.5"
+                    className="inline-block w-0.5 h-4 bg-gray-300 ml-0.5"
                     animate={{ opacity: [1, 1, 0, 0] }}
                     transition={{
                         duration: 1.2,

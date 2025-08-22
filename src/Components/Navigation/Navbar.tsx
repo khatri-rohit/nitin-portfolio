@@ -137,7 +137,7 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
                 if (!isHover) {
                     setIsScrolling(false);
                 }
-            }, 2000);
+            }, 1200);
 
             setScrollTimeout(timeout);
         };
@@ -235,10 +235,10 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
                             // height: 400,
                             display: 'flex',
                             flexDirection: 'column',
-                            // backgroundColor: "#007bff",
                             p: 2,
                             borderRadius: 2,
-                            backdropFilter: 'blur(10px)',
+                            backdropFilter: 'blur(2px)',
+                            // border: '1px solid #fff',
                         }}
                     >
                         {steps.map((step, index) => (
