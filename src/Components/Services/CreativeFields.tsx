@@ -27,11 +27,11 @@ const CreativeFields = ({ currentStep, nameInputRef, emailInputRef, servicesRef 
     };
 
     return (
-        <motion.section ref={servicesRef}>
+        <motion.section className='bg-black' ref={servicesRef}>
 
             {/* Main Section */}
             <motion.main
-                className='min-h-screen w-full flex flex-col text-white bg-black font-SpaceGrotesk overflow-hidden'
+                className='min-h-screen w-full flex flex-col text-white font-SpaceGrotesk overflow-hidden'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}

@@ -64,17 +64,17 @@ const HeroSection = ({ homeRef }: Props) => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Initialize magnifying glass effect with localized behavior (disabled on mobile)
-    useMagnifyingGlass({
-        glassRef: magnifyingGlassRef,
-        magnifyFxLeftRef: magnifyFxLeftRef,
-        magnifyFxRightRef: magnifyFxRightRef,
-        containerRef: containerRef,
-        isHovered: !isMobile && isHovered, // Disable hover effect on mobile
-        mouseX: x,
-        mouseY: y,
-        isActive: !isMobile && isInHeroSection // Only active when not mobile and in hero section
-    });
+    // // Initialize magnifying glass effect with localized behavior (disabled on mobile)
+    // useMagnifyingGlass({
+    //     glassRef: magnifyingGlassRef,
+    //     magnifyFxLeftRef: magnifyFxLeftRef,
+    //     magnifyFxRightRef: magnifyFxRightRef,
+    //     containerRef: containerRef,
+    //     isHovered: !isMobile && isHovered, // Disable hover effect on mobile
+    //     mouseX: x,
+    //     mouseY: y,
+    //     isActive: !isMobile && isInHeroSection // Only active when not mobile and in hero section
+    // });
 
     // Handle mouse enter/leave for the entire hero section (disabled on mobile)
     const handleHeroMouseEnter = useCallback(() => {
@@ -337,18 +337,17 @@ const HeroSection = ({ homeRef }: Props) => {
         <div className="h-screen relative" ref={homeRef}>
             <FixedContact />
             {/* Base layer - localized to hero section only */}
-            {/* <img src={bg} alt="Background" className="absolute inset-0 w-full h-full object-cover" /> */}
             <section
                 ref={containerRef}
                 className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative z-10 bg-transparent"
-                onMouseEnter={handleHeroMouseEnter}
-                onMouseLeave={handleHeroMouseLeave}
+            // onMouseEnter={handleHeroMouseEnter}
+            // onMouseLeave={handleHeroMouseLeave}
             >
                 <div className="w-full px-5 lg:px-10 relative space-y-4">
                     <motion.h1
                         animate={h1LeftControls}
-                        onMouseEnter={handleTextMouseEnter}
-                        onMouseLeave={handleTextMouseLeave}
+                        // onMouseEnter={handleTextMouseEnter}
+                        // onMouseLeave={handleTextMouseLeave}
                         className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none text-left block w-full select-none"
                         style={textStyle}
                     >
@@ -356,8 +355,8 @@ const HeroSection = ({ homeRef }: Props) => {
                     </motion.h1>
                     <motion.h1
                         animate={h1RightControls}
-                        onMouseEnter={handleTextMouseEnter}
-                        onMouseLeave={handleTextMouseLeave}
+                        // onMouseEnter={handleTextMouseEnter}
+                        // onMouseLeave={handleTextMouseLeave}
                         className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none text-right block w-full select-none"
                         style={textStyle}
                     >

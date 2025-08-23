@@ -163,7 +163,9 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
                 }}
                 exit={{ scale: 0 }}
             >
-                <p className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#e7436f] text-center px-4">ABOUT ME</p>
+                <p className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#e7436f] text-center px-4">
+                    ABOUT ME
+                </p>
             </motion.div>
         );
     }
@@ -174,7 +176,6 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
                 className="bg-[#17171c] text-white overflow-x-hidden relative"
                 style={{ scale: isMobile ? 1 : scale }}
             >
-
                 {/* Animated background grid */}
                 <div className="absolute inset-0 opacity-10">
                     <div className="h-full w-full bg-gradient-to-br from-[#e7436f]/20 via-transparent to-[#e7436f]/10"></div>
@@ -298,7 +299,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
 
                 {/* Main content with staggered entrance */}
                 <motion.div
-                    className="flex flex-col justify-center items-center lg:flex-row h-screen sm:min-h-screen xl:h-screen w-full relative p-10"
+                    className="flex flex-col justify-center items-center lg:flex-row h-screen sm:min-h-screen xl:h-screen w-full relative p-10 z-50 bg-[#17171c]"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: isMobile ? 0 : 5 }}

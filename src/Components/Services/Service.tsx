@@ -13,7 +13,7 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
     return (
         <motion.div
             key={item.id}
-            className='sticky top-0 w-full h-screen md:p-5 lg:p-8 xl:p-5 2xl:p-10 bg-[#0e0e0e] text-white'
+            className='sticky top-0 w-full h-screen md:p-5 lg:p-8 xl:p-5 2xl:p-10 bg-[#070707] text-white'
             // className='sticky top-0 w-full h-screen md:p-5 lg:p-8 xl:p-5 2xl:p-10 bg-[#0e0e0e] text-white 2xl:bg-red-700 xl:bg-red-400 lg:bg-pink-200 md:bg-zinc-700'
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}

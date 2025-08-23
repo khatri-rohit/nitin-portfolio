@@ -2,7 +2,7 @@
 
 import React, { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Send, RefreshCw } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import InlineDropdown from './InlineDropdown';
 import InlineInput from './InlineInput';
 import TypingTextAnimation from './TypingTextAnimation';
@@ -56,7 +56,7 @@ const Contact = ({ contactRef, currentStep, setCurrentStep, emailInputRef, nameI
     const serviceOptions = ["Brand Identity & Design", "Motion Graphics & Animation", "3D & Visual Effects (VFX)", "Video Post-Production"];
 
     const statements = {
-        statement1: ' and I would like to inquire about your services. I found your studio through ',
+        statement1: ' and I would like to inquire about your services. I found your portfolio through ',
         statement2: '. Here is my email address: ',
         statement3: '. I am particularly interested in ',
         completion: '. Looking forward to hearing from you!'
@@ -161,17 +161,130 @@ const Contact = ({ contactRef, currentStep, setCurrentStep, emailInputRef, nameI
         setTimeout(() => setIsRefreshing(false), 600);
     };
 
-    // Send message
     const handleSendMessage = async () => {
         const message = `Hi Nitin,\n\nMy name is ${name} and I would like to inquire about your services. I found your studio through ${through}. I am particularly interested in ${service}. Here is my email address: ${email}.\n\nLooking forward to hearing from you.`;
         window.location.href = `mailto:nitinkhatri312@gmail.com?subject=Inquiry from ${name}&body=${encodeURIComponent(message)}`;
     };
 
     return (
-        <section ref={contactRef} className="min-h-screen w-full flex items-center justify-center bg-gray-900 transition-colors duration-500 ease-in-out relative overflow-hidden">
-            {/* Background subtle texture overlay */}
-            <div className="absolute inset-0 opacity-20">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02),transparent_70%)]" />
+        <section ref={contactRef} className="min-h-screen w-full flex items-center justify-center relative overflow-hidden">
+            {/* Enhanced Animated Background */}
+            <div className="absolute inset-0">
+                {/* Base gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 animate-gradient-xy"></div>
+
+                {/* Floating geometric shapes */}
+                <div className="absolute inset-0">
+                    <motion.div
+                        className="absolute top-1/4 left-1/4 w-32 h-32 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-full blur-xl"
+                        animate={{
+                            x: [0, 100, 0],
+                            y: [0, -50, 0],
+                            scale: [1, 1.2, 1],
+                        }}
+                        transition={{
+                            duration: 20,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
+                    <motion.div
+                        className="absolute top-3/4 right-1/4 w-24 h-24 bg-gradient-to-l from-red-500/5 to-orange-500/5 rounded-full blur-xl"
+                        animate={{
+                            x: [0, -80, 0],
+                            y: [0, 60, 0],
+                            scale: [1, 0.8, 1],
+                        }}
+                        transition={{
+                            duration: 15,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
+                    <motion.div
+                        className="absolute top-1/2 right-1/3 w-20 h-20 bg-gradient-to-r from-green-500/5 to-teal-500/5 rounded-full blur-lg"
+                        animate={{
+                            x: [0, 60, 0],
+                            y: [0, -80, 0],
+                            scale: [1, 1.3, 1],
+                        }}
+                        transition={{
+                            duration: 18,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
+                </div>
+
+                {/* Grid pattern overlay */}
+                <div className="absolute inset-0 opacity-[0.02]">
+                    <div className="absolute inset-0" style={{
+                        backgroundImage: `
+                            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+                        `,
+                        backgroundSize: '50px 50px'
+                    }} />
+                </div>
+
+                {/* Animated noise texture */}
+                <motion.div
+                    className="absolute inset-0 opacity-[0.015]"
+                    animate={{
+                        backgroundPosition: ['0% 0%', '100% 100%']
+                    }}
+                    transition={{
+                        duration: 30,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "linear"
+                    }}
+                    style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E")`,
+                        backgroundSize: '200px 200px'
+                    }}
+                />
+
+                {/* Subtle radial gradients for depth */}
+                <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-radial from-indigo-500/5 via-transparent to-transparent blur-3xl opacity-60" />
+                <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-radial from-violet-500/5 via-transparent to-transparent blur-3xl opacity-60" />
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-radial from-transparent via-slate-800/10 to-gray-900/20 opacity-40" />
+
+                {/* Animated scanlines */}
+                <motion.div
+                    className="absolute inset-0 opacity-[0.02]"
+                    animate={{
+                        backgroundPosition: ['0% 0%', '0% 100%']
+                    }}
+                    transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: "linear"
+                    }}
+                    style={{
+                        backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px)',
+                        backgroundSize: '100% 40px'
+                    }}
+                />
+
+                {/* Subtle animated border glow */}
+                <div className="absolute inset-0">
+                    <motion.div
+                        className="absolute inset-0 rounded-none"
+                        animate={{
+                            boxShadow: [
+                                'inset 0 0 100px rgba(99, 102, 241, 0.03)',
+                                'inset 0 0 100px rgba(139, 92, 246, 0.03)',
+                                'inset 0 0 100px rgba(99, 102, 241, 0.03)'
+                            ]
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
+                </div>
             </div>
 
             <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8">
@@ -294,6 +407,26 @@ const Contact = ({ contactRef, currentStep, setCurrentStep, emailInputRef, nameI
                     </div>
                 </div>
             </div>
+
+            <style jsx>{`
+                @keyframes gradient-xy {
+                    0%, 100% {
+                        background-position: 0% 0%;
+                    }
+                    50% {
+                        background-position: 100% 100%;
+                    }
+                }
+                
+                .animate-gradient-xy {
+                    background-size: 400% 400%;
+                    animation: gradient-xy 15s ease infinite;
+                }
+                
+                .bg-gradient-radial {
+                    background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+                }
+            `}</style>
         </section>
     );
 };
@@ -312,7 +445,8 @@ const ChatCard = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="bg-gray-800 rounded-2xl p-4 sm:p-6 lg:p-5 xl:p-5 shadow-lg shadow-gray-900/50 border border-gray-700/60 backdrop-blur-sm transition-all duration-500 ease-in-out hover:shadow-xl hover:shadow-gray-900/60 hover:-translate-y-1 w-full max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto"
+        className="bg-gray-800/80 backdrop-blur-lg rounded-2xl p-4 sm:p-6 lg:p-5 xl:p-5 shadow-lg shadow-gray-900/50 border border-gray-700/60 transition-all duration-500 ease-in-out hover:shadow-xl hover:shadow-gray-900/60 hover:-translate-y-1 w-full max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto hover:bg-gray-800/90"
+        style={{ position: 'relative', zIndex: 2 }}
     >
         <div className="flex items-start space-x-3 sm:space-x-4 lg:space-x-6">
             {/* Profile Image */}
@@ -455,19 +589,21 @@ const ChatCard = ({
     </motion.div>
 );
 
-// Extracted ActionButtons component
+
 const ActionButtons = ({ handleRefresh, isRefreshing, handleSendMessage, currentStep, isMobile }: any) => (
     <motion.div
         className={`flex items-center justify-between w-full space-x-3 sm:space-x-4 ${isMobile ? 'mt-6 sm:mt-8' : ''}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.6 }}
+        style={{ zIndex: 1 }}
     >
         {/* Refresh Button */}
         <button
             onClick={handleRefresh}
-            className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center shadow-md shadow-gray-900/50 transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-900/60 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-gray-600/50 group flex-shrink-0"
+            className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-full flex items-center justify-center shadow-md shadow-gray-900/50 transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-900/60 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-gray-600/50 group flex-shrink-0 hover:bg-gray-800"
             aria-label="Refresh conversation"
+            style={{ zIndex: 1 }}
         >
             <RefreshCw
                 className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-400 transition-all duration-300 ease-in-out group-hover:text-gray-200 ${isRefreshing ? 'animate-spin' : ''}`}
@@ -481,8 +617,9 @@ const ActionButtons = ({ handleRefresh, isRefreshing, handleSendMessage, current
             whileTap={{ scale: 0.98 }}
             className={`flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-full flex items-center justify-center space-x-2 sm:space-x-3 font-medium text-sm sm:text-base shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600/50 min-w-0 ${currentStep === 'complete'
                 ? 'bg-gray-100 text-gray-900 shadow-gray-100/25 hover:shadow-xl hover:shadow-gray-100/35 group hover:scale-105 hover:-translate-y-0.5'
-                : 'bg-gray-700 text-gray-400 cursor-not-allowed hover:translate-y-0 hover:scale-100!'
+                : 'bg-gray-700/80 backdrop-blur-sm text-gray-400 cursor-not-allowed hover:translate-y-0 hover:scale-100'
                 }`}
+            style={{ zIndex: 1 }}
         >
             <span className="truncate">Send Message</span>
             <Send className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />

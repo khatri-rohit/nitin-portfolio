@@ -3,16 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "motion/react";
 import Lenis from 'lenis';
+// Components
+import Navbar from '@/Components/Navigation/Navbar';
 import HeroSection from "@/Components/HeroSection/HeroSection";
 import About from "@/Components/About/About";
 import PreLoader from "@/Components/PreLoader/PreLoader";
 import Exprience from "@/Components/Exprience/Exprience";
-import Services from '@/Components/Services/Services';
 import CreativeFields from "@/Components/Services/CreativeFields";
-import { useScrollbarToggle } from '@/utils/scrollbarManager';
 import Contact from '@/Components/Contact/Contact';
+// Utils
+import { useScrollbarToggle } from '@/utils/scrollbarManager';
+// Data
 import { timelineData } from '@/Components/Exprience/timelineData';
-import Navbar from '@/Components/Navigation/Navbar';
 
 type Step = 'name' | 'statement1' | 'through' | 'statement3' | 'service' | 'statement2' | 'email' | 'completion' | 'complete';
 
@@ -108,6 +110,7 @@ export default function Home() {
 
   return (
     <main className="w-full h-full">
+      <video autoPlay loop muted playsInline className="fixed inset-0 w-full h-full object-cover -z-10" src="/videos/DarkGradient.mp4"></video>
       {!isMobile && <Navbar homeRef={homeRef} aboutRef={aboutRef} servicesRef={servicesRef} experienceRef={experienceRef} contactRef={contactRef} />}
       <AnimatePresence mode="wait">
         {loading && <PreLoader />}
