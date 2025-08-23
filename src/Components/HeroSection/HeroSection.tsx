@@ -17,9 +17,6 @@ interface Props {
 
 const HeroSection = ({ homeRef }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const magnifyingGlassRef = useRef<HTMLDivElement>(null);
-    const magnifyFxLeftRef = useRef<HTMLDivElement>(null);
-    const magnifyFxRightRef = useRef<HTMLDivElement>(null);
 
     const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -365,9 +362,8 @@ const HeroSection = ({ homeRef }: Props) => {
                 </div>
 
                 {/* Localized Magnifying Glass - Only visible within hero section and NOT on mobile */}
-                {isInHeroSection && !isMobile && (
+                {/* {isInHeroSection && !isMobile && (
                     <div
-                        ref={magnifyingGlassRef}
                         className="magnifying-glass"
                         style={{
                             position: 'fixed',
@@ -394,7 +390,6 @@ const HeroSection = ({ homeRef }: Props) => {
                             `
                         }}
                     >
-                        {/* Synchronized magnified content container */}
                         <div
                             className="w-screen h-screen relative"
                             style={{
@@ -408,7 +403,6 @@ const HeroSection = ({ homeRef }: Props) => {
                         >
                             <div className="flex flex-col items-center justify-center h-screen w-full px-5 lg:px-10 space-y-4">
                                 <motion.h1
-                                    ref={magnifyFxLeftRef}
                                     animate={magnifyLeftControls}
                                     className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none text-left block w-full magnify-fx-text select-none"
                                     style={magnifiedTextStyle}
@@ -416,7 +410,6 @@ const HeroSection = ({ homeRef }: Props) => {
                                     {wordPairs[currentIndex].left}
                                 </motion.h1>
                                 <motion.h1
-                                    ref={magnifyFxRightRef}
                                     animate={magnifyRightControls}
                                     className="text-6xl md:text-8xl lg:text-[12rem] xl:text-[16rem] leading-none text-right block w-full magnify-fx-text select-none"
                                     style={magnifiedTextStyle}
@@ -426,7 +419,7 @@ const HeroSection = ({ homeRef }: Props) => {
                             </div>
                         </div>
                     </div>
-                )}
+                )} */}
             </section>
         </div>
     );
