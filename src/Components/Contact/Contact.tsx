@@ -234,10 +234,9 @@ const Contact = ({
     setTimeout(() => {
       handleRefresh();
       setIsFlipped(false);
+      setIsSending(false);
       // Reset after flip back completes (500ms for flip transition)
-    }, 2500);
-
-    setTimeout(() => setIsSending(false), 3500);
+    }, 3500);
 
     // Uncomment to enable actual email functionality
     // const message = `Hi Nitin,\n\nMy name is ${name} and I would like to inquire about your services. I found your studio through ${through}. I am particularly interested in ${service}. Here is my email address: ${email}.\n\nLooking forward to hearing from you.`;
