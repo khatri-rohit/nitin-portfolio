@@ -6,7 +6,7 @@ export type CreativeData = {
     services: string[];
     src: string;
     isImageLoaded: boolean;
-}
+};
 
 export const creativeData: CreativeData[] = [
     {
@@ -21,7 +21,7 @@ export const creativeData: CreativeData[] = [
             "Brochure / Flyer",
             "Menu & Product Design"
         ],
-        src: "/img/Brand/brand.jpg",
+        src: "/img/Brand/brand1.png",
         isImageLoaded: true
     },
     {
@@ -33,8 +33,8 @@ export const creativeData: CreativeData[] = [
             "Motion Graphics",
             "Social Media Content"
         ],
-        src: "/img/Brand/brand.jpg",
-        isImageLoaded: true
+        src: "/videos/motion.mp4",
+        isImageLoaded: false
     },
     {
         id: "03",
@@ -57,7 +57,7 @@ export const creativeData: CreativeData[] = [
             "Video Editing",
             "Color Grading"
         ],
-        src: "/img/Brand/brand.jpg",
-        isImageLoaded: true
+        src: "/videos/postproduction.mp4",
+        isImageLoaded: false
     }
 ];

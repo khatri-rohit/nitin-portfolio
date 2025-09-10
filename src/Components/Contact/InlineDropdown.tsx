@@ -50,4 +50,6 @@ const InlineDropdown = React.memo<{
     </div>
 ));
 
+InlineDropdown.displayName = 'InlineDropdown';
+
 export default InlineDropdown;
