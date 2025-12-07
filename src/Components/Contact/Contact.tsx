@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -30,8 +31,8 @@ interface Props {
   contactRef: RefObject<HTMLElement | null>;
   currentStep: Step;
   setCurrentStep: Dispatch<SetStateAction<Step>>;
-  nameInputRef: RefObject<HTMLInputElement>;
-  emailInputRef: RefObject<HTMLInputElement>;
+  nameInputRef: RefObject<HTMLInputElement | null>;
+  emailInputRef: RefObject<HTMLInputElement | null>;
 }
 
 type AnimationTriggers = {
@@ -530,21 +531,21 @@ interface ChartCardProps {
   name: string;
   setName: (name: string) => void;
   handleNameSubmit: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  nameInputRef: RefObject<HTMLInputElement>;
+  nameInputRef: RefObject<HTMLInputElement | null>;
   animationTriggers: AnimationTriggers;
   statements: Statements;
   resetKey: string;
   handleStatement1Complete: () => void;
   animationComplete: AnimationComplete;
   through: string;
-  throughRef: RefObject<HTMLDivElement>;
+  throughRef: RefObject<HTMLDivElement | null>;
   isThroughOpen: boolean;
   setIsThroughOpen: (isOpen: boolean) => void;
   throughOptions: string[];
   handleThroughSelect: (option: string) => void;
   handleStatement3Complete: () => void;
   service: string;
-  serviceRef: RefObject<HTMLDivElement>;
+  serviceRef: RefObject<HTMLDivElement | null>;
   isServiceOpen: boolean;
   setIsServiceOpen: (isOpen: boolean) => void;
   serviceOptions: string[];
@@ -553,7 +554,7 @@ interface ChartCardProps {
   email: string;
   setEmail: (email: string) => void;
   handleEmailSubmit: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  emailInputRef: RefObject<HTMLInputElement>;
+  emailInputRef: RefObject<HTMLInputElement | null>;
   handleCompletionComplete: () => void;
   isFlipped: boolean;
 }
@@ -789,9 +790,9 @@ const ChatCard = ({
               animate={
                 isFlipped
                   ? {
-                      scale: [1, 1.1, 1],
-                      rotate: [0, 5, -5, 0],
-                    }
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 5, -5, 0],
+                  }
                   : {}
               }
               transition={{
@@ -811,8 +812,8 @@ const ChatCard = ({
               animate={
                 isFlipped
                   ? {
-                      opacity: [0.8, 1, 0.8],
-                    }
+                    opacity: [0.8, 1, 0.8],
+                  }
                   : {}
               }
               transition={{
@@ -829,8 +830,8 @@ const ChatCard = ({
               animate={
                 isFlipped
                   ? {
-                      y: [0, -2, 0],
-                    }
+                    y: [0, -2, 0],
+                  }
                   : {}
               }
               transition={{
@@ -882,9 +883,8 @@ const ActionButtons = ({
   isFlipped,
 }: ActionBtnProps) => (
   <motion.div
-    className={`flex items-center justify-between w-full space-x-3 sm:space-x-4 ${
-      isMobile ? "mt-6 sm:mt-8" : ""
-    }`}
+    className={`flex items-center justify-between w-full space-x-3 sm:space-x-4 ${isMobile ? "mt-6 sm:mt-8" : ""
+      }`}
     initial={{ opacity: 0, y: 20 }}
     animate={{
       opacity: isFlipped ? 0.3 : 1,
@@ -902,17 +902,15 @@ const ActionButtons = ({
     <button
       onClick={handleRefresh}
       disabled={isFlipped}
-      className={`w-12 h-12 sm:w-14 sm:h-14 bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-full flex items-center justify-center shadow-md shadow-gray-900/50 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600/50 group flex-shrink-0 ${
-        isFlipped
-          ? "cursor-not-allowed opacity-50"
-          : "hover:shadow-lg hover:shadow-900/60 hover:-translate-y-0.5 hover:bg-gray-800"
-      }`}
+      className={`w-12 h-12 sm:w-14 sm:h-14 bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-full flex items-center justify-center shadow-md shadow-gray-900/50 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600/50 group flex-shrink-0 ${isFlipped
+        ? "cursor-not-allowed opacity-50"
+        : "hover:shadow-lg hover:shadow-900/60 hover:-translate-y-0.5 hover:bg-gray-800"
+        }`}
       aria-label="Refresh conversation"
     >
       <RefreshCw
-        className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-400 transition-all duration-300 ease-in-out group-hover:text-gray-200 ${
-          isRefreshing ? "animate-spin" : ""
-        }`}
+        className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-400 transition-all duration-300 ease-in-out group-hover:text-gray-200 ${isRefreshing ? "animate-spin" : ""
+          }`}
       />
     </button>
 
@@ -921,20 +919,18 @@ const ActionButtons = ({
       onClick={handleSendMessage}
       disabled={currentStep !== "complete" || isFlipped}
       whileTap={{ scale: isFlipped ? 1 : 0.98 }}
-      className={`flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-full flex items-center justify-center space-x-2 sm:space-x-3 font-medium text-sm sm:text-base shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600/50 min-w-0 overflow-hidden ${
-        currentStep === "complete" && !isFlipped
-          ? "bg-gray-100 text-gray-900 shadow-gray-100/25 hover:shadow-xl hover:shadow-gray-100/35 group hover:scale-105 hover:-translate-y-0.5"
-          : "bg-gray-700/80 backdrop-blur-sm text-gray-400 cursor-not-allowed hover:translate-y-0 hover:scale-100"
-      }`}
+      className={`flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-full flex items-center justify-center space-x-2 sm:space-x-3 font-medium text-sm sm:text-base shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600/50 min-w-0 overflow-hidden ${currentStep === "complete" && !isFlipped
+        ? "bg-gray-100 text-gray-900 shadow-gray-100/25 hover:shadow-xl hover:shadow-gray-100/35 group hover:scale-105 hover:-translate-y-0.5"
+        : "bg-gray-700/80 backdrop-blur-sm text-gray-400 cursor-not-allowed hover:translate-y-0 hover:scale-100"
+        }`}
     >
       <span className="truncate">
         {isSending ? "Sending..." : "Send Message"}
       </span>
 
       <Send
-        className={`w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 transition-transform duration-500 ease-in-out  ${
-          isSending ? "-translate-y-10 translate-x-10 shadow-2xs" : ""
-        }`}
+        className={`w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 transition-transform duration-500 ease-in-out  ${isSending ? "-translate-y-10 translate-x-10 shadow-2xs" : ""
+          }`}
       />
     </motion.button>
   </motion.div>

@@ -71,10 +71,10 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
 
             if (scrollTop + windowHeight > elementTop && scrollTop < elementBottom) {
                 // Section is in view
-                const visibleStart = Math.max(scrollTop, elementTop);
-                const visibleEnd = Math.min(scrollTop + windowHeight, elementBottom);
-                const visibleHeight = visibleEnd - visibleStart;
-                const totalSectionHeight = elementHeight;
+                // const visibleStart = Math.max(scrollTop, elementTop);
+                // const visibleEnd = Math.min(scrollTop + windowHeight, elementBottom);
+                // const visibleHeight = visibleEnd - visibleStart;
+                // const totalSectionHeight = elementHeight;
 
                 // Calculate how much of the section has been scrolled through
                 if (scrollTop >= elementTop) {
@@ -174,7 +174,7 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
         if (index >= sectionProgress.length) return 0;
 
         const currentSection = sectionProgress[index];
-        const nextSection = sectionProgress[index + 1];
+        // const nextSection = sectionProgress[index + 1];
 
         // If current section is completed, show 100%
         if (currentSection?.progress === 100) {
@@ -322,5 +322,7 @@ const ProgressBar = memo(({ progress }: { progress: number; }) => {
         />
     );
 });
+
+ProgressBar.displayName = 'Navbar';
 
 export default Navbar;

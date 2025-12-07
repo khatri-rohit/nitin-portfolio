@@ -2,9 +2,9 @@
 
 import { useRef, useState, useMemo, useEffect, useCallback } from "react";
 import { motion, useAnimation } from 'motion/react';
-import useMousePosition from '@/utils/useMousePosition';
-import useMagnifyingGlass from '@/utils/useMagnifyingGlass';
-import FixedContact from '../Contact/FixedContact';
+// import useMousePosition from '@/utils/useMousePosition';
+// import useMagnifyingGlass from '@/utils/useMagnifyingGlass';
+// import FixedContact from '../Contact/FixedContact';
 
 interface WordPair {
     left: string;
@@ -18,12 +18,12 @@ interface Props {
 const HeroSection = ({ homeRef }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const [isHovered, setIsHovered] = useState(false);
+    // const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isInHeroSection, setIsInHeroSection] = useState(false);
+    // const [isInHeroSection, setIsInHeroSection] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
-    const { x, y } = useMousePosition();
+    // const { x, y } = useMousePosition();
 
     const wordPairs = useMemo<WordPair[]>(() => [
         { left: 'Creative', right: 'Designer' },
@@ -43,6 +43,7 @@ const HeroSection = ({ homeRef }: Props) => {
     // Detect mobile devices
     useEffect(() => {
         const checkIsMobile = () => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
             const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
             const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -74,31 +75,31 @@ const HeroSection = ({ homeRef }: Props) => {
     // });
 
     // Handle mouse enter/leave for the entire hero section (disabled on mobile)
-    const handleHeroMouseEnter = useCallback(() => {
-        if (!isMobile) {
-            setIsInHeroSection(true);
-        }
-    }, [isMobile]);
+    // const handleHeroMouseEnter = useCallback(() => {
+    //     if (!isMobile) {
+    //         setIsInHeroSection(true);
+    //     }
+    // }, [isMobile]);
 
-    const handleHeroMouseLeave = useCallback(() => {
-        if (!isMobile) {
-            setIsInHeroSection(false);
-            setIsHovered(false); // Reset hover state when leaving section
-        }
-    }, [isMobile]);
+    // const handleHeroMouseLeave = useCallback(() => {
+    //     if (!isMobile) {
+    //         setIsInHeroSection(false);
+    //         setIsHovered(false); // Reset hover state when leaving section
+    //     }
+    // }, [isMobile]);
 
-    // Handle hover on text elements (disabled on mobile)
-    const handleTextMouseEnter = useCallback(() => {
-        if (!isMobile) {
-            setIsHovered(true);
-        }
-    }, [isMobile]);
+    // // Handle hover on text elements (disabled on mobile)
+    // const handleTextMouseEnter = useCallback(() => {
+    //     if (!isMobile) {
+    //         setIsHovered(true);
+    //     }
+    // }, [isMobile]);
 
-    const handleTextMouseLeave = useCallback(() => {
-        if (!isMobile) {
-            setIsHovered(false);
-        }
-    }, [isMobile]);
+    // const handleTextMouseLeave = useCallback(() => {
+    //     if (!isMobile) {
+    //         setIsHovered(false);
+    //     }
+    // }, [isMobile]);
 
     // Enhanced animation sequence with performance optimizations
     const animationSequence = useCallback(async (
@@ -310,33 +311,33 @@ const HeroSection = ({ homeRef }: Props) => {
     }), []);
 
     // Enhanced magnified text styling for chromatic effects
-    const magnifiedTextStyle = useMemo(() => ({
-        ...textStyle,
-        color: '#ffffff',
-        willChange: 'transform, filter, opacity',
-        transformStyle: 'preserve-3d' as const
-    }), [textStyle]);
+    // const magnifiedTextStyle = useMemo(() => ({
+    //     ...textStyle,
+    //     color: '#ffffff',
+    //     willChange: 'transform, filter, opacity',
+    //     transformStyle: 'preserve-3d' as const
+    // }), [textStyle]);
 
-    const [bg, setBg] = useState("/img/brand0.png");
-    const index = useRef(0);
+    // const [bg, setBg] = useState("/img/brand0.png");
+    // const index = useRef(0);
 
-    useEffect(() => {
-        setInterval(() => {
-            setBg("/img/brand" + index.current + ".png");
-            index.current = index.current + 1;
-            if (index.current > 9) {
-                index.current = 0;
-            }
-        }, 2000);
-    }, []);
+    // useEffect(() => {
+    //     setInterval(() => {
+    //         setBg("/img/brand" + index.current + ".png");
+    //         index.current = index.current + 1;
+    //         if (index.current > 9) {
+    //             index.current = 0;
+    //         }
+    //     }, 2000);
+    // }, []);
 
     return (
-        <div className="h-screen relative" ref={homeRef}>
-            <FixedContact />
+        <div className="h-full relative z-50" ref={homeRef}>
+            {/* <FixedContact /> */}
             {/* Base layer - localized to hero section only */}
             <section
                 ref={containerRef}
-                className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative z-10 bg-transparent"
+                className="flex flex-col items-center justify-center h-screen w-full overflow-hidden text-white relative z-50 bg-transparent"
             // onMouseEnter={handleHeroMouseEnter}
             // onMouseLeave={handleHeroMouseLeave}
             >

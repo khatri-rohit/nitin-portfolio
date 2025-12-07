@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { KeyboardEvent, RefObject } from 'react';
 
 const InlineInput = React.memo<{
     value: string;
     onChange: (value: string) => void;
-    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
     placeholder: string;
-    inputRef: React.RefObject<HTMLInputElement> | null;
+    inputRef: RefObject<HTMLInputElement | null>;
     type?: string;
 }>(({ value, onChange, onKeyDown, placeholder, inputRef, type = "text" }) => (
     <input
@@ -19,5 +19,7 @@ const InlineInput = React.memo<{
         style={{ width: `${Math.max(value.length, placeholder.length) * 0.8 + 2}ch` }}
     />
 ));
+
+InlineInput.displayName = 'InlineInput';
 
 export default InlineInput;

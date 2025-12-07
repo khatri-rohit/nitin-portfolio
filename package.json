@@ -21,7 +21,8 @@
     "motion": "^12.23.3",
     "next": "15.3.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "three": "^0.181.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -30,6 +31,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.181.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.5",
     "tailwindcss": "^4",

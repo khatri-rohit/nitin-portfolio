@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from "motion/react";
 import { Icon } from "@iconify/react";
-import { ArrowUpRight, Mail, Phone, User, MapPin, Github, Linkedin, } from 'lucide-react';
+import { ArrowUpRight, Mail, Phone, User, } from 'lucide-react';
 import Link from 'next/link';
 
 const FixedContact = () => {
@@ -133,7 +133,7 @@ const FixedContact = () => {
                             className="text-[10px] md:text-xs text-slate-400"
                             animate={{ opacity: isHovered || isExpanded ? 1 : 0.7 }}
                         >
-                            Let's connect
+                            Let&apos;s connect
                         </motion.span>
                     </div>
 

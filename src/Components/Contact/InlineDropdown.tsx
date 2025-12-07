@@ -1,6 +1,6 @@
 import { ChevronDown } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import React from 'react';
+import React, { RefObject } from 'react';
 
 const InlineDropdown = React.memo<{
     isOpen: boolean;
@@ -9,7 +9,7 @@ const InlineDropdown = React.memo<{
     options: string[];
     onSelect: (option: string) => void;
     placeholder: string;
-    dropdownRef: React.RefObject<HTMLDivElement>;
+    dropdownRef: RefObject<HTMLDivElement | null>;
 }>(({ isOpen, setIsOpen, value, options, onSelect, placeholder, dropdownRef }) => (
     <div ref={dropdownRef} className="relative inline-block" style={{ zIndex: 9999 }}>
         <button
