@@ -80,25 +80,6 @@ export default function HomeClient() {
     }, []);
 
     return (
-        // <div className="w-full h-screen relative">
-        //     <LiquidEther
-        //         colors={['#5227FF', '#FF9FFC', '#B19EEF']}
-        //         mouseForce={20}
-        //         cursorSize={100}
-        //         isViscous={false}
-        //         viscous={30}
-        //         iterationsViscous={32}
-        //         iterationsPoisson={32}
-        //         resolution={0.5}
-        //         isBounce={false}
-        //         autoDemo={true}
-        //         autoSpeed={0.5}
-        //         autoIntensity={2.2}
-        //         takeoverDuration={0.25}
-        //         autoResumeDelay={3000}
-        //         autoRampDuration={0.6}
-        //     />
-        // </div>
         <main className="w-full h-full relative">
             {/* <video
                 autoPlay
@@ -113,12 +94,13 @@ export default function HomeClient() {
                 src="/videos/DarkGradient.webm"
             /> */}
 
-            {!isMobile && (<Navbar
-                homeRef={homeRef}
-                aboutRef={aboutRef}
-                servicesRef={servicesRef}
-                experienceRef={experienceRef}
-                contactRef={contactRef} />
+            {!isMobile && (
+                <Navbar
+                    homeRef={homeRef}
+                    aboutRef={aboutRef}
+                    servicesRef={servicesRef}
+                    experienceRef={experienceRef}
+                    contactRef={contactRef} />
             )}
             <AnimatePresence mode="wait">
                 {loading && <PreLoader />}
@@ -126,6 +108,7 @@ export default function HomeClient() {
             <section ref={container}>
                 <LiquidEther
                     homeRef={homeRef}
+                    isMobile={isMobile}
                     colors={['#5227FF', '#FF9FFC', '#B19EEF']}
                     mouseForce={20}
                     cursorSize={100}

@@ -13,15 +13,15 @@ interface WordPair {
 
 interface Props {
     homeRef: React.RefObject<HTMLDivElement | null>;
+    isMobile: boolean;
 };
 
-const HeroSection = ({ homeRef }: Props) => {
+const HeroSection = ({ homeRef, isMobile }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     // const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     // const [isInHeroSection, setIsInHeroSection] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
 
     // const { x, y } = useMousePosition();
 
@@ -40,27 +40,27 @@ const HeroSection = ({ homeRef }: Props) => {
     const magnifyLeftControls = useAnimation();
     const magnifyRightControls = useAnimation();
 
-    // Detect mobile devices
-    useEffect(() => {
-        const checkIsMobile = () => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-            const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-            const isSmallScreen = window.innerWidth <= 1024; // Disable on tablets too
+    // // Detect mobile devices
+    // useEffect(() => {
+    //     const checkIsMobile = () => {
+    //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //         const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+    //         const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    //         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    //         const isSmallScreen = window.innerWidth <= 1024; // Disable on tablets too
 
-            return isMobileUA || isTouchDevice || isSmallScreen;
-        };
+    //         return isMobileUA || isTouchDevice || isSmallScreen;
+    //     };
 
-        const handleResize = () => {
-            setIsMobile(checkIsMobile());
-        };
+    //     const handleResize = () => {
+    //         setIsMobile(checkIsMobile());
+    //     };
 
-        setIsMobile(checkIsMobile());
-        window.addEventListener('resize', handleResize);
+    //     setIsMobile(checkIsMobile());
+    //     window.addEventListener('resize', handleResize);
 
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    //     return () => window.removeEventListener('resize', handleResize);
+    // }, []);
 
     // // Initialize magnifying glass effect with localized behavior (disabled on mobile)
     // useMagnifyingGlass({

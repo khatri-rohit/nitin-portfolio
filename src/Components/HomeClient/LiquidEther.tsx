@@ -6,6 +6,7 @@ import HeroSection from '../HeroSection/HeroSection';
 
 export interface LiquidEtherProps {
   homeRef: React.RefObject<HTMLDivElement | null>;
+  isMobile: boolean;
   mouseForce?: number;
   cursorSize?: number;
   isViscous?: boolean;
@@ -60,6 +61,7 @@ const defaultColors = ['#5227FF', '#FF9FFC', '#B19EEF'];
 
 export default function LiquidEther({
   homeRef,
+  isMobile,
   mouseForce = 20,
   cursorSize = 100,
   isViscous = false,
@@ -1250,12 +1252,12 @@ export default function LiquidEther({
   return (
     <div
       ref={mountRef}
-      className={`w-full h-screen absolute top-0 left-0 overflow-hidden pointer-events-none touch-none ${className || ''}`}
+      className={`w-full h-screen absolute top-0 left-0 overflow-hidden pointer-events-none ${className || ''}`}
       style={style}
     >
       {/* HeroSection positioned above the WebGL canvas with pointer events enabled */}
       <div className="absolute inset-0 z-10 pointer-events-auto">
-        <HeroSection homeRef={homeRef} />
+        <HeroSection homeRef={homeRef} isMobile={isMobile} />
       </div>
     </div>
   );
