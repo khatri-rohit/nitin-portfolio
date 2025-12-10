@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -26,7 +27,7 @@ const Timeline = ({ items, experienceRef }: TimelineProps & Props) => {
     return (
         <section
             ref={experienceRef}
-            className="bg-neutral-900 py-20 lg:py-32 font-SpaceGrotesk overflow-x-hidden"
+            className="bg-neutral-900 py-20 lg:py-32 overflow-x-hidden font-SpaceGrotesk"
             role="region"
             aria-label="Experience and Freelance Timeline"
         >
@@ -38,7 +39,7 @@ const Timeline = ({ items, experienceRef }: TimelineProps & Props) => {
                     transition={{ duration: 0.8, ease: [0.25, 0.25, 0.25, 0.75] }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 font-Glitz">
                         Experience & Freelance
                     </h2>
                     <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
@@ -283,7 +284,7 @@ const TimelineCardContent = ({ item, isDesktop }: { item: TimelineItem; isDeskto
                 </div>
 
                 <div className={`flex-1 min-w-0 ${isDesktop ? 'pr-16' : ''}`}>
-                    <h3 className={`${isDesktop ? 'text-lg md:text-xl' : 'text-lg'} font-semibold text-white group-hover:text-indigo-400 transition-colors duration-300 line-clamp-2 mb-1`}>
+                    <h3 className={`${isDesktop ? 'text-lg md:text-xl' : 'text-lg'} text-white transition-colors duration-300 line-clamp-2 mb-1 font-Glitz`}>
                         {item.title}
                     </h3>
                     {item.role && (

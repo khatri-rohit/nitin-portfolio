@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { RefObject, useEffect, useRef, useState } from "react";
@@ -52,6 +53,17 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
   const [isScaleOne, setIsScaleOne] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    if (mq.addEventListener) mq.addEventListener("change", update);
+    else mq.addListener(update);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", update);
+      else mq.removeListener(update);
+    };
+  }, []);
   const textContainerRef = useRef<HTMLDivElement>(null);
 
   const words = [
@@ -67,17 +79,17 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
     setIsScaleOne(latest === 1);
   });
 
-  useEffect(() => {
-    // Check if device is mobile/tablet
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024); // lg breakpoint
-    };
+  // useEffect(() => {
+  //   // Check if device is mobile/tablet
+  //   const checkMobile = () => {
+  //     setIsMobile(window.innerWidth < 1024); // lg breakpoint
+  //   };
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+  //   checkMobile();
+  //   window.addEventListener("resize", checkMobile);
 
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  //   return () => window.removeEventListener("resize", checkMobile);
+  // }, []);
 
   // Trigger animation when textContainerRef is available
   useEffect(() => {
@@ -162,14 +174,14 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
     });
 
     return () => unsubscribe();
-  }, [scrollYProgress, lenisRef]);
+  }, [scrollYProgress, lenisRef, isMobile]);
 
   // Show content only when scale is 1
   if (!isScaleOne && !isMobile) {
     return (
       <motion.div
         ref={aboutRef}
-        className="font-SpaceGrotesk h-screen bg-[#17171c] text-white flex justify-center items-center relative"
+        className="font-Glitz h-screen bg-[#17171c] text-white flex justify-center items-center relative"
         style={{ scale: isMobile ? 1 : scale }}
         transition={{
           duration: 1.2,
@@ -186,7 +198,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
   }
 
   return (
-    <div className="font-SpaceGrotesk" ref={aboutRef}>
+    <div className="font-Glitz" ref={aboutRef}>
       <motion.div
         className="bg-[#17171c] text-white overflow-x-hidden relative"
         style={{ scale: isMobile ? 1 : scale }}
@@ -394,7 +406,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
 
               {/* Name and Animated Role */}
               <motion.div
-                className="w-full flex flex-col sm:flex-row sm:items-center text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-4xl tracking-[0rem] text-[#e7436f] gap-2 sm:gap-3 lg:gap-2 xl:gap-3"
+                className="w-full flex flex-col sm:flex-row sm:items-center text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-4xl tracking-[0rem] text-[#e7436f] gap-2 sm:gap-3 lg:gap-2 xl:gap-3 font-SpaceGrotesk font-semibold"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -408,7 +420,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
                     className="w-full"
                     whileHover={{
                       scale: 1.05,
-                      color: "#ff6b9d",
+                      // color: "#ff6b9d",
                       transition: {
                         duration: 0.2,
                       },
@@ -442,7 +454,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
 
               {/* Description Paragraph */}
               <motion.div
-                className="w-full text-[1.2rem] sm:text-lg md:text-xl lg:text-3xl xl:text-4xl 2xl:text-[2.5rem] tracking-[0rem] font-SpaceGrotesk-light xl:leading-[1.2]"
+                className="w-full text-[1.2rem] sm:text-lg md:text-xl lg:text-3xl xl:text-4xl 2xl:text-[2.5rem] tracking-[0rem] font-Glitz-light font-light xl:leading-[1.2]"
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -452,7 +464,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
                 }}
               >
                 <TextReveal delay={isMobile ? 0 : 6}>
-                  <p className="w-full leading-[1.2] text-gray-300"
+                  <p className="w-full leading-[1.2] text-gray-300 font-SpaceGrotesk"
                     dangerouslySetInnerHTML={{ __html: aboutText }}
                   />
                   {/* 10+ years of experience delivering impactful visuals,

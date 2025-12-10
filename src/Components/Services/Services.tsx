@@ -8,7 +8,7 @@ const Services = () => {
 
     return (
         <motion.section
-            className='min-h-screen w-full flex flex-col text-white bg-black font-SpaceGrotesk overflow-hidden'
+            className='min-h-screen w-full flex flex-col text-white bg-black font-Glitz overflow-hidden'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}

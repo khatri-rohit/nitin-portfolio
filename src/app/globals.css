@@ -1,40 +1,47 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'dahlia-bold';
-  src: url('../../public/fonts/dahlia-bold.woff') format('woff');
+  font-family: "dahlia-bold";
+  src: url("../../public/fonts/dahlia-bold.woff") format("woff");
 }
 
 @font-face {
-  font-family: 'dahlia';
+  font-family: "dahlia";
   font-style: normal;
   font-weight: normal;
-  src: url('../../public/fonts/dahlia-regular.woff') format('woff');
+  src: url("../../public/fonts/dahlia-regular.woff") format("woff");
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk';
+  font-family: "Glitz";
   font-style: normal;
   font-weight: normal;
-  src: url('../../public/fonts/SpaceGrotesk-Medium.woff') format('woff');
+  src: url("../../public/fonts/Glitz.woff") format("woff");
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk-light';
+  font-family: "SpaceGrotesk";
   font-style: normal;
   font-weight: normal;
-  src: url('../../public/fonts/SpaceGrotesk-Light.ttf') format('woff');
+  src: url("../../public/fonts/SpaceGrotesk-Regular.woff") format("woff");
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk-Regular';
+  font-family: "SpaceGrotesk-light";
   font-style: normal;
   font-weight: normal;
-  src: url('../../public/fonts/SpaceGrotesk-Regular.woff') format('woff');
+  src: url("../../public/fonts/SpaceGrotesk-Light.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "SpaceGrotesk-Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../../public/fonts/SpaceGrotesk-Regular.woff") format("woff");
 }
 
 :root {
-  --background: #0F0E0E;
+  --background: #0f0e0e;
   --foreground: #ededed;
 }
 
@@ -60,34 +67,37 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'dahlia';
+  font-family: "dahlia";
   cursor: auto;
 }
 
 .font-dahlia {
-  font-family: 'dahlia';
+  font-family: "dahlia";
   font-style: normal;
   font-weight: normal;
 }
 
+.font-Glitz {
+  font-family: "Glitz";
+}
+
 .font-SpaceGrotesk {
-  font-family: 'SpaceGrotesk';
+  font-family: "SpaceGrotesk";
 }
 
 .font-SpaceGrotesk-light {
-  font-family: 'SpaceGrotesk-light';
+  font-family: "SpaceGrotesk-light";
+  font-weight: lighter;
 }
 
 .font-SpaceGrotesk-Regular {
-  font-family: 'SpaceGrotesk-Regular';
+  font-family: "SpaceGrotesk-Regular";
 }
 
 /* ✨ Enhanced Magnifying Glass - Localized to HeroSection Component Only */
 .magnifying-glass {
   /* Base glass styling */
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.25),
-    0 12px 24px rgba(0, 0, 0, 0.18),
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25), 0 12px 24px rgba(0, 0, 0, 0.18),
     inset 0 2px 12px rgba(255, 255, 255, 0.08),
     inset 0 -2px 6px rgba(0, 0, 0, 0.12),
     inset 0 1px 0px rgba(255, 255, 255, 0.2),
@@ -100,12 +110,17 @@ body {
   border: 2px solid rgba(255, 255, 255, 0.15);
 
   /* Subtle gradient overlay for depth */
-  background-image:
-    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
-    linear-gradient(135deg,
+  background-image: radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      135deg,
       rgba(79, 195, 247, 0.04) 0%,
       rgba(255, 255, 255, 0.02) 50%,
-      rgba(129, 212, 250, 0.04) 100%);
+      rgba(129, 212, 250, 0.04) 100%
+    );
 
   /* Hardware acceleration optimizations */
   transform: translateZ(0);
@@ -115,11 +130,10 @@ body {
 
   /* ✨ SMOOTH TRANSITIONS - Key Performance Enhancement */
   transition:
-    /* Size transitions with optimized easing */
-    width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    /* Size transitions with optimized easing */ width 0.35s
+      cubic-bezier(0.25, 0.46, 0.45, 0.94),
     height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    /* Visual property transitions */
-    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    /* Visual property transitions */ opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
@@ -146,21 +160,24 @@ body {
   border-color: rgba(255, 255, 255, 0.25) !important;
 
   /* Enhanced shadow depth when enlarged */
-  box-shadow:
-    0 35px 70px rgba(0, 0, 0, 0.35),
-    0 20px 40px rgba(0, 0, 0, 0.25),
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.35), 0 20px 40px rgba(0, 0, 0, 0.25),
     inset 0 4px 20px rgba(255, 255, 255, 0.12),
     inset 0 -4px 12px rgba(0, 0, 0, 0.18),
     inset 0 2px 0px rgba(255, 255, 255, 0.3),
     inset 0 -2px 0px rgba(0, 0, 0, 0.2);
 
   /* Enhanced gradient overlay for enlarged state */
-  background-image:
-    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.12) 0%, transparent 70%),
-    linear-gradient(135deg,
+  background-image: radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.12) 0%,
+      transparent 70%
+    ),
+    linear-gradient(
+      135deg,
       rgba(79, 195, 247, 0.06) 0%,
       rgba(255, 255, 255, 0.04) 50%,
-      rgba(129, 212, 250, 0.06) 100%);
+      rgba(129, 212, 250, 0.06) 100%
+    );
 }
 
 /* ✨ Refined Magnified Text - Clean Chromatic Dispersion */
@@ -206,8 +223,7 @@ body {
     -webkit-backdrop-filter: blur(6px) saturate(1.05);
 
     /* Faster transitions on mobile */
-    transition:
-      width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transition: width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
       height 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
       opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -250,11 +266,8 @@ body {
     border-color: rgba(0, 0, 0, 0.12);
 
     /* Adjusted shadows for light backgrounds */
-    box-shadow:
-      0 25px 50px rgba(0, 0, 0, 0.15),
-      0 15px 30px rgba(0, 0, 0, 0.10),
-      inset 0 3px 15px rgba(0, 0, 0, 0.03),
-      inset 0 -3px 8px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 15px 30px rgba(0, 0, 0, 0.1),
+      inset 0 3px 15px rgba(0, 0, 0, 0.03), inset 0 -3px 8px rgba(0, 0, 0, 0.06);
   }
 
   .magnifying-glass.enlarged {
@@ -271,7 +284,6 @@ body {
 
 /* ✨ Accessibility - Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
@@ -316,25 +328,4 @@ body {
 
 html {
   scroll-behavior: smooth;
-}
-
-/* Force hardware acceleration for key elements - Only when active */
-.magnifying-glass,
-.magnify-fx-text {
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  -o-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-/* Optimize rendering for smooth animations - Only when active */
-@supports (will-change: auto) {
-  .magnifying-glass {
-    will-change: width, height, opacity, background, backdrop-filter, transform;
-  }
-
-  .magnify-fx-text {
-    will-change: filter, transform;
-  }
 }

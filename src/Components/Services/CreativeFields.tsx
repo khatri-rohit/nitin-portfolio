@@ -31,7 +31,7 @@ const CreativeFields = ({ currentStep, nameInputRef, emailInputRef, servicesRef 
 
             {/* Main Section */}
             <motion.main
-                className='min-h-screen w-full flex flex-col text-white font-SpaceGrotesk overflow-hidden'
+                className='min-h-screen w-full flex flex-col text-white font-Glitz overflow-hidden'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -49,7 +49,7 @@ const CreativeFields = ({ currentStep, nameInputRef, emailInputRef, servicesRef 
                         </div>
 
                         {/* Subtitle */}
-                        <div className='text-sm sm:text-base lg:text-lg flex flex-col sm:justify-start md:justify-end gap-y-2 lg:gap-y-4 text-start md:text- lg:py-16 max-w-xs lg:max-w-none lg:-mb-10'>
+                        <div className='text-sm sm:text-base lg:text-lg flex flex-col sm:justify-start md:justify-end gap-y-2 lg:gap-y-4 text-start lg:py-16 max-w-xs lg:max-w-none lg:-mb-10 font-[SpaceGrotesk] font-semibold'>
                             <TextReveal>
                                 <p>Design that feels right,</p>
                                 <p>works hard and stands out.</p>
@@ -107,7 +107,7 @@ const CreativeFields = ({ currentStep, nameInputRef, emailInputRef, servicesRef 
             </motion.main>
 
             {/* Services Section */}
-            {creativeData.map((item, index) => (
+            {creativeData.map((item) => (
                 <Service key={item.id}
                     item={item}
                     ServiceList={ServiceList}

@@ -12,7 +12,7 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
   return (
     <motion.div
       key={item.id}
-      className="sticky top-0 w-full h-screen md:p-5 lg:p-8 xl:p-5 2xl:p-10 bg-[#070707] text-white"
+      className="sticky top-0 w-full h-screen md:p-5 lg:p-8 xl:p-5 2xl:p-10 bg-[#070707] text-white font-SpaceGrotesk"
       // className='sticky top-0 w-full h-screen md:p-5 lg:p-8 xl:p-5 2xl:p-10 bg-[#0e0e0e] text-white 2xl:bg-red-700 xl:bg-red-400 lg:bg-pink-200 md:bg-zinc-700'
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
@@ -20,7 +20,7 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
     >
       <motion.div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[90%] h-0.5 bg-gradient-to-b bg-white backdrop-blur-3xl overflow-hidden"></motion.div>
 
-      <div className="h-full w-full flex md:gap-5 xl:gap-5 2xl:gap-8 md:py-5 lg:py-8 lg:px-2 xl:py-10 font-SpaceGrotesk-light">
+      <div className="h-full w-full flex md:gap-5 xl:gap-5 2xl:gap-8 md:py-5 lg:py-8 lg:px-2 xl:py-10 font-Glitz-light">
         {/* Left Section - Number and Services List */}
         <motion.div
           className="h-full xl:w-[25%] md:w-[35%] hidden md:flex xl:gap-5 lg:gap-2 gap-2 xl:p-5 lg:p-2 md:p-5"
@@ -50,9 +50,8 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
                   duration: 0.5,
                   delay: 0.4 + serviceIndex * 0.1,
                 }}
-                className={`w-full ${
-                  service === item.title ? "text-white" : "text-zinc-400"
-                } transition-all duration-200 ease-in-out cursor-pointer`}
+                className={`w-full ${service === item.title ? "text-white" : "text-zinc-400"
+                  } transition-all duration-200 ease-in-out cursor-pointer`}
               >
                 <TextReveal>
                   <span className="md:text-xl lg:text-[1rem] xl:text-xl 2xl:text-[1.5rem] leading-5 md:leading-4.5 lg:leading-5 xl:leading-6 2xl:leading-6.5 font-bold">
@@ -74,7 +73,7 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
           <div className="h-full w-full flex flex-col gap-1 md:gap-3 lg:gap-3.5 xl:gap-5">
             <div className="w-fit">
               <TextReveal delay={0.4}>
-                <p className="xl:text-4xl md:text-2xl lg:text-3xl font-SpaceGrotesk">
+                <p className="xl:text-4xl md:text-2xl lg:text-3xl font-Glitz">
                   {item.title}
                 </p>
               </TextReveal>
@@ -124,7 +123,7 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
             </motion.div>
 
             <motion.button
-              className="hidden md:block xl:hidden relative bg-white text-black font-SpaceGrotesk w-full pt-2 pb-3 font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"
+              className="hidden md:block xl:hidden relative bg-white text-black font-Glitz w-full pt-2 pb-3 font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"
               whileTap={{ scale: 0.95 }}
               onClick={goToContact}
             >
@@ -185,7 +184,7 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
               transition={{ duration: 0.6, delay: 1 }}
             >
               <motion.button
-                className="relative bg-white text-black font-SpaceGrotesk w-full py-2 font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"
+                className="relative bg-white text-black font-Glitz w-full py-2 font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"
                 whileTap={{ scale: 0.95 }}
                 onClick={goToContact}
               >
@@ -203,7 +202,7 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
 
         {/* Mobile Section - Number and Services List */}
         <motion.div className="h-full w-full md:hidden flex flex-col gap-5 p-5 justify-center">
-          <motion.div className="w-full font-SpaceGrotesk flex gap-2 items-start text-[1.3rem]">
+          <motion.div className="w-full font-Glitz flex gap-2 items-start text-[1.3rem]">
             <TextReveal>
               <p className="w-full">{item.id}</p>
             </TextReveal>
@@ -250,7 +249,7 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
             )}
           </motion.div>
           <motion.button
-            className="relative bg-white text-black font-SpaceGrotesk w-full pt-2 pb-3 font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"
+            className="relative bg-white text-black font-Glitz w-full pt-2 pb-3 font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"
             whileTap={{ scale: 0.95 }}
             onClick={goToContact}
           >

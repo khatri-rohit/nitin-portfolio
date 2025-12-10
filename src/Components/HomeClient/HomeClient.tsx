@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Lenis from 'lenis';
 import Navbar from '@/Components/Navigation/Navbar';
 // import HeroSection from "@/Components/HeroSection/HeroSection";
@@ -81,19 +81,6 @@ export default function HomeClient() {
 
     return (
         <main className="w-full h-full relative">
-            {/* <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                disablePictureInPicture
-                aria-hidden="true"
-                preload="none"
-                poster="/img/DarkGradient.webp"
-                className="fixed inset-0 w-full h-full object-cover -z-10"
-                src="/videos/DarkGradient.webm"
-            /> */}
-
             {!isMobile && (
                 <Navbar
                     homeRef={homeRef}
@@ -105,36 +92,54 @@ export default function HomeClient() {
             <AnimatePresence mode="wait">
                 {loading && <PreLoader />}
             </AnimatePresence>
-            <section ref={container}>
-                <LiquidEther
-                    homeRef={homeRef}
-                    isMobile={isMobile}
-                    colors={['#5227FF', '#FF9FFC', '#B19EEF']}
-                    mouseForce={20}
-                    cursorSize={100}
-                    isViscous={false}
-                    viscous={30}
-                    iterationsViscous={32}
-                    iterationsPoisson={32}
-                    resolution={0.5}
-                    isBounce={false}
-                    autoDemo={true}
-                    autoSpeed={0.5}
-                    autoIntensity={2.2}
-                    takeoverDuration={0.25}
-                    autoResumeDelay={3000}
-                    autoRampDuration={0.6}
-                />
-                <About container={container} lenisRef={lenisRef} aboutRef={aboutRef} />
-            </section>
-            <CreativeFields servicesRef={servicesRef} currentStep={currentStep} nameInputRef={nameInputRef} emailInputRef={emailInputRef} />
-            <Exprience experienceRef={experienceRef} items={timelineData} />
-            <Contact
-                contactRef={contactRef}
-                currentStep={currentStep}
-                setCurrentStep={setCurrentStep}
-                nameInputRef={nameInputRef}
-                emailInputRef={emailInputRef} />
+            <motion.div
+                style={{
+                    display: 'none',
+                }}
+                initial={{
+                    opacity: 0,
+                    visibility: 'hidden',
+                    display: 'none',
+                }} animate={{
+                    opacity: 1,
+                    visibility: 'visible',
+                    display: 'block',
+                    transition: {
+                        delay: 2,
+                        duration: 1,
+                    }
+                }} exit={{ opacity: 0 }}>
+                <section ref={container}>
+                    <LiquidEther
+                        homeRef={homeRef}
+                        isMobile={isMobile}
+                        colors={['#ffa200ff', '#ff0000', '#ffffff']}
+                        mouseForce={20}
+                        cursorSize={140}
+                        isViscous={false}
+                        viscous={30}
+                        iterationsViscous={32}
+                        iterationsPoisson={32}
+                        resolution={0.5}
+                        isBounce={false}
+                        autoDemo={true}
+                        autoSpeed={0.4}
+                        autoIntensity={2.2}
+                        takeoverDuration={0.25}
+                        autoResumeDelay={1000}
+                        autoRampDuration={0.6}
+                    />
+                    <About container={container} lenisRef={lenisRef} aboutRef={aboutRef} />
+                </section>
+                <CreativeFields servicesRef={servicesRef} currentStep={currentStep} nameInputRef={nameInputRef} emailInputRef={emailInputRef} />
+                <Exprience experienceRef={experienceRef} items={timelineData} />
+                <Contact
+                    contactRef={contactRef}
+                    currentStep={currentStep}
+                    setCurrentStep={setCurrentStep}
+                    nameInputRef={nameInputRef}
+                    emailInputRef={emailInputRef} />
+            </motion.div>
         </main>
     );
 }

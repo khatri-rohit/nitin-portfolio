@@ -80,7 +80,7 @@ const FixedContact = () => {
 
     return (
         <motion.div
-            className="fixed bottom-3 left-3 md:bottom-6 md:left-6 z-50 font-SpaceGrotesk cursor-pointer"
+            className="fixed bottom-3 left-3 md:bottom-6 md:left-6 z-50 font-Glitz cursor-pointer"
             onHoverStart={() => {
                 setIsHovered(true);
                 // setIsExpanded(true);

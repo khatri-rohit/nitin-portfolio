@@ -8,23 +8,42 @@ import { Home, Work, Person, BusinessCenter, Phone } from '@mui/icons-material';
 const steps = [
     {
         label: 'HOME',
-        icon: <Home />,
+        icon: <Home sx={{
+            color: '#e7436f',
+            fontSize: '1.5rem',
+        }} />,
     },
     {
         label: 'ABOUT ME',
-        icon: <Person />,
+        icon: <Person sx={{
+            color: '#e7436f',
+            fontSize: '1.5rem',
+        }}
+        />,
     },
     {
         label: 'SERVICES',
-        icon: <Work />,
+        icon: <Work sx={{
+            color: '#e7436f',
+            fontSize: '1.5rem',
+        }}
+        />,
     },
     {
         label: 'EXPERIENCE',
-        icon: <BusinessCenter />,
+        icon: <BusinessCenter sx={{
+            color: '#e7436f',
+            fontSize: '1.5rem',
+        }}
+        />,
     },
     {
         label: 'CONTACT',
-        icon: <Phone />,
+        icon: <Phone sx={{
+            color: '#e7436f',
+            fontSize: '1.5rem',
+        }}
+        />,
     }
 ];
 
@@ -225,7 +244,7 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
                         alignItems: 'center',
                         zIndex: 1000,
                     }}
-                    className='hidden sm:flex top-1/2 transform-gpu -translate-y-1/2 font-SpaceGrotesk'
+                    className='hidden sm:flex top-1/2 transform-gpu -translate-y-1/2 font-Glitz'
                 >
                     <Box
                         sx={{
