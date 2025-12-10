@@ -10,8 +10,9 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Send, RefreshCw, Check } from "lucide-react";
+import { z } from "zod";
 import { motion } from "motion/react";
+import { Send, RefreshCw, Check } from "lucide-react";
 import InlineDropdown from "./InlineDropdown";
 import InlineInput from "./InlineInput";
 import TypingTextAnimation from "./TypingTextAnimation";
@@ -55,6 +56,13 @@ type Statements = {
   statement3: string;
   completion: string;
 };
+const ContactSchema = z.object({
+  name: z.string().min(2, "Name is too short"),
+  email: z.string().email("Invalid email format"),
+  service: z.string().min(2, "Select a service"),
+  through: z.string().min(2, "Select how you found us"),
+  message: z.string().min(10, "Message is too short"),
+});
 
 const Contact = ({
   contactRef,
@@ -72,6 +80,10 @@ const Contact = ({
   const [through, setThrough] = useState("");
   const [service, setService] = useState("");
   const [email, setEmail] = useState("");
+
+  const [showOtherService, setShowOtherService] = useState(false);
+  const [otherService, setOtherService] = useState("");
+  const [formError, setFormError] = useState<string>("");
 
   // Animation control state - isolated from form state
   const [animationTriggers, setAnimationTriggers] = useState<AnimationTriggers>(
@@ -102,6 +114,7 @@ const Contact = ({
 
   const throughRef = useRef<HTMLDivElement | null>(null);
   const serviceRef = useRef<HTMLDivElement | null>(null);
+  const otherServiceRef = useRef<HTMLInputElement | null>(null);
 
   const throughOptions = ["Instagram", "LinkedIn", "Referral", "Website"];
   const serviceOptions = [
@@ -109,6 +122,7 @@ const Contact = ({
     "Motion Graphics & Animation",
     "3D & Visual Effects (VFX)",
     "Video Post-Production",
+    "Other",
   ];
 
   const statements = {
@@ -165,10 +179,25 @@ const Contact = ({
 
   // Handle service selection
   const handleServiceSelect = (option: string) => {
+    if (option === 'Other') {
+      setShowOtherService(true);
+      setIsServiceOpen(false);
+      return;
+    }
+
     setService(option);
     setIsServiceOpen(false);
     setCurrentStep("statement2");
     setAnimationTriggers((prev) => ({ ...prev, statement2: true }));
+  };
+
+  const handleOtherServiceSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && otherService.trim()) {
+      setCurrentStep("statement2");
+      setAnimationTriggers((prev) => ({ ...prev, statement2: true }));
+      setShowOtherService(false);
+      setService(otherService);
+    }
   };
 
   // Animation completion handlers
@@ -226,23 +255,55 @@ const Contact = ({
   };
 
   const handleSendMessage = async () => {
-    setIsSending(true);
+    setFormError(""); // reset previous errors
 
-    // Start flip animation
-    setIsFlipped(true);
+    // Build payload
+    const payload = {
+      name,
+      email,
+      service,
+      through,
+      message: `Hi, my name is ${name}. I’d like to inquire about ${service}. Found you through ${through}. My email: ${email}.`,
+    };
 
-    // After 2.5 seconds, flip back and reset
-    setTimeout(() => {
-      handleRefresh();
+    // Zod validation
+    const parsed = ContactSchema.safeParse(payload);
+
+    if (!parsed.success) {
+      setFormError(parsed.error.issues[0].message);
+      return;
+    }
+
+    try {
+      setIsSending(true);
+      setIsFlipped(true);
+
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(parsed.data),
+      });
+
+      if (!res.ok) {
+        throw new Error("Request failed");
+      }
+
+      // success flip animation
+      setTimeout(() => {
+        handleRefresh();
+        setIsFlipped(false);
+        setIsSending(false);
+      }, 3500);
+
+    } catch (err) {
+      console.error("CONTACT ERROR:", err);
+      setFormError("Failed to send message. Try again.");
       setIsFlipped(false);
       setIsSending(false);
-      // Reset after flip back completes (500ms for flip transition)
-    }, 3500);
-
-    // Uncomment to enable actual email functionality
-    // const message = `Hi Nitin,\n\nMy name is ${name} and I would like to inquire about your services. I found your studio through ${through}. I am particularly interested in ${service}. Here is my email address: ${email}.\n\nLooking forward to hearing from you.`;
-    // window.location.href = `mailto:nitinkhatri312@gmail.com?subject=Inquiry from ${name}&body=${encodeURIComponent(message)}`;
+    }
   };
+
+
 
   return (
     <section
@@ -407,6 +468,11 @@ const Contact = ({
               handleStatement3Complete={handleStatement3Complete}
               service={service}
               serviceRef={serviceRef as any}
+              showOtherService={showOtherService}
+              otherService={otherService}
+              setOtherService={setOtherService}
+              handleOtherServiceSubmit={handleOtherServiceSubmit}
+              otherServiceRef={otherServiceRef}
               isServiceOpen={isServiceOpen}
               setIsServiceOpen={setIsServiceOpen}
               serviceOptions={serviceOptions}
@@ -429,6 +495,7 @@ const Contact = ({
               isMobile={true}
               isSending={isSending}
               isFlipped={isFlipped}
+              formError={formError}
             />
           </div>
         </div>
@@ -469,6 +536,11 @@ const Contact = ({
                 setIsServiceOpen={setIsServiceOpen}
                 serviceOptions={serviceOptions}
                 handleServiceSelect={handleServiceSelect}
+                showOtherService={showOtherService}
+                otherService={otherService}
+                setOtherService={setOtherService}
+                handleOtherServiceSubmit={handleOtherServiceSubmit}
+                otherServiceRef={otherServiceRef}
                 handleStatement2Complete={handleStatement2Complete}
                 email={email}
                 setEmail={setEmail}
@@ -486,6 +558,7 @@ const Contact = ({
                 isMobile={false}
                 isSending={isSending}
                 isFlipped={isFlipped}
+                formError={formError}
               />
             </div>
 
@@ -550,6 +623,11 @@ interface ChartCardProps {
   setIsServiceOpen: (isOpen: boolean) => void;
   serviceOptions: string[];
   handleServiceSelect: (option: string) => void;
+  showOtherService: boolean;
+  otherService: string;
+  setOtherService: (otherService: string) => void;
+  handleOtherServiceSubmit: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  otherServiceRef: RefObject<HTMLInputElement | null>;
   handleStatement2Complete: () => void;
   email: string;
   setEmail: (email: string) => void;
@@ -579,6 +657,11 @@ const ChatCard = ({
   handleThroughSelect,
   handleStatement3Complete,
   service,
+  showOtherService,
+  otherService,
+  setOtherService,
+  handleOtherServiceSubmit,
+  otherServiceRef,
   serviceRef,
   isServiceOpen,
   setIsServiceOpen,
@@ -699,7 +782,7 @@ const ChatCard = ({
 
                     {animationComplete.statement3 &&
                       currentStep === "service" &&
-                      !service && (
+                      !service && !showOtherService && (
                         <InlineDropdown
                           dropdownRef={serviceRef}
                           isOpen={isServiceOpen}
@@ -707,9 +790,19 @@ const ChatCard = ({
                           value={service}
                           options={serviceOptions}
                           onSelect={handleServiceSelect}
-                          placeholder="select service"
+                          placeholder="What are you looking for?"
                         />
                       )}
+                    {showOtherService && (
+                      <InlineInput
+                        inputRef={otherServiceRef}
+                        type="text"
+                        value={otherService}
+                        onChange={setOtherService}
+                        onKeyDown={handleOtherServiceSubmit}
+                        placeholder="Enter what you're looking for"
+                      />
+                    )}
 
                     {service && (
                       <span className="font-medium text-red-400 border-b border-dashed border-red-400/50">
@@ -871,6 +964,7 @@ interface ActionBtnProps {
   isMobile: boolean;
   isSending: boolean;
   isFlipped: boolean;
+  formError: string;
 }
 
 const ActionButtons = ({
@@ -881,6 +975,7 @@ const ActionButtons = ({
   isMobile,
   isSending,
   isFlipped,
+  formError,
 }: ActionBtnProps) => (
   <motion.div
     className={`flex items-center justify-between w-full space-x-3 sm:space-x-4 ${isMobile ? "mt-6 sm:mt-8" : ""
@@ -925,7 +1020,7 @@ const ActionButtons = ({
         }`}
     >
       <span className="truncate">
-        {isSending ? "Sending..." : "Send Message"}
+        {formError ? formError : isSending ? "Sending..." : "Send Message"}
       </span>
 
       <Send
