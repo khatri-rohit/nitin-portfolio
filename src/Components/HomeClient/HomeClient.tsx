@@ -10,9 +10,10 @@ import PreLoader from "@/Components/PreLoader/PreLoader";
 import Exprience from "@/Components/Exprience/Exprience";
 import CreativeFields from "@/Components/Services/CreativeFields";
 import Contact from '@/Components/Contact/Contact';
-import { useScrollbarToggle } from '@/utils/scrollbarManager';
-import { timelineData } from '@/Components/Exprience/timelineData';
 import LiquidEther from "./LiquidEther";
+
+import { timelineData } from '@/Components/Exprience/timelineData';
+import { useScrollbarToggle } from '@/utils/scrollbarManager';
 
 type Step = 'name' | 'statement1' | 'through' | 'statement3' | 'service' | 'statement2' | 'email' | 'completion' | 'complete';
 

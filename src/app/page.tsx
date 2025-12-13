@@ -1,5 +1,5 @@
 import HomeClient from "@/Components/HomeClient/HomeClient";
 
-export default function Page() {
+export default async function Page() {
   return <HomeClient />;
 }
