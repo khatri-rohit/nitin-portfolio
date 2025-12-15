@@ -49,7 +49,6 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
   // State to track when scale equals 1
   const [isScaleOne, setIsScaleOne] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [isAnimationsStarted, setIsAnimationsStarted] = useState(false);
 
   const textContainerRef = useRef<HTMLDivElement>(null);
 
@@ -440,7 +439,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
                   }}
                 >
                   <div className="flex flex-col" ref={textContainerRef}>
-                    {!isAnimationsStarted && isMobile ?
+                    {isMobile ?
                       (
                         <span
                           className="absolute top-0 left-0 whitespace-nowrap h-[1.2em] flex items-center"
