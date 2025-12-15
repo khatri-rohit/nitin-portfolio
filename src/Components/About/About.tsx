@@ -111,7 +111,6 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
 
     // Create timeline with finite repeat count to avoid memory issues
     const animation = gsap.timeline({ repeat: 20 });
-    setIsAnimationsStarted(true);
 
     // Set initial state
     gsap.set(container, { autoAlpha: 1 });
