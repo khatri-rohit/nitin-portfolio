@@ -38,7 +38,22 @@ const icon = [
 const aboutText = `
 <p>10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.</p>`;
 
+const words = [
+  "Creative Designer",
+  "Video Editor",
+  "Product Designer",
+  "Motion Expert",
+];
+
 const About = ({ container, lenisRef, aboutRef }: Props) => {
+  // State to track when scale equals 1
+  const [isScaleOne, setIsScaleOne] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isAnimationsStarted, setIsAnimationsStarted] = useState(false);
+
+  const textContainerRef = useRef<HTMLDivElement>(null);
+
+
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ["start start", "end end"],
@@ -49,9 +64,11 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
     [1, 0.8, 0.8, 1]
   );
 
-  // State to track when scale equals 1
-  const [isScaleOne, setIsScaleOne] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  // Listen to scale changes and update state
+  useMotionValueEvent(scale, "change", (latest) => {
+    if (isScaleOne) return;
+    setIsScaleOne(latest === 1);
+  });
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 768px)");
@@ -64,20 +81,6 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
       else mq.removeListener(update);
     };
   }, []);
-  const textContainerRef = useRef<HTMLDivElement>(null);
-
-  const words = [
-    "Creative Designer",
-    "Video Editor",
-    "Product Designer",
-    "Motion Expert",
-  ];
-
-  // Listen to scale changes and update state
-  useMotionValueEvent(scale, "change", (latest) => {
-    if (isScaleOne) return;
-    setIsScaleOne(latest === 1);
-  });
 
   // useEffect(() => {
   //   // Check if device is mobile/tablet
@@ -92,6 +95,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
   // }, []);
 
   // Trigger animation when textContainerRef is available
+
   useEffect(() => {
     if (!textContainerRef.current) return;
 
@@ -108,6 +112,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
 
     // Create timeline with finite repeat count to avoid memory issues
     const animation = gsap.timeline({ repeat: 20 });
+    setIsAnimationsStarted(true);
 
     // Set initial state
     gsap.set(container, { autoAlpha: 1 });
@@ -435,14 +440,21 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
                   }}
                 >
                   <div className="flex flex-col" ref={textContainerRef}>
-                    {words.map((word, index) => (
-                      <span
-                        key={index}
-                        className="absolute top-0 left-0 whitespace-nowrap h-[1.2em] flex items-center"
-                      >
-                        {word}
-                      </span>
-                    ))}
+                    {!isAnimationsStarted && isMobile ?
+                      (
+                        <span
+                          className="absolute top-0 left-0 whitespace-nowrap h-[1.2em] flex items-center"
+                        >
+                          {words[0]}
+                        </span>
+                      ) : words.map((word, index) => (
+                        <span
+                          key={index}
+                          className="absolute top-0 left-0 whitespace-nowrap h-[1.2em] flex items-center"
+                        >
+                          {word}
+                        </span>
+                      ))}
                   </div>
                 </motion.div>
               </motion.div>
