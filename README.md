@@ -118,4 +118,4 @@ This is a personal portfolio project. For suggestions or improvements, please op
 
 ## License
 
-This project is private and proprietary.
+This project is public.
