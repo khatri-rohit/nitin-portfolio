@@ -1,13 +1,15 @@
 import React, { KeyboardEvent, RefObject } from 'react';
 
-const InlineInput = React.memo<{
+interface InlineInputProps {
     value: string;
     onChange: (value: string) => void;
     onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
     placeholder: string;
     inputRef: RefObject<HTMLInputElement | null>;
     type?: string;
-}>(({ value, onChange, onKeyDown, placeholder, inputRef, type = "text" }) => (
+}
+
+const InlineInput = React.memo<InlineInputProps>(({ value, onChange, onKeyDown, placeholder, inputRef, type = "text" }) => (
     <input
         ref={inputRef}
         type={type}

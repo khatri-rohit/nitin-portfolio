@@ -244,7 +244,7 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
                         alignItems: 'center',
                         zIndex: 1000,
                     }}
-                    className='hidden sm:flex top-1/2 transform-gpu -translate-y-1/2 font-Glitz'
+                    className='hidden sm:flex top-1/2 transform-gpu -translate-y-1/2'
                 >
                     <Box
                         sx={{
@@ -292,7 +292,7 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
                                     >
                                         {step.icon}
                                     </Box>
-                                    <p className='mt-0.5 text-sm font-medium'>{step.label}</p>
+                                    <p className='mt-0.5 text-sm tracking-widest'>{step.label}</p>
                                 </Box>
 
                                 {/* Progress connector */}
