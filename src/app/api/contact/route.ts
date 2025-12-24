@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     // -----------------------------
     const adminMail = {
       from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
-      to: "rohitkhatri111112@gmail.com",
+      to: "nitinkhatri312@gmail.com",
       subject: `New Contact Inquiry from ${name}`,
       text: `
 New Inquiry Received:
