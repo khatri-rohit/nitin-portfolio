@@ -1,7 +1,26 @@
+import { getUserIP } from "@/app/actions/utils";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { RateLimiterMemory } from "rate-limiter-flexible";
+
+const rateLimiter = new RateLimiterMemory({
+  points: 10,
+  duration: 60,
+});
 
 export async function POST(req: Request) {
+  try {
+    const ip = await getUserIP();
+    console.log(ip);
+    await rateLimiter.consume(ip, 2);
+  } catch {
+    console.error("Too many requests");
+    return NextResponse.json(
+      { error: "Failed to send emails" },
+      { status: 500 }
+    );
+  }
+
   try {
     const { name, email, service, through, message } = await req.json();
 
@@ -27,7 +46,7 @@ export async function POST(req: Request) {
     // -----------------------------
     const adminMail = {
       from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
-      to: "nitinkhatri312@gmail.com",
+      to: "rohitkhatri111112@gmail.com",
       subject: `New Contact Inquiry from ${name}`,
       text: `
 New Inquiry Received:
