@@ -308,12 +308,13 @@ const Contact = ({
   return (
     <section
       ref={contactRef}
-      className="min-h-screen w-full flex items-center justify-center relative overflow-hidden"
+      className="min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-neutral-900"
+      id="contact"
     >
       {/* Enhanced Animated Background */}
       <div className="absolute inset-0">
         {/* Base gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 animate-gradient-xy"></div>
+        {/* <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 animate-gradient-xy"></div> */}
 
         {/* Floating geometric shapes */}
         <div className="absolute inset-0">

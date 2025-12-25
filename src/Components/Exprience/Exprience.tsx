@@ -27,7 +27,8 @@ const Timeline = ({ items, experienceRef }: TimelineProps & Props) => {
     return (
         <section
             ref={experienceRef}
-            className="bg-neutral-900 py-20 lg:py-32 overflow-x-hidden font-SpaceGrotesk"
+            className="bg-neutral-900 py-20 lg:py-32 overflow-x-hidden font-SpaceGrotesk border-b"
+            id="experience"
             role="region"
             aria-label="Experience and Freelance Timeline"
         >

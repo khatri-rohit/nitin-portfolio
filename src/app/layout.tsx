@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Analytics } from '@vercel/analytics/next';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nitin Khatri - VFX & Graphic Designer Portfolio",
-  description: "A creative VFX and graphic designer specializing in visual storytelling, motion graphics, and digital artistry. Explore a showcase of innovative projects blending imagination with technical expertise.",
+  metadataBase: new URL('https://www.nitinkhatri.design/'),
+  title: "Nitin Khatri - VFX & Graphic Designer",
+  description: "I am a creative VFX and graphic designer specializing in visual storytelling, motion graphics, and digital artistry. Explore a showcase of my innovative projects blending imagination with technical expertise.",
   keywords: ["VFX", "graphic design", "motion graphics", "visual storytelling", "digital artistry", "portfolio", "Nitin Khatri"],
   authors: [{ name: "Nitin Khatri" }],
   creator: "Nitin Khatri",
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Nitin Khatri - VFX & Graphic Designer Portfolio",
-    description: "Discover the innovative work of Nitin Khatri, a VFX and graphic designer creating stunning visual stories and motion graphics.",
-    url: "https://www.nitinkhatri.design/", // Replace with actual URL
+    title: "Nitin Khatri - VFX & Graphic Designer",
+    description: "Discover my innovative work as a VFX and graphic designer creating stunning visual stories and motion graphics.",
+    url: "https://www.nitinkhatri.design/",
     siteName: "Nitin Khatri Portfolio",
     images: [
       {
-        url: "/img/hellocopy.png", // Add an appropriate OG image in /public/img/
+        url: "/img/hellocopy.png",
         width: 1200,
         height: 630,
         alt: "Nitin Khatri - VFX & Graphic Designer",
@@ -50,17 +50,16 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Nitin Khatri - VFX & Graphic Designer Portfolio",
-    description: "Explore the creative portfolio of Nitin Khatri, specializing in VFX, motion graphics, and digital artistry.",
-    images: ["/img/twitter-image.png"], // Add an appropriate Twitter image in /public/img/
+    description: "Explore my creative portfolio, specializing in VFX, motion graphics, and digital artistry.",
+    images: ["/img/Profile.jpg"],
   },
   icons: {
     icon: "/img/favicon.ico",
     shortcut: "/img/favicon-16x16.png",
     apple: "/img/apple-touch-icon.png",
   },
-  manifest: "/site.webmanifest",
   alternates: {
-    canonical: "https://www.nitinkhatri.design/", // Replace with actual URL
+    canonical: "https://www.nitinkhatri.design/",
   },
 };
 
@@ -76,7 +75,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased text-white `}
       >
         {children}
-        <Analytics />
       </body>
     </html>
   );

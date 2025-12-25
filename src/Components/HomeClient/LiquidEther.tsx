@@ -1250,6 +1250,7 @@ export default function LiquidEther({
       ref={mountRef}
       className={`w-full h-screen absolute top-0 left-0 overflow-hidden pointer-events-none ${className || ''}`}
       style={style}
+      id="home"
     >
       {/* HeroSection positioned above the WebGL canvas with pointer events enabled */}
       <div className="absolute inset-0 z-10 pointer-events-auto">

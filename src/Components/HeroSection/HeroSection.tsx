@@ -26,10 +26,10 @@ const HeroSection = ({ homeRef, isMobile }: Props) => {
     // const { x, y } = useMousePosition();
 
     const wordPairs = useMemo<WordPair[]>(() => [
-        { left: 'Creative', right: 'Designer' },
-        { left: 'Video', right: 'Editor' },
-        { left: 'Product', right: 'Designer' },
-        { left: 'Motion', right: 'Expert' },
+        { left: 'Video', right: 'Editing' },
+        { left: 'Creative', right: 'Designing' },
+        { left: 'Product', right: 'Designing' },
+        { left: 'Motion', right: 'Graphics' },
     ], []);
 
     // Animation controls for base layer

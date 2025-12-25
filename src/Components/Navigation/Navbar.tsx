@@ -4,43 +4,49 @@ import { memo, RefObject, useEffect, useMemo, useState, useCallback } from 'reac
 import { motion, AnimatePresence } from 'motion/react';
 import Box from '@mui/material/Box';
 import { Home, Work, Person, BusinessCenter, Phone } from '@mui/icons-material';
+import Link from 'next/link';
 
 const steps = [
     {
         label: 'HOME',
+        href: "home",
         icon: <Home sx={{
-            color: '#e7436f',
+            color: '#ff7171',
             fontSize: '1.5rem',
         }} />,
     },
     {
         label: 'ABOUT ME',
+        href: "aboutme",
         icon: <Person sx={{
-            color: '#e7436f',
+            color: '#ff7171',
             fontSize: '1.5rem',
         }}
         />,
     },
     {
-        label: 'SERVICES',
+        label: 'WHAT I DO',
+        href: "services",
         icon: <Work sx={{
-            color: '#e7436f',
+            color: '#ff7171',
             fontSize: '1.5rem',
         }}
         />,
     },
     {
         label: 'EXPERIENCE',
+        href: "experience",
         icon: <BusinessCenter sx={{
-            color: '#e7436f',
+            color: '#ff7171',
             fontSize: '1.5rem',
         }}
         />,
     },
     {
         label: 'CONTACT',
+        href: "contact",
         icon: <Phone sx={{
-            color: '#e7436f',
+            color: '#ff7171',
             fontSize: '1.5rem',
         }}
         />,
@@ -61,6 +67,7 @@ interface SectionProgress {
 }
 
 const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: Props) => {
+
     const [activeStep, setActiveStep] = useState(0);
     const [isScrolling, setIsScrolling] = useState(false);
     const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -176,18 +183,17 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
         };
     }, [calculateSectionProgress, scrollTimeout, isHover]);
 
-    const handleStepClick = (index: number) => {
-        setActiveStep(index);
-
-        // Smooth scroll to the section
-        const targetRef = refs[index];
-        if (targetRef.current) {
-            targetRef.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    };
+    // const handleStepClick = (index: number) => {
+    //     setActiveStep(index);
+    //     // Smooth scroll to the section
+    //     // const targetRef = refs[index];
+    //     // if (targetRef.current) {
+    //     //     targetRef.current.scrollIntoView({
+    //     //         behavior: 'smooth',
+    //     //         block: 'start'
+    //     //     });
+    //     // }
+    // };
 
     const getProgressForConnector = (index: number): number => {
         if (index >= sectionProgress.length) return 0;
@@ -262,19 +268,16 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
                     >
                         {steps.map((step, index) => (
                             <div key={step.label}>
-                                <Box
-                                    onClick={() => handleStepClick(index)}
-                                    sx={{
+                                <Link
+                                    href={`#${step.href}`}
+                                    style={{
                                         display: 'flex',
                                         alignItems: 'center',
                                         columnGap: 1,
                                         transition: 'all 0.3s ease',
                                         cursor: 'pointer',
-                                        p: 0.5,
-                                        borderRadius: 1,
-                                        '&:hover': {
-                                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                        },
+                                        padding: 0.5,
+                                        borderRadius: 1
                                     }}
                                 >
                                     <Box
@@ -292,8 +295,8 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
                                     >
                                         {step.icon}
                                     </Box>
-                                    <p className='mt-0.5 text-sm tracking-widest'>{step.label}</p>
-                                </Box>
+                                    <p className='mt-0.5 ml-1 text-sm tracking-widest'>{step.label}</p>
+                                </Link>
 
                                 {/* Progress connector */}
                                 {index < steps.length - 1 && (
@@ -302,7 +305,7 @@ const Navbar = ({ homeRef, aboutRef, servicesRef, experienceRef, contactRef }: P
                                             height: 80,
                                             width: 2,
                                             backgroundColor: "rgba(255, 255, 255, 0.3)",
-                                            mx: 2.4,
+                                            mx: 2,
                                             my: 1,
                                             borderRadius: 1,
                                             position: 'relative',

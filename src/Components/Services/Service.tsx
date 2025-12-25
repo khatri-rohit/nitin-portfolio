@@ -98,28 +98,13 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
               transition={{ duration: 0.8, delay: 0.1 }}
               style={{ transformOrigin: "top" }}
             >
-              {item.isImageLoaded ? (
-                <motion.img
-                  src={item.src}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.1 }}
-                />
-              ) : (
-                <motion.video
-                  src={item.src}
-                  className={
-                    item.id === "04" || item.id === "02"
-                      ? "object-cover absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150"
-                      : `absolute top-[80%]! left-[80%]! min-w-full min-h-full object-cover -translate-x-[80%]! -translate-y-[80%]! scale-[1.5]`
-                  }
-                  autoPlay
-                  loop
-                  muted
-                />
-              )}
+              <motion.video
+                src={item.src}
+                className="object-cover absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
+                autoPlay
+                loop
+                muted
+              />
             </motion.div>
 
             <motion.button
@@ -229,24 +214,13 @@ const Service = ({ item, ServiceList, goToContact }: Props) => {
             transition={{ duration: 0.8, delay: 0.1 }}
             style={{ transformOrigin: "top" }}
           >
-            {item.isImageLoaded ? (
-              <motion.img
-                src={item.src}
-                alt={item.title}
-                className="w-full h-full object-cover"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-              />
-            ) : (
-              <motion.video
-                src={item.src}
-                className="absolute top-[80%]! left-[80%]! min-w-full min-h-full object-cover -translate-x-[80%]! -translate-y-[80%]! scale-[1.5]"
-                autoPlay
-                loop
-                muted
-              />
-            )}
+            <motion.video
+              src={item.src}
+              className="w-full h-full object-cover"
+              autoPlay
+              loop
+              muted
+            />
           </motion.div>
           <motion.button
             className="relative bg-white text-black font-Glitz w-full pt-2 pb-3 font-medium transition-colors duration-300 ease-in-out hover:bg-black hover:text-white cursor-pointer overflow-hidden group"

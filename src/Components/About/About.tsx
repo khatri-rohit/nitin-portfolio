@@ -36,7 +36,8 @@ const icon = [
 ];
 
 const aboutText = `
-<p>10+ years of experience delivering impactful visuals, animations, and videos across fintech, Web3, gaming, and global branding campaigns. I bring concepts to life using After Effects, Blender, and Adobe Suite turning brand goals into scroll-stopping content. Open to remote, freelance, and full-time global opportunities.</p>`;
+<p>I’m a creative professional with 10+ years of experience in graphic design and video editing, creating visually engaging work across fintech, Web3, gaming, and global branding campaigns.<br/>
+My work spans branding, social media creatives, motion graphics, and video editing, with a growing interest in 3D design to add depth and realism to visual storytelling. I focus on turning ideas into strong visuals that communicate clearly and leave a lasting impression.</p>`;
 
 const words = [
   "Creative Designer",
@@ -193,7 +194,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
         }}
         exit={{ scale: 0 }}
       >
-        <p className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#e7436f] text-center px-4">
+        <p className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#ff7171] text-center px-4">
           ABOUT ME
         </p>
       </motion.div>
@@ -201,7 +202,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
   }
 
   return (
-    <div className="font-Glitz" ref={aboutRef}>
+    <div className="font-Glitz" ref={aboutRef} id="aboutme">
       <motion.div
         className="bg-[#17171c] text-white overflow-x-hidden relative"
         style={{ scale: isMobile ? 1 : scale }}
@@ -232,12 +233,12 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
             transition={{
               ease: "easeOut",
               duration: 0.8,
-              delay: 0.25, // Starts immediately
+              delay: 0.25,
             }}
             initial={{ x: "0%" }}
             animate={{ x: "-100%" }}
           >
-            <p className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#e7436f] text-center px-4">
+            <p className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#ff7171] text-center px-4">
               ABOUT ME
             </p>
           </motion.div>
@@ -352,7 +353,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
           >
             <motion.div className="h-full flex justify-center items-center hover:scale-105 hover:rotate-y-5 transition-all duration-300 my-auto">
               <motion.img
-                src="/img/nitinkhatri-1.png"
+                src="/img/Profile.jpg"
                 className="xl:h-[75vh] lg:h-[60vh] md:h-[50vh] filter drop-shadow-2xl my-auto"
                 alt="Nitin Khatri"
                 initial={{ scale: 0.8, filter: "blur(10px)" }}
@@ -392,19 +393,15 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
                 <TextReveal delay={isMobile ? 0 : 1.5}>
                   <motion.div
                     className="w-full text-2xl md:text-3xl lg:text-5xl xl:text-7xl 2xl:text-8xl tracking-[0rem] text-slate-200 font-semibold"
-                    whileHover={{
-                      textShadow: "0 0 20px rgba(231, 67, 111, 0.5)",
-                      transition: { duration: 0.3 },
-                    }}
                   >
-                    ABOUT ME
+                    About Me
                   </motion.div>
                 </TextReveal>
               </motion.div>
 
               {/* Name and Animated Role */}
               <motion.div
-                className="w-full flex flex-col sm:flex-row sm:items-center text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-4xl tracking-[0rem] text-[#e7436f] gap-2 sm:gap-3 lg:gap-2 xl:gap-3 font-SpaceGrotesk font-semibold"
+                className="w-full flex flex-col sm:flex-row sm:items-center text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-4xl tracking-[0rem] text-[#ff7171] gap-2 sm:gap-3 lg:gap-2 xl:gap-3 font-SpaceGrotesk font-semibold"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -459,7 +456,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
 
               {/* Description Paragraph */}
               <motion.div
-                className="w-full text-[1.2rem] sm:text-lg md:text-xl lg:text-3xl xl:text-4xl 2xl:text-[2.5rem] tracking-[0rem] font-Glitz-light font-light xl:leading-[1.2]"
+                className="w-full text-[1.2rem] sm:text-base md:text-lg lg:text-2xl xl:text-3xl 2xl:text-[2.5rem] tracking-[0rem] font-Glitz-light font-light xl:leading-[1.2]"
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -498,7 +495,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
                   <MagneticEffect key={index}>
                     <Link href={iconItem.link} target="_blank">
                       <Icon
-                        className="text-white cursor-pointer hover:text-[#e7436f] transition-colors duration-300"
+                        className="text-white cursor-pointer hover:text-[#ff7171] transition-colors duration-300"
                         icon={iconItem.icon}
                         width="36"
                         height="36"
@@ -515,7 +512,7 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
             {[...Array(6)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-2 h-2 bg-[#e7436f] rounded-full opacity-60"
+                className="absolute w-2 h-2 bg-[#ff7171] rounded-full opacity-60"
                 style={{
                   left: `${20 + i * 15}%`,
                   top: `${30 + (i % 2) * 40}%`,
