@@ -35,10 +35,6 @@ const icon = [
   },
 ];
 
-const aboutText = `
-<p>I’m a creative professional with 10+ years of experience in graphic design and video editing, creating visually engaging work across fintech, Web3, gaming, and global branding campaigns.<br/>
-My work spans branding, social media creatives, motion graphics, and video editing, with a growing interest in 3D design to add depth and realism to visual storytelling. I focus on turning ideas into strong visuals that communicate clearly and leave a lasting impression.</p>`;
-
 const words = [
   "Creative Designer",
   "Video Editor",
@@ -456,28 +452,40 @@ const About = ({ container, lenisRef, aboutRef }: Props) => {
 
               {/* Description Paragraph */}
               <motion.div
-                className="w-full text-[1.2rem] sm:text-base md:text-lg lg:text-2xl xl:text-3xl 2xl:text-[2.5rem] tracking-[0rem] font-Glitz-light font-light xl:leading-[1.2]"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
+                className="w-full text-[1rem] sm:text-sm md:text-[16px] lg:text-xl xl:text-xl 2xl:text-[2.5rem] tracking-[0rem] font-Glitz-light font-light xl:leading-[1.2]"
+                initial="hidden"
+                animate="visible"
                 transition={{
                   duration: 0.8,
                   delay: isMobile ? 0 : 2,
                   ease: "easeOut",
+                  staggerChildren: 0.2,
+                }}
+                variants={{
+                  hidden: {},
+                  visible: {},
                 }}
               >
-                <TextReveal delay={isMobile ? 0 : 2.1}>
-                  <p className="w-full leading-[1.2] text-gray-300 font-SpaceGrotesk"
-                    dangerouslySetInnerHTML={{ __html: aboutText }}
-                  />
-                  {/* 10+ years of experience delivering impactful visuals,
-                  animations, and videos across fintech, Web3, gaming, and
-                  global branding campaigns. I bring concepts to life using
-                  After Effects, Blender, and Adobe Suite turning brand goals
-                  into scroll-stopping content. Open to remote, freelance, and
-                  full-time global opportunities.
-                  </p> */}
-                </TextReveal>
-                {/* Writing in HTML is not recommended, but it's the only way to do it with TextReveal without beraking the text from mid-sentence. */}
+                <motion.p
+                  className="w-full leading-[1.2] text-gray-300 font-SpaceGrotesk"
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                >
+                  I’m a creative professional with 10+ years of experience in graphic design and video editing, creating visually engaging work across fintech, Web3, gaming, and global branding campaigns.
+                </motion.p>
+                <motion.p
+                  className="w-full leading-[1.2] text-gray-300 font-SpaceGrotesk"
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                >
+                  My work spans branding, social media creatives, motion graphics, and video editing, with a growing interest in 3D design to add depth and realism to visual storytelling. I focus on turning ideas into strong visuals that communicate clearly and leave a lasting impression.
+                </motion.p>
               </motion.div>
 
               {/* Social Icons */}
