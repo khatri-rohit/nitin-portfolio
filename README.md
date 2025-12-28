@@ -1,4 +1,4 @@
-# Nitin Portfolio
+# Graphic Designer
 
 A modern, single-page portfolio website for Nitin Khatri, a creative VFX and graphic designer. Built with Next.js 15 and React 19, featuring smooth animations, interactive elements, and a responsive design.
 
